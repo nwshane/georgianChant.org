@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Content (Temporary)/Content (Temporary).iml" filepath="$PROJECT_DIR$/Content (Temporary)/Content (Temporary).iml" />
+      <module fileurl="file://$PROJECT_DIR$/wordpress/wordpress.iml" filepath="$PROJECT_DIR$/wordpress/wordpress.iml" />
     </modules>
   </component>
 </project>

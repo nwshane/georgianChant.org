@@ -4,88 +4,88 @@
 // execute the following command: node georgian-latin-transliterator.js [insert Georgian text]
 
 // TODO Check these rules against the rules in Malkhaz's chant volumes
-function standardTransliterationRules(char) {
+function standardTransliterationRules(character) {
     var latinChar;
     
-    if (char === "ა") {
+    if (character === "ა") {
         latinChar = "a";
-    } else if (char === "ბ") {
+    } else if (character === "ბ") {
         latinChar = "b";
-    } else if (char === "გ") {
+    } else if (character === "გ") {
         latinChar = "g";
-    } else if (char === "დ") {
+    } else if (character === "დ") {
         latinChar = "d";
-    } else if (char === "ე") {
+    } else if (character === "ე") {
         latinChar = "e";
-    } else if (char === "ვ") {
+    } else if (character === "ვ") {
         latinChar = "v";
-    } else if (char === "ზ") {
+    } else if (character === "ზ") {
         latinChar = "z";
-    } else if (char === "თ") {
+    } else if (character === "თ") {
         latinChar = "t";
-    } else if (char === "ი") {
+    } else if (character === "ი") {
         latinChar = "i";
-    } else if (char === "კ") {
+    } else if (character === "კ") {
         latinChar = "k\'";
-    } else if (char === "ლ") {
+    } else if (character === "ლ") {
         latinChar = "l";
-    } else if (char === "მ") {
+    } else if (character === "მ") {
         latinChar = "m";
-    } else if (char === "ნ") {
+    } else if (character === "ნ") {
         latinChar = "n";
-    } else if (char === "ო") {
+    } else if (character === "ო") {
         latinChar = "o";
-    } else if (char === "პ") {
+    } else if (character === "პ") {
         latinChar = "p\'";
-    } else if (char === "ჟ") {
+    } else if (character === "ჟ") {
         latinChar = "jh";
-    } else if (char === "რ") {
+    } else if (character === "რ") {
         latinChar = "r";
-    } else if (char === "ს") {
+    } else if (character === "ს") {
         latinChar = "s";
-    } else if (char === "ტ") {
+    } else if (character === "ტ") {
         latinChar = "t\'";
-    } else if (char === "უ") {
+    } else if (character === "უ") {
         latinChar = "u";
-    } else if (char === "ფ") {
+    } else if (character === "ფ") {
         latinChar = "p";
-    } else if (char === "ქ") {
+    } else if (character === "ქ") {
         latinChar = "k";
-    } else if (char === "ღ") {
+    } else if (character === "ღ") {
         latinChar = "gh";
-    } else if (char === "ყ") {
+    } else if (character === "ყ") {
         latinChar = "q";
-    } else if (char === "შ") {
+    } else if (character === "შ") {
         latinChar = "sh";
-    } else if (char === "ჩ") {
+    } else if (character === "ჩ") {
         latinChar = "ch";
-    } else if (char === "ც") {
+    } else if (character === "ც") {
         latinChar = "ts";
-    } else if (char === "ძ") {
+    } else if (character === "ძ") {
         latinChar = "dz";
-    } else if (char === "წ") {
+    } else if (character === "წ") {
         latinChar = "ts'";
-    } else if (char === "ჭ") {
+    } else if (character === "ჭ") {
         latinChar = "ch'";
-    } else if (char === "ხ") {
+    } else if (character === "ხ") {
         latinChar = "kh";
-    } else if (char === "ჯ") {
+    } else if (character === "ჯ") {
         latinChar = "j";
-    } else if (char === "ჰ") {
+    } else if (character === "ჰ") {
         latinChar = "h";
     } else {
-        latinChar = char;
+        latinChar = character;
     }
 
     return latinChar;
 }
 
 function firstCharInSentence(georgianText, index) {
-    var previousChar = georgianText.charAt(index - 1);
+    var previousCharacter = georgianText.charAt(index - 1);
 
-    if (previousChar === ".") {
+    if (previousCharacter === ".") {
         return true;
-    } else if (previousChar === " ") {
+    } else if (previousCharacter === " ") {
         return firstCharInSentence(georgianText, index - 1);
     } else {
         return false;
@@ -97,17 +97,17 @@ function transliterateIntoLatin(georgianText) {
     var latinText = "";
 
     for (var index = 0; index < georgianText.length; index++) {
-        var char = standardTransliterationRules(georgianText.charAt(index));
+        var character = standardTransliterationRules(georgianText.charAt(index));
 
         if (index === 0 || firstCharInSentence(georgianText, index)) {
 
-            var firstLetter = char.substring(0,1);
-            var remaining = char.substring(1, char.length);
+            var firstLetter = character.substring(0,1);
+            var remaining = character.substring(1, character.length);
 
-            char = firstLetter.toUpperCase() + remaining;
+            character = firstLetter.toUpperCase() + remaining;
         }
 
-        latinText += char;
+        latinText += character;
     }
 
     return latinText;

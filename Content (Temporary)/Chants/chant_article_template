@@ -1,3 +1,5 @@
+// Data categories and types for all chant articles, does not include descriptions of data types
+
 	Title
 
 Georgian:
@@ -10,21 +12,21 @@ English Translation:
 	Rubric
 
 Calendar Date:
-Feast Day or Service (some will be liturgy, some feast days):
-Genre (choose from 10 options):
-Tone (1-8 or none):
+Feast Day or Service:
+Genre:
+Tone:
 
 
 
 
 	Text
 
-Georgian Text:
-Text Author:
+Georgian:
+Author:
 Date of Authorship:
 Notes:
-Transliterated Text:
-English Text Translation:
+Latin Transliteration:
+English Translation:
 English Translation Source:
 
 
@@ -46,33 +48,35 @@ English Translation Source:
 
 		Chant variant
 
-Monastery Tradition (three options: Gelati, Shemoxmedi, East Georgia): Shemokmedi
+Monastery Tradition:
 Chanter:
-Original Transcriber (i.e. Vasil Karbelashvili):
-Transmission Type (i.e. oral, transcription, recording):
+Original Transcriber:
+Transmission Type:
 Transmission Date:
 Composer:
+Arranger:
+Source:
 
-	Recording(s):
+	        Recording(s):
 
-Recording version
+                Recording version
 
-Primary Resource (link, audio file, etc.):
+Primary Resource:
 Artist:
 Album:
 Year:
 Style:
-Permissions (if necessary):
+Permissions:
 
 
-	Transcription(s):
+	        Transcription(s):
 
-Transcription version
+                Transcription version
 
-Primary Resource (link, picture, pdf, etc.):
-Transcriber (i.e. Nathan Shane):
-Citation Data (i.e. Q8-40 in Center of Georgian Manuscripts):
-Permissions (???):
+Primary Resource:
+Transcriber:
+Citation Data:
+Permissions:
 Artist source:
 Album source:
 Notes:

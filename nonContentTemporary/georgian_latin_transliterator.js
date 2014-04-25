@@ -1,7 +1,7 @@
 // Transliterates a text from the Georgian alphabet into the Latin alphabet
 
 // To run program in terminal from containing directory,
-// execute the following command: node georgian-latin-transliterator.js [insert Georgian text]
+// execute the following command: node georgian_latin_transliterator.js [insert Georgian text]
 
 // TODO Check these rules against the rules in Malkhaz's chant volumes
 function standardTransliterationRules(character) {

@@ -2,9 +2,9 @@
 
 	Title
 
-Georgian:
-Latin Transliteration:
-English Translation:
+Georgian: The name of the chant in Georgian with Georgian letters.
+Latin Transliteration: The name of the chant in Georgian with Latin letters.
+English Translation: The name of the chant, translated into English
 
 
 

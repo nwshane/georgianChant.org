@@ -14,7 +14,9 @@
  * @package WordPress
  */
 
-include (dirname( __FILE__) . '/ChromePhp.php');
+if (file_exists(dirname( __FILE__ ) . '/ChromePhp.php')) {
+    include (dirname( __FILE__) . '/ChromePhp.php');
+}
 
 ChromePhp::log('ChromePhp working!');
 
@@ -26,7 +28,6 @@ if (file_exists(dirname( __FILE__ ) .'/local-config.php')) {
 // ** MySQL settings - You can get this info from your web host ** //
     /** The name of the database for WordPress */
 
-    ChromePhp::log('local-config.php NOT FOUND');
     define('DB_NAME', 'ChangeThisAccordingToServerSettingsName');
 
     /** MySQL database username */

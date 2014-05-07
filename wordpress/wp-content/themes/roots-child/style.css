@@ -1,0 +1,15 @@
+/*
+ Theme Name:   Roots Child
+ Description:  Twenty Fourteen Child Theme
+ Author:       Nathan Shane
+ Template:     roots
+*/
+
+@import url("../roots/style.css");
+
+/* =Theme customization starts here
+-------------------------------------------------------------- */
+
+h1 {
+    font-size: 100px;
+}

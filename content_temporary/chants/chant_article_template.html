@@ -7,133 +7,134 @@
 </head>
 
 <body>
-<article id="chant_article_template">
-    <hgroup class="chant-title-group">
-        <h1 id="chant-title-transliterated"></h1>
-        <h2 id="chant-title-georgian"></h2>
-        <h2 id="chant-title-translated"></h2>
+<article>
+    <hgroup>
+        <h1 id="title-latin-transliteration"></h1>
+        <h2 id="title-georgian"></h2>
+        <h2 id="title-english-translation"></h2>
     </hgroup>
 
-    <section id="chant-text">
+    <section id="rubric">
+        <h2>Rubric</h2>
+        <p id="calendar-date"></p>
+        <p id="feast-day-or-service-type"></p>
+        <p id="genre"></p>
+        <p>Tone: <span id="tone"></span></p>
+    </section>
+
+    <section id="text">
         <h2>Text</h2>
-        <p id="chant-text-author"></p>
-        <p id="chant-text-date"></p>
+
+        <p>Author: <span id="text-author"></span></p>
+        <p>Date: <span id="text-date"></span></p>
 
         <h3>Georgian</h3>
-        <p></p>
+        <p id="text-georgian"></p>
 
         <h3>Latin Transliteration</h3>
-        <p></p>
+        <p id="text-latin-transliteration"></p>
 
         <h3>English Translation</h3>
-        <p></p>
+        <p id="text-english-translation"></p>
+        <p>Translator: <span id="text-english-translator"></span></p>
+        <p>Translation Source: <span id="text-english-translation-source"></span></p>
 
         <h3>Notes</h3>
+        <p id="text-notes"></p>
+    </section>
+
+    <section id="history">
+        <h2>History</h2>
         <p></p>
     </section>
 
-    <section id="chant-information">
-        <h2>Information</h2>
-
-        <h3>Chant History</h3>
-        <p id="chant-history"></p>
-
-        <h3>Role in Liturgy and Culture</h3>
-        <p id="chant-liturgical-classification"></p>
-        <!-- Unsure how to mark this section up. -->
-        <p id="chant-role-in-liturgy-culture"></p>
+    <section id="current-role-liturgy-culture">
+        <h2>Current Role in Liturgy and Culture</h2>
+        <p></p>
     </section>
 
-    <section id="traditional-chant-versions">
-        <!-- Possibly better to remove <section> tag and put "traditional-chant-versions" id directly on the <ul> -->
-        <h2>Traditional Versions</h2>
+    <section id="variants">
+        <!-- Possibly better to remove <section> tag and put "variants" id directly on the <ul> -->
+        <h2>Variants</h2>
         <ul>
-            <li>
+            <li id="variant-[generate id]">
+                <h3 class="variant-title"></h3>
                 <dl>
-                    <!-- Is this best as a definition list, or how else can I create labels and definitions? -->
-                    <dd>Place of Origin</dd>
-                    <dt></dt>
+                    <dd>Monastery Tradition</dd>
+                    <dt class="variant-monastery-tradition"></dt>
+
+                    <dd>Transmission Type</dd>
+                    <dt class="variant-transmission-type"></dt>
+
+                    <dd>Transmission Date</dd>
+                    <dt class="variant-transmission-date"></dt>
+
+                    <dd>Chanter</dd>
+                    <dt class="variant-chanter"></dt>
+
+                    <dd>Original Transcriber</dd>
+                    <dt class="variant-original-transcriber"></dt>
+
+                    <dd>Composer</dd>
+                    <dt class="variant-composer"></dt>
+
+                    <dd>Date of Composition</dd>
+                    <dt class="variant-composition-date"></dt>
+
+                    <dd>Arranger</dd>
+                    <dt class="variant-arranger"></dt>
 
                     <dd>Source</dd>
-                    <dt></dt>
+                    <dt class="variant-source"></dt>
                 </dl>
-
-                <h2>Transcriptions</h2>
-                <ul>
-                    <li>
-                        <p class="transcription-link"></p>
-                        <dl>
-                            <dd>Transcriber</dd>
-                            <dt></dt>
-
-                            <dd>Source</dd>
-                            <dt></dt>
-                        </dl>
-                    </li>
-                </ul>
-
-                <h2>Recordings</h2>
-                <ul>
-                    <li>
-                        <p class="recording-link"></p>
-                        <!-- maybe use <audio> tag here instead of <p>? -->
-                        <dl>
-                            <dd>Artist</dd>
-                            <dt></dt>
-
-                            <dd>Album</dd>
-                            <dt></dt>
-
-                            <dd>Notes</dd>
-                            <dt></dt>
-                        </dl>
-                    </li>
-                </ul>
-            </li>
-        </ul>
-    </section>
-
-    <section id="alternative-chant-versions">
-        <h2>Alternative Versions</h2>
-        <ul>
-            <li>
-                <h3></h3>
-                <dl>
-                    <dd>Place of Origin</dd>
-                    <dt></dt>
-
-                    <dd>Source</dd>
-                    <dt></dt>
-                </dl>
-
-                <h4>Sheet Music</h4>
-                <ul>
-                    <li>
-                        <p class="sheet-music-link"></p>
-                        <dl>
-                            <dd>Transcriber</dd>
-                            <dt></dt>
-
-                            <dd>Source</dd>
-                            <dt></dt>
-                        </dl>
-                    </li>
-                </ul>
 
                 <h4>Recordings</h4>
                 <ul>
-                    <li>
-                        <p class="recording-link"></p>  <!-- maybe use <audio> tag here? -->
+                    <li class="recording">
                         <dl>
                             <dd>Artist</dd>
-                            <dt></dt>
+                            <dt class="recording-artist"></dt>
 
                             <dd>Album</dd>
-                            <dt></dt>
+                            <dt class="recording-album"></dt>
 
-                            <dd>Notes</dd>
-                            <dt></dt>
+                            <dd>Year</dd>
+                            <dt class="recording-year"></dt>
+
+                            <dd>Style</dd>
+                            <dt class="recording-style"></dt>
+
+                            <dd>Permissions</dd>
+                            <dt class="recording-permissions"></dt>
                         </dl>
+
+                        <h5>Notes</h5>
+                        <p class="recording-notes"></p>
+                    </li>
+                </ul>
+
+                <h4>Transcriptions</h4>
+                <ul>
+                    <li class="transcription">
+                        <dl>
+                            <dd>Transcriber</dd>
+                            <dt class="transcription-transcriber"></dt>
+
+                            <dd>Citation Data</dd>
+                            <dt class="transcription-citation-data"></dt>
+
+                            <dd>Permissions</dd>
+                            <dt class="transcription-permissions"></dt>
+
+                            <dd>Artist Source</dd>
+                            <dt class="transcription-artist-source"></dt>
+
+                            <dd>Album Source</dd>
+                            <dt class="transcription-album-source"></dt>
+                        </dl>
+
+                        <h5>Notes</h5>
+                        <p class="transcription-notes"></p>
                     </li>
                 </ul>
             </li>
@@ -141,7 +142,6 @@
     </section>
 
     <section id="sources-references">
-
         <h3>Sources</h3>
         <ul id="sources">
             <li></li>

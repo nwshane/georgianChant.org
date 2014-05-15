@@ -45,12 +45,16 @@ add_action('init', 'my_custom_post_chant');
  * Adds meta boxes
  */
 
-add_action( 'load-post.php', 'gc_chant_post_meta_boxes_setup' );
-add_action( 'load-post-new.php', 'gc_chant_post_meta_boxes_setup' );
+function georgian_text_meta_box_callback( $chant ) { ?>
 
-function gc_chant_post_meta_boxes_setup() {
-    add_action( 'add_meta_boxes', 'gc_chant_add_post_meta_boxes' );
-}
+    <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_meta_box_nonce' ) ?>
+
+    <p>
+        <label for="georgian-text-meta-box"><?php _e('Enter the text of the chant in Georgian.', 'example'); ?></label>
+        <br>
+        <input class="widefat" type="text" name="georgian-text-meta-box" id="georgian-text-meta-box" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text-meta-box', true))?>" size="30">
+    </p>
+<?php }
 
 function gc_chant_add_post_meta_boxes() {
     add_meta_box(
@@ -63,13 +67,9 @@ function gc_chant_add_post_meta_boxes() {
     );
 }
 
-function georgian_text_meta_box_callback( $chant ) { ?>
+function gc_chant_post_meta_boxes_setup() {
+    add_action( 'add_meta_boxes', 'gc_chant_add_post_meta_boxes' );
+}
 
-    <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_meta_box_nonce' ) ?>
-
-    <p>
-        <label for="georgian-text-meta-box"><?php _e('Enter the text of the chant in Georgian.', 'example'); ?></label>
-        <br>
-        <input class="widefat" type="text" name="georgian-text-meta-box" id="georgian-text-meta-box" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text-meta-box', true))?>" size="30">
-    </p>
-<?php }
+add_action( 'load-post.php', 'gc_chant_post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'gc_chant_post_meta_boxes_setup' );

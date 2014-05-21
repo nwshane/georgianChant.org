@@ -85,7 +85,7 @@ function gc_chant_save_post_meta( $post_id, $post ) {
         return $post_id;
 
     /* Get the posted data and sanitize it for use as an HTML class. */
-    $new_meta_value = ( isset( $_POST['georgian-text-meta-box'] ) ? sanitize_html_class( $_POST['georgian-text-meta-box'] ) : '' );
+    $new_meta_value = ( isset( $_POST['georgian-text-meta-box'] ) ? sanitize_text_field( $_POST['georgian-text-meta-box'] ) : '' );
 
     /* Get the meta key. */
     $meta_key = 'georgian-text-meta-box';

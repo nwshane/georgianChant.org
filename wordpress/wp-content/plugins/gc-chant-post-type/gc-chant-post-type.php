@@ -30,7 +30,7 @@ function my_custom_post_chant() {
         'description'   => 'All the information associated with an individual chant.',
         'public'        => true,
         'menu_position' => 5,
-        'supports'      => array('title', 'editor', 'thumbnail', 'excerpt'),
+        'supports'      => array('title', 'editor'),
         'has_archive'   => true
     );
     register_post_type("gc_chant", $args);
@@ -62,7 +62,7 @@ function gc_chant_add_post_meta_boxes() {
         esc_html__( 'Georgian Text', 'example' ),
         'georgian_text_meta_box_callback',
         'gc_chant',
-        'side',
+        'normal',
         'default'
     );
 }

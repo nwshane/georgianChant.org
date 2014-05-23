@@ -27,10 +27,10 @@ function my_custom_post_chant() {
 
     $args = array(
         'labels'        => $labels,
-        'description'   => 'All the information associated with an individual chant.',
+        'description'   => 'The information associated with an individual chant.',
         'public'        => true,
         'menu_position' => 5,
-        'supports'      => array('title', 'editor'),
+        'supports'      => array('title'),
         'has_archive'   => true
     );
     register_post_type("gc_chant", $args);

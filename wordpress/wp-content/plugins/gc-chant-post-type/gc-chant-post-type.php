@@ -104,9 +104,6 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
     /* Get the posted data and sanitize it for use as an HTML class. */
     $new_meta_value = ( isset( $_POST[$meta_key] ) ? sanitize_text_field( $_POST[$meta_key] ) : '' );
 
-    /* Get the meta key. */
-    $meta_key = $meta_key;
-
     /* Get the meta value of the custom field key. */
     $meta_value = get_post_meta( $post_id, $meta_key, true );
 
@@ -124,7 +121,6 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
 }
 
 function gc_chant_save_all_meta( $post_id, $post ) {
-
     gc_chant_save_meta( $post_id, $post, 'georgian_text_meta_box_nonce', 'georgian-text-meta-box' );
     gc_chant_save_meta( $post_id, $post, 'latin_transliteration_meta_box_nonce', 'latin-transliteration-meta-box');
 }

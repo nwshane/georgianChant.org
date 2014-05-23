@@ -38,9 +38,6 @@ function my_custom_post_chant() {
 
 add_action('init', 'my_custom_post_chant');
 
-
-
-
 /**
  * Adds meta boxes
  */
@@ -68,13 +65,12 @@ function gc_chant_add_post_meta_boxes() {
 }
 
 /*
- * Save the meta box's post metadata.
+ * Save a single meta box's metadata.
  * Code copied and modified from http://www.smashingmagazine.com/2011/10/04/create-custom-post-meta-boxes-wordpress/
  */
-function gc_chant_save_post_meta( $post_id, $post ) {
-
+function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
     /* Verify the nonce before proceeding. */
-    if ( !isset( $_POST['georgian_text_meta_box_nonce'] ) || !wp_verify_nonce( $_POST['georgian_text_meta_box_nonce'], basename( __FILE__ ) ) )
+    if ( !isset( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], basename( __FILE__ ) ) )
         return $post_id;
 
     /* Get the post type object. */
@@ -85,10 +81,10 @@ function gc_chant_save_post_meta( $post_id, $post ) {
         return $post_id;
 
     /* Get the posted data and sanitize it for use as an HTML class. */
-    $new_meta_value = ( isset( $_POST['georgian-text-meta-box'] ) ? sanitize_text_field( $_POST['georgian-text-meta-box'] ) : '' );
+    $new_meta_value = ( isset( $_POST[$meta_key] ) ? sanitize_text_field( $_POST[$meta_key] ) : '' );
 
     /* Get the meta key. */
-    $meta_key = 'georgian-text-meta-box';
+    $meta_key = $meta_key;
 
     /* Get the meta value of the custom field key. */
     $meta_value = get_post_meta( $post_id, $meta_key, true );
@@ -106,13 +102,19 @@ function gc_chant_save_post_meta( $post_id, $post ) {
         delete_post_meta( $post_id, $meta_key, $meta_value );
 }
 
+/*
+ * Saves all post metadata.
+ */
+function gc_chant_save_all_meta( $post_id, $post ) {
+    gc_chant_save_meta( $post_id, $post, 'georgian_text_meta_box_nonce', 'georgian-text-meta-box' );
+}
+
 /**
  * Sets up meta boxes
  */
 function gc_chant_post_meta_boxes_setup() {
     add_action( 'add_meta_boxes', 'gc_chant_add_post_meta_boxes' );
-
-    add_action( 'save_post', 'gc_chant_save_post_meta', 10, 2);
+    add_action( 'save_post', 'gc_chant_save_all_meta', 10, 2);
 }
 
 add_action( 'load-post.php', 'gc_chant_post_meta_boxes_setup' );

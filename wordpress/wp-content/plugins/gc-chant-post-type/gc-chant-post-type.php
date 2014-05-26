@@ -86,6 +86,35 @@ function gc_chant_add_post_meta_boxes() {
 }
 
 /*
+ * Sanitize text field but retain line breaks.
+ * Identical to sanitize_text_field function in formatting.php, EXCEPT does not strip "\n" characters.
+ */
+function sanitize_text_field_retain_line_breaks($str) {
+    $filtered = wp_check_invalid_utf8( $str );
+
+    if ( strpos($filtered, '<') !== false ) {
+        $filtered = wp_pre_kses_less_than( $filtered );
+        // This will strip extra whitespace for us.
+        $filtered = wp_strip_all_tags( $filtered, true );
+    } else {
+        $filtered = trim( preg_replace('/[\r\t ]+/', ' ', $filtered) );
+    }
+
+    $found = false;
+    while ( preg_match('/%[a-f0-9]{2}/i', $filtered, $match) ) {
+        $filtered = str_replace($match[0], '', $filtered);
+        $found = true;
+    }
+
+    if ( $found ) {
+        // Strip out the whitespace that may now exist after removing the octets.
+        $filtered = trim( preg_replace('/ +/', ' ', $filtered) );
+    }
+
+    return apply_filters( 'sanitize_text_field', $filtered, $str );
+}
+
+/*
  * Save a single meta box's metadata.
  * Code copied and modified from http://www.smashingmagazine.com/2011/10/04/create-custom-post-meta-boxes-wordpress/
  */
@@ -102,7 +131,7 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
         return $post_id;
 
     /* Get the posted data and sanitize it for use as an HTML class. */
-    $new_meta_value = ( isset( $_POST[$meta_key] ) ? sanitize_text_field( $_POST[$meta_key] ) : '' );
+    $new_meta_value = ( isset( $_POST[$meta_key] ) ? sanitize_text_field_retain_line_breaks($_POST[$meta_key]) : '' );
 
     /* Get the meta value of the custom field key. */
     $meta_value = get_post_meta( $post_id, $meta_key, true );

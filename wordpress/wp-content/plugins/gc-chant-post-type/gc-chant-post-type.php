@@ -49,7 +49,7 @@ function georgian_text_meta_box_callback( $chant ) { ?>
     <p>
         <label for="georgian-text-meta-box"><?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>
         <br>
-        <input class="widefat" type="text" name="georgian-text-meta-box" id="georgian-text-meta-box" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text-meta-box', true))?>" size="30">
+        <textarea class="widefat" type="text" name="georgian-text-meta-box" id="georgian-text-meta-box" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text-meta-box', true))?></textarea>
     </p>
 <?php }
 
@@ -60,7 +60,7 @@ function latin_transliteration_meta_box_callback( $chant ) { ?>
     <p>
         <label for="latin-transliteration-meta-box"><?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
         <br>
-        <input class="widefat" type="text" name="latin-transliteration-meta-box" id="latin-transliteration-meta-box" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration-meta-box', true))?>" size="30">
+        <textarea class="widefat" type="text" name="latin-transliteration-meta-box" id="latin-transliteration-meta-box" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration-meta-box', true))?></textarea>
     </p>
 
 <?php }

@@ -1,7 +1,11 @@
-// Transliterates a text from the Georgian alphabet into the Latin alphabet
+/*
+ * Transliterates a text from the Georgian alphabet into the Latin alphabet
+ */
 
-// TODO Check these rules against the rules in Malkhaz's chant volumes
-function standardTransliterationRules(character) {
+/*
+ * Converts Georgian character to Latin character according to the transliteration system used in Malkhaz Erkvanidze's chant books.
+ */
+function convertCharToLatin(character) {
     var latinChar;
 
     if (character === "ა") {
@@ -95,7 +99,7 @@ function transliterateIntoLatin() {
     var latinText = "";
 
     for (var index = 0; index < georgianText.length; index++) {
-        var character = standardTransliterationRules(georgianText.charAt(index));
+        var character = convertCharToLatin(georgianText.charAt(index));
 
         if (index === 0 || firstCharInSentence(georgianText, index)) {
 

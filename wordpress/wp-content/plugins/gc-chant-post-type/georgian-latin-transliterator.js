@@ -23,7 +23,7 @@ function standardTransliterationRules(character) {
     } else if (character === "ი") {
         latinChar = "i";
     } else if (character === "კ") {
-        latinChar = "k\'";
+        latinChar = "k";
     } else if (character === "ლ") {
         latinChar = "l";
     } else if (character === "მ") {
@@ -35,7 +35,7 @@ function standardTransliterationRules(character) {
     } else if (character === "პ") {
         latinChar = "p\'";
     } else if (character === "ჟ") {
-        latinChar = "jh";
+        latinChar = "zh";
     } else if (character === "რ") {
         latinChar = "r";
     } else if (character === "ს") {
@@ -47,7 +47,7 @@ function standardTransliterationRules(character) {
     } else if (character === "ფ") {
         latinChar = "p";
     } else if (character === "ქ") {
-        latinChar = "k";
+        latinChar = "q";
     } else if (character === "ღ") {
         latinChar = "gh";
     } else if (character === "ყ") {

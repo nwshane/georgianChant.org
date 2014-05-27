@@ -90,7 +90,7 @@ function firstCharInSentence(georgianText, index) {
 }
 
 function transliterateIntoLatin() {
-    var georgianText = document.getElementById("georgian-text-meta-box-textarea").value;
+    var georgianText = jQuery("#georgian-text-meta-box-textarea").val();
 
     var latinText = "";
 
@@ -108,6 +108,6 @@ function transliterateIntoLatin() {
         latinText += character;
     }
 
-    document.getElementById("latin-transliteration-meta-box-textarea").value = latinText;
+    jQuery("#latin-transliteration-meta-box-textarea").val(latinText);
 }
 

@@ -63,7 +63,7 @@ function latin_transliteration_meta_box_callback( $chant ) { ?>
 
     <p>
         <label for="latin-transliteration-meta-box"><?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
-        <button type="button" name="transliterate-button" onclick="transliterateIntoLatin()">Transliterate Georgian Text</button>
+        <button type="button" name="transliterate-button" onclick="transliterateIntoLatin()">Transliterate from "Georgian Text"</button>
         <script type="text/javascript">
             jQuery.getScript("../wp-content/plugins/gc-chant-post-type/georgian-latin-transliterator.js");
         </script>

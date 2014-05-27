@@ -42,6 +42,10 @@ add_action('init', 'my_custom_post_chant');
  * Adds meta boxes
  */
 
+function hello() {
+  ChromePhp::log('hello!');
+}
+
 function georgian_text_meta_box_callback( $chant ) { ?>
 
     <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_meta_box_nonce' ) ?>
@@ -59,6 +63,10 @@ function latin_transliteration_meta_box_callback( $chant ) { ?>
 
     <p>
         <label for="latin-transliteration-meta-box"><?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
+        <button type="button" name="transliterate-button" onclick="transliterateIntoLatin()">Transliterate Georgian Text</button>
+        <script type="text/javascript">
+            jQuery.getScript("../wp-content/plugins/gc-chant-post-type/georgian-latin-transliterator.js");
+        </script>
         <br>
         <textarea class="widefat" type="text" name="latin-transliteration-meta-box" id="latin-transliteration-meta-box" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration-meta-box', true))?></textarea>
     </p>

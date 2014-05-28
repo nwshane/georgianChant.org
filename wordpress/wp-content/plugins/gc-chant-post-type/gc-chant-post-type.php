@@ -41,6 +41,13 @@ function setup_gc_chant() {
 
 add_action('init', 'setup_gc_chant');
 
+/*
+ * Adds chant rubric meta box HTML to chant editor
+ */
+function chant_rubric_meta_box_callback( $chant ) {
+
+}
+
 /**
  * Adds chant text meta box HTML to chant editor
  */
@@ -116,6 +123,15 @@ function chant_text_meta_box_callback( $chant ) { ?>
 <?php }
 
 function gc_chant_add_post_meta_boxes() {
+    add_meta_box(
+        'chant-rubric-meta-box',
+        esc_html__( 'Rubric', 'example' ),
+        'chant_rubric_meta_box_callback',
+        'gc_chant',
+        'normal',
+        'default'
+    );
+
     add_meta_box(
         'chant-text-meta-box',
         esc_html__( 'Text', 'example' ),

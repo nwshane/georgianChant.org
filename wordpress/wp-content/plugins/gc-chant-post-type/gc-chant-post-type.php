@@ -42,9 +42,8 @@ function setup_gc_chant() {
 add_action('init', 'setup_gc_chant');
 
 /**
- * Adds meta boxes
+ * Adds chant text meta box HTML to chant editor
  */
-
 function chant_text_meta_box_callback( $chant ) { ?>
 
     <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_nonce' ) ?>
@@ -58,9 +57,17 @@ function chant_text_meta_box_callback( $chant ) { ?>
     <?php wp_nonce_field( basename( __FILE__ ), 'text_author_nonce' ) ?>
 
     <p>
-        <label for="text-author"><b><?php _e( 'Text Author', 'example' )?></b> - <?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>
+        <label for="text-author"><b><?php _e( 'Author', 'example' )?></b> - <?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>
         <br>
         <input type="text" name="text-author" id="text-author" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'text-author', true))?>">
+    </p>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'text_date_nonce' ) ?>
+
+    <p>
+        <label for="text-date"><b><?php _e( 'Date of Authorship', 'example' )?></b> - <?php _e( 'Enter the date the chant text was written, if applicable.', 'example' ); ?></label>
+        <br>
+        <input type="text" name="text-date" id="text-date" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'text-date', true))?>">
     </p>
 
     <?php wp_nonce_field( basename( __FILE__ ), 'latin_transliteration_nonce' ) ?>
@@ -82,12 +89,36 @@ function chant_text_meta_box_callback( $chant ) { ?>
         <br>
         <textarea class="widefat" type="text" name="english-translation" id="english-translation" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation', true))?></textarea>
     </p>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'english_translation_author_nonce' ) ?>
+
+    <p>
+        <label for="english-translation-author"><b><?php _e( 'English Translation Author', 'example' )?></b> - <?php _e( 'Enter the author of the English translation.', 'example' ); ?></label>
+        <br>
+        <input type="text" name="english-translation-author" id="english-translation-author" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-author', true))?>">
+    </p>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'english_translation_source_nonce' ) ?>
+
+    <p>
+        <label for="english-translation-source"><b><?php _e( 'English Translation Source', 'example' )?></b> - <?php _e( 'Enter the source of the English translation (i.e. a website URL, book name, etc.).', 'example' ); ?></label>
+        <br>
+        <input type="text" name="english-translation-source" id="english-translation-source" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-source', true))?>">
+    </p>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'text_notes_nonce' ) ?>
+
+    <p>
+        <label for="text-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant text.', 'example' ); ?></label>
+        <br>
+        <textarea class="widefat" type="text" name="text-notes" id="text-notes" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'text-notes', true))?></textarea>
+    </p>
 <?php }
 
 function gc_chant_add_post_meta_boxes() {
     add_meta_box(
         'chant-text-meta-box',
-        esc_html__( 'Chant Text', 'example' ),
+        esc_html__( 'Text', 'example' ),
         'chant_text_meta_box_callback',
         'gc_chant',
         'normal',
@@ -164,8 +195,12 @@ function gc_chant_save_all_meta( $post_id, $post ) {
     // Chant Text Meta
     gc_chant_save_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'sanitize_text_field_retain_line_breaks' );
     gc_chant_save_meta( $post_id, $post, 'text_author_nonce', 'text-author', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'text_date_nonce', 'text-date', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration', 'sanitize_text_field_retain_line_breaks' );
     gc_chant_save_meta( $post_id, $post, 'english_translation_nonce', 'english-translation', 'sanitize_text_field_retain_line_breaks' );
+    gc_chant_save_meta( $post_id, $post, 'english_translation_author_nonce', 'english-translation-author', 'sanitize_text_field');
+    gc_chant_save_meta( $post_id, $post, 'english_translation_source_nonce', 'english-translation-source', 'sanitize_text_field');
+    gc_chant_save_meta( $post_id, $post, 'text_notes_nonce', 'text-notes', 'sanitize_text_field_retain_line_breaks' );
 }
 
 function gc_chant_post_meta_boxes_setup() {

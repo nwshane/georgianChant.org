@@ -8,7 +8,7 @@
 /**
  * Adds custom_post_type chant
  */
-function my_custom_post_chant() {
+function setup_gc_chant() {
     $labels = array(
         'name'                  => _x( 'Chants', 'post type general name'),
         'singular_name'         => _x( 'Chant', 'post type singular name'),
@@ -33,10 +33,13 @@ function my_custom_post_chant() {
         'supports'      => array('title'),
         'has_archive'   => true
     );
+
     register_post_type("gc_chant", $args);
+
+
 }
 
-add_action('init', 'my_custom_post_chant');
+add_action('init', 'setup_gc_chant');
 
 /**
  * Adds meta boxes

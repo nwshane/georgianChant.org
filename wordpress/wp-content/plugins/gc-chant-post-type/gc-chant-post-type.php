@@ -128,7 +128,7 @@ function sanitize_text_field_retain_line_breaks($str) {
  * Save a single meta box's metadata.
  * Code copied and modified from http://www.smashingmagazine.com/2011/10/04/create-custom-post-meta-boxes-wordpress/
  */
-function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
+function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize ) {
     /* Verify the nonce before proceeding. */
     if ( !isset( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], basename( __FILE__ ) ) )
         return $post_id;
@@ -141,7 +141,7 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
         return $post_id;
 
     /* Get the posted data and sanitize it for use as an HTML class. */
-    $new_meta_value = ( isset( $_POST[$meta_key] ) ? sanitize_text_field_retain_line_breaks($_POST[$meta_key]) : '' );
+    $new_meta_value = ( isset( $_POST[$meta_key] ) ? $sanitize($_POST[$meta_key]) : '' );
 
     /* Get the meta value of the custom field key. */
     $meta_value = get_post_meta( $post_id, $meta_key, true );
@@ -162,10 +162,10 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
 function gc_chant_save_all_meta( $post_id, $post ) {
 
     // Chant Text Meta
-    gc_chant_save_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text' );
-    gc_chant_save_meta( $post_id, $post, 'text_author_nonce', 'text-author' );
-    gc_chant_save_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration' );
-    gc_chant_save_meta( $post_id, $post, 'english_translation_nonce', 'english-translation' );
+    gc_chant_save_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'sanitize_text_field_retain_line_breaks' );
+    gc_chant_save_meta( $post_id, $post, 'text_author_nonce', 'text-author', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration', 'sanitize_text_field_retain_line_breaks' );
+    gc_chant_save_meta( $post_id, $post, 'english_translation_nonce', 'english-translation', 'sanitize_text_field_retain_line_breaks' );
 }
 
 function gc_chant_post_meta_boxes_setup() {

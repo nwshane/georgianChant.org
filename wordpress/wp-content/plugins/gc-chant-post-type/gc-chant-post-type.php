@@ -50,7 +50,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
     <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_nonce' ) ?>
 
     <p>
-        <label for="georgian-text"><?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>
+        <label for="georgian-text"><b><?php _e( 'Georgian Text', 'example' )?></b> - <?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>
         <br>
         <textarea class="widefat" type="text" name="georgian-text" id="georgian-text" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text', true))?></textarea>
     </p>
@@ -58,7 +58,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
     <?php wp_nonce_field( basename( __FILE__ ), 'text_author_nonce' ) ?>
 
     <p>
-        <label for="text-author"><?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>
+        <label for="text-author"><b><?php _e( 'Text Author', 'example' )?></b> - <?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>
         <br>
         <input type="text" name="text-author" id="text-author" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'text-author', true))?>">
     </p>
@@ -66,7 +66,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
     <?php wp_nonce_field( basename( __FILE__ ), 'latin_transliteration_nonce' ) ?>
 
     <p>
-        <label for="latin-transliteration"><?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
+        <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
         <button type="button" name="transliterate-button" onclick="transliterateIntoLatin()">Transliterate from "Georgian Text"</button>
         <script type="text/javascript">
             jQuery.getScript("../wp-content/plugins/gc-chant-post-type/georgian-latin-transliterator.js");
@@ -78,7 +78,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
     <?php wp_nonce_field( basename( __FILE__ ), 'english_translation_nonce' ) ?>
 
     <p>
-        <label for="english-translation"><?php _e( 'Enter the English Translation of the chant.', 'example' ); ?></label>
+        <label for="english-translation"><b><?php _e( 'English Translation', 'example' )?></b> - <?php _e( 'Enter the English Translation of the chant.', 'example' ); ?></label>
         <br>
         <textarea class="widefat" type="text" name="english-translation" id="english-translation" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation', true))?></textarea>
     </p>

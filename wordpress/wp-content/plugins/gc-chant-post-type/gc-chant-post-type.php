@@ -45,68 +45,50 @@ add_action('init', 'setup_gc_chant');
  * Adds meta boxes
  */
 
-function georgian_text_meta_box_callback( $chant ) { ?>
+function chant_text_meta_box_callback( $chant ) { ?>
 
-    <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_meta_box_nonce' ) ?>
+    <?php wp_nonce_field( basename( __FILE__ ), 'georgian_text_nonce' ) ?>
 
     <p>
-        <label for="georgian-text-meta-box"><?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>
+        <label for="georgian-text"><?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>
         <br>
-        <textarea class="widefat" type="text" name="georgian-text-meta-box" id="georgian-text-meta-box-textarea" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text-meta-box', true))?></textarea>
+        <textarea class="widefat" type="text" name="georgian-text" id="georgian-text" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text', true))?></textarea>
     </p>
-<?php }
 
-function latin_transliteration_meta_box_callback( $chant ) { ?>
-
-    <?php wp_nonce_field( basename( __FILE__ ), 'latin_transliteration_meta_box_nonce' ) ?>
+    <?php wp_nonce_field( basename( __FILE__ ), 'text_author_nonce' ) ?>
 
     <p>
-        <label for="latin-transliteration-meta-box"><?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
+        <label for="text-author"><?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>
+        <br>
+        <input type="text" name="text-author" id="text-author" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'text-author', true))?>">
+    </p>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'latin_transliteration_nonce' ) ?>
+
+    <p>
+        <label for="latin-transliteration"><?php _e( 'Enter the text of the chant in Georgian with Latin letters.', 'example' ); ?></label>
         <button type="button" name="transliterate-button" onclick="transliterateIntoLatin()">Transliterate from "Georgian Text"</button>
         <script type="text/javascript">
             jQuery.getScript("../wp-content/plugins/gc-chant-post-type/georgian-latin-transliterator.js");
         </script>
         <br>
-        <textarea class="widefat" type="text" name="latin-transliteration-meta-box" id="latin-transliteration-meta-box-textarea" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration-meta-box', true))?></textarea>
+        <textarea class="widefat" type="text" name="latin-transliteration" id="latin-transliteration" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration', true))?></textarea>
     </p>
 
-<?php }
-
-function english_translation_meta_box_callback ( $chant ) { ?>
-
-    <?php wp_nonce_field( basename( __FILE__ ), 'english_translation_meta_box_nonce' ) ?>
+    <?php wp_nonce_field( basename( __FILE__ ), 'english_translation_nonce' ) ?>
 
     <p>
-        <label for="english-translation-meta-box"><?php _e( 'Enter the English Translation of the chant.', 'example' ); ?></label>
+        <label for="english-translation"><?php _e( 'Enter the English Translation of the chant.', 'example' ); ?></label>
         <br>
-        <textarea class="widefat" type="text" name="english-translation-meta-box" id="english-translation-meta-box-textarea" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-meta-box', true))?></textarea>
+        <textarea class="widefat" type="text" name="english-translation" id="english-translation" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation', true))?></textarea>
     </p>
-
-<?php };
+<?php }
 
 function gc_chant_add_post_meta_boxes() {
     add_meta_box(
-        'georgian-text-meta-box',
-        esc_html__( 'Georgian Text', 'example' ),
-        'georgian_text_meta_box_callback',
-        'gc_chant',
-        'normal',
-        'default'
-    );
-
-    add_meta_box(
-        'latin-transliteration-meta-box',
-        esc_html__( 'Latin Transliteration', 'example' ),
-        'latin_transliteration_meta_box_callback',
-        'gc_chant',
-        'normal',
-        'default'
-    );
-
-    add_meta_box(
-        'english-translation-meta-box',
-        esc_html__( 'English Translation', 'example' ),
-        'english_translation_meta_box_callback',
+        'chant-text-meta-box',
+        esc_html__( 'Chant Text', 'example' ),
+        'chant_text_meta_box_callback',
         'gc_chant',
         'normal',
         'default'
@@ -178,9 +160,12 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key ) {
 }
 
 function gc_chant_save_all_meta( $post_id, $post ) {
-    gc_chant_save_meta( $post_id, $post, 'georgian_text_meta_box_nonce', 'georgian-text-meta-box' );
-    gc_chant_save_meta( $post_id, $post, 'latin_transliteration_meta_box_nonce', 'latin-transliteration-meta-box' );
-    gc_chant_save_meta( $post_id, $post, 'english_translation_meta_box_nonce', 'english-translation-meta-box' );
+
+    // Chant Text Meta
+    gc_chant_save_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text' );
+    gc_chant_save_meta( $post_id, $post, 'text_author_nonce', 'text-author' );
+    gc_chant_save_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration' );
+    gc_chant_save_meta( $post_id, $post, 'english_translation_nonce', 'english-translation' );
 }
 
 function gc_chant_post_meta_boxes_setup() {

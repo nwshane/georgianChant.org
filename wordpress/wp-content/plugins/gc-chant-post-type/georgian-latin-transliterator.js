@@ -2,6 +2,9 @@
  * Transliterates a text from the Georgian alphabet into the Latin alphabet
  */
 
+// The following line allows Chrome Developer Tools to detect this file in its Sources section:
+//# sourceURL=georgian-latin-transliterator.js
+
 /*
  * Converts Georgian character to Latin character according to the transliteration system used in Malkhaz Erkvanidze's chant books.
  */
@@ -81,13 +84,17 @@ function convertCharToLatin(character) {
     return latinChar;
 }
 
-function firstCharInSentence(georgianText, index) {
+function firstCharInSentenceLineOrPar(georgianText, index) {
     var previousCharacter = georgianText.charAt(index - 1);
 
-    if (previousCharacter === ".") {
+    if (index === 0) {
+        return true;
+    } else if (previousCharacter === ".") {
+        return true;
+    } else if (previousCharacter === "\n"){
         return true;
     } else if (previousCharacter === " ") {
-        return firstCharInSentence(georgianText, index - 1);
+        return firstCharInSentenceLineOrPar(georgianText, index - 1);
     } else {
         return false;
     }
@@ -101,9 +108,9 @@ function transliterateIntoLatin() {
     for (var index = 0; index < georgianText.length; index++) {
         var character = convertCharToLatin(georgianText.charAt(index));
 
-        if (index === 0 || firstCharInSentence(georgianText, index)) {
+        if (firstCharInSentenceLineOrPar(georgianText, index)) {
 
-            var firstLetter = character.substring(0,1);
+            var firstLetter = character.substring(0, 1);
             var remaining = character.substring(1, character.length);
 
             character = firstLetter.toUpperCase() + remaining;

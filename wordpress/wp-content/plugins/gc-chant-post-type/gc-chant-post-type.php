@@ -44,9 +44,42 @@ add_action('init', 'setup_gc_chant');
 /*
  * Adds chant rubric meta box HTML to chant editor
  */
-function chant_rubric_meta_box_callback( $chant ) {
+function chant_rubric_meta_box_callback( $chant ) { ?>
 
-}
+    <div>
+        <b><?php _e( 'Calendar Date', 'example' )?></b> - <?php _e( 'Enter the date on which the chant is performed, if applicable.', 'example' ); ?>
+        <br>
+
+        <?php wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' ) ?>
+
+        <label for="calendar-date-month">Month:</label>
+        <select id="calendar-date-month" name="calendar-date-month">
+            <option value=""></option>
+            <option value="1">January</option>
+            <option value="2">February</option>
+            <option value="3">March</option>
+            <option value="4">April</option>
+            <option value="5">May</option>
+            <option value="6">June</option>
+            <option value="7">July</option>
+            <option value="8">August</option>
+            <option value="9">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+
+        <?php wp_nonce_field( basename( __FILE__ ), 'calendar_date_day_nonce' ) ?>
+
+        <label for="calendar-date-day">Day:</label>
+        <select id="calendar-date-day" name="calendar-date-day">
+            <option value=""></option>
+            <?php for ($i = 1; $i <= 31; $i++) { ?>
+                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+            <?php } ?>
+        </select>
+    </div>
+<?php }
 
 /**
  * Adds chant text meta box HTML to chant editor
@@ -207,6 +240,9 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize 
 }
 
 function gc_chant_save_all_meta( $post_id, $post ) {
+    // Chant Rubric Meta
+    gc_chant_save_meta( $post_id, $post, 'calendar_date_month_nonce', 'calendar-date-month', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'calendar_date_day_nonce', 'calendar-date-day', 'sanitize_text_field' );
 
     // Chant Text Meta
     gc_chant_save_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'sanitize_text_field_retain_line_breaks' );

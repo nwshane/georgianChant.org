@@ -50,23 +50,27 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         <b><?php _e( 'Calendar Date', 'example' )?></b> - <?php _e( 'Enter the date on which the chant is performed, if applicable.', 'example' ); ?>
         <br>
 
-        <?php wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' ) ?>
+        <?php
+        wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' );
+        $calendar_date_month = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-month', true));
+        $calendar_date_day = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-day', true));
+        ?>
 
         <label for="calendar-date-month">Month:</label>
         <select id="calendar-date-month" name="calendar-date-month">
             <option value=""></option>
-            <option value="1">January</option>
-            <option value="2">February</option>
-            <option value="3">March</option>
-            <option value="4">April</option>
-            <option value="5">May</option>
-            <option value="6">June</option>
-            <option value="7">July</option>
-            <option value="8">August</option>
-            <option value="9">September</option>
-            <option value="10">October</option>
-            <option value="11">November</option>
-            <option value="12">December</option>
+            <option value="1" <?php if ( $calendar_date_month === 1 ) { ?>selected<?php } ?>>January</option>
+            <option value="2" <?php if ( $calendar_date_month === 2 ) { ?>selected<?php } ?>>February</option>
+            <option value="3" <?php if ( $calendar_date_month === 3 ) { ?>selected<?php } ?>>March</option>
+            <option value="4" <?php if ( $calendar_date_month === 4 ) { ?>selected<?php } ?>>April</option>
+            <option value="5" <?php if ( $calendar_date_month === 5 ) { ?>selected<?php } ?>>May</option>
+            <option value="6" <?php if ( $calendar_date_month === 6 ) { ?>selected<?php } ?>>June</option>
+            <option value="7" <?php if ( $calendar_date_month === 7 ) { ?>selected<?php } ?>>July</option>
+            <option value="8" <?php if ( $calendar_date_month === 8 ) { ?>selected<?php } ?>>August</option>
+            <option value="9" <?php if ( $calendar_date_month === 9 ) { ?>selected<?php } ?>>September</option>
+            <option value="10" <?php if ( $calendar_date_month === 10 ) { ?>selected<?php } ?>>October</option>
+            <option value="11" <?php if ( $calendar_date_month === 11 ) { ?>selected<?php } ?>>November</option>
+            <option value="12" <?php if ( $calendar_date_month === 12 ) { ?>selected<?php } ?>>December</option>
         </select>
 
         <?php wp_nonce_field( basename( __FILE__ ), 'calendar_date_day_nonce' ) ?>
@@ -75,7 +79,7 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         <select id="calendar-date-day" name="calendar-date-day">
             <option value=""></option>
             <?php for ($i = 1; $i <= 31; $i++) { ?>
-                <option value="<?php echo $i ?>"><?php echo $i ?></option>
+                <option value="<?php echo $i; ?>" <?php if ( $calendar_date_day === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
             <?php } ?>
         </select>
     </div>

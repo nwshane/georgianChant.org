@@ -35,8 +35,6 @@ function setup_gc_chant() {
     );
 
     register_post_type("gc_chant", $args);
-
-
 }
 
 add_action('init', 'setup_gc_chant');
@@ -117,11 +115,10 @@ function chant_text_meta_box_callback( $chant ) { ?>
     <?php wp_nonce_field( basename( __FILE__ ), 'latin_transliteration_nonce' ) ?>
 
     <p>
-        <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a onclick="transliterateIntoLatin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
-
         <script type="text/javascript">
             jQuery.getScript("../wp-content/plugins/gc-chant-post-type/georgian-latin-transliterator.js");
         </script>
+        <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a onclick="transliterateIntoLatin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
         <br>
         <textarea class="widefat" type="text" name="latin-transliteration" id="latin-transliteration" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration', true))?></textarea>
     </p>

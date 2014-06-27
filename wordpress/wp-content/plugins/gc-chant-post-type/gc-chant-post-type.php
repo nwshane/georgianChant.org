@@ -75,14 +75,17 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
 
         <label for="calendar-date-day">Day:</label>
         <select id="calendar-date-day" name="calendar-date-day">
-            <option value=""></option>
+            <option value></option>
             <?php for ($i = 1; $i <= 31; $i++) { ?>
                 <option value="<?php echo $i; ?>" <?php if ( $calendar_date_day === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
             <?php } ?>
         </select>
         <script type="text/javascript">
+            function getCalendarDateDay() {
+                return <?php echo $calendar_date_day ?>;
+            }
             jQuery.getScript("../wp-content/plugins/gc-chant-post-type/month-day-synchronizer.js", function () {
-                synchronizeDaysToMonths();
+                synchronizeDaysToMonths(true);
             });
         </script>
     </div>

@@ -5,10 +5,13 @@
 
 console.log("month-day-synchronizer running");
 
-jQuery("#calendar-date-month").change(synchronizeDaysToMonths);
+jQuery("#calendar-date-month").change(function() {
+    synchronizeDaysToMonths(false);
+});
 
-function synchronizeDaysToMonths() {
+function synchronizeDaysToMonths(syncDayToDatabaseValue) {
     var monthSelectValue = jQuery("#calendar-date-month").val();
+    var daySelectValue = jQuery("#calendar-date-day").val();
 
     if (monthSelectValue === "") {
         deleteDayOptions();
@@ -22,18 +25,18 @@ function synchronizeDaysToMonths() {
         || monthSelectValue === "10"
         || monthSelectValue === "12") {
         deleteDayOptions();
-        addDayOptionsUpTo(31);
+        addDayOptionsUpTo(31, syncDayToDatabaseValue, daySelectValue);
 
     } else if (monthSelectValue === "4"
         || monthSelectValue === "6"
         || monthSelectValue === "9"
         || monthSelectValue === "11") {
         deleteDayOptions();
-        addDayOptionsUpTo(30);
+        addDayOptionsUpTo(30, syncDayToDatabaseValue, daySelectValue);
 
     } else if (monthSelectValue === "2") {
         deleteDayOptions();
-        addDayOptionsUpTo(29);
+        addDayOptionsUpTo(29, syncDayToDatabaseValue, daySelectValue);
     }
 }
 
@@ -44,12 +47,14 @@ function deleteDayOptions() {
     }
 }
 
-function addDayOptionsUpTo(lastDay) {
+function addDayOptionsUpTo(lastDay, syncDayToDatabaseValue, daySelectValue) {
     var daySelect = jQuery("#calendar-date-day");
-    var calendar_date_day = "1";
+    var calendarDateDay = getCalendarDateDay().toString();
+
     for (var i = 1; i <= lastDay; i++) {
-        if (calendar_date_day === i.toString()) {
-            daySelect.append("<option value=" + i + ">" + i + "</option>");
+        if ((syncDayToDatabaseValue && calendarDateDay === i.toString())
+            || (daySelectValue === i.toString())) {
+            daySelect.append("<option value=" + i + " selected>" + i + "</option>");
         } else {
             daySelect.append("<option value=" + i + ">" + i + "</option>");
         }

@@ -80,6 +80,11 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
                 <option value="<?php echo $i; ?>" <?php if ( $calendar_date_day === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
             <?php } ?>
         </select>
+        <script type="text/javascript">
+            jQuery.getScript("../wp-content/plugins/gc-chant-post-type/month-day-synchronizer.js", function () {
+                synchronizeDaysToMonths();
+            });
+        </script>
     </div>
 <?php }
 

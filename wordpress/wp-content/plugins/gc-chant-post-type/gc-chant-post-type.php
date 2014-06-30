@@ -44,19 +44,20 @@ add_action('init', 'setup_gc_chant');
  */
 function chant_rubric_meta_box_callback( $chant ) { ?>
 
+    <?php
+    wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' );
+    wp_nonce_field( basename( __FILE__ ), 'calendar_date_day_nonce' );
+
+    $calendar_date_month = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-month', true));
+    $calendar_date_day = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-day', true));
+    ?>
+
     <div>
         <b><?php _e( 'Calendar Date', 'example' )?></b> - <?php _e( 'Enter the date on which the chant is performed, if applicable.', 'example' ); ?>
         <br>
-
-        <?php
-        wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' );
-        $calendar_date_month = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-month', true));
-        $calendar_date_day = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-day', true));
-        ?>
-
         <label for="calendar-date-month">Month:</label>
         <select id="calendar-date-month" name="calendar-date-month">
-            <option value=""></option>
+            <option value></option>
             <option value="1" <?php if ( $calendar_date_month === 1 ) { ?>selected<?php } ?>>January</option>
             <option value="2" <?php if ( $calendar_date_month === 2 ) { ?>selected<?php } ?>>February</option>
             <option value="3" <?php if ( $calendar_date_month === 3 ) { ?>selected<?php } ?>>March</option>
@@ -70,8 +71,6 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
             <option value="11" <?php if ( $calendar_date_month === 11 ) { ?>selected<?php } ?>>November</option>
             <option value="12" <?php if ( $calendar_date_month === 12 ) { ?>selected<?php } ?>>December</option>
         </select>
-
-        <?php wp_nonce_field( basename( __FILE__ ), 'calendar_date_day_nonce' ) ?>
 
         <label for="calendar-date-day">Day:</label>
         <select id="calendar-date-day" name="calendar-date-day">
@@ -88,6 +87,53 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
                 synchronizeDaysToMonths(true);
             });
         </script>
+    </div>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'feast_day_service_nonce' ) ?>
+
+    <div>
+        <label for="feast-day-service"><b><?php _e( 'Feast Day/Service', 'example' )?></b> - <?php _e( 'Enter the feast day or the type of service in which the chant is performed.', 'example' ); ?></label>
+        <br>
+        <input type="text" name="feast-day-service" id="feast-day-service" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'feast-day-service', true))?>">
+    </div>
+
+    <?php
+    wp_nonce_field( basename( __FILE__ ), 'rubric_genre_nonce' );
+    $rubric_genre = esc_attr(get_post_meta( $chant->ID, 'rubric-genre', true));
+    ?>
+
+    <div>
+        <label for="rubric-genre"><b><?php _e( 'Genre', 'example' )?></b> - <?php _e( 'Enter the genre of the chant.', 'example' ); ?></label>
+        <br>
+        <select id="rubric-genre" name="rubric-genre">
+            <option value></option>
+            <option value="Troparion" <?php if ( $rubric_genre === "Troparion" ) { ?>selected<?php } ?>>Troparion</option>
+            <option value="Squigglydoo" <?php if ( $rubric_genre === "Squigglydoo" ) { ?>selected<?php } ?>>Squigglydoo</option>
+        </select>
+    </div>
+
+    <?php
+    wp_nonce_field( basename( __FILE__ ), 'rubric_tone_nonce' );
+    $rubric_tone = 0 + esc_attr(get_post_meta( $chant->ID, 'rubric-tone', true));
+    ?>
+
+    <div>
+        <label for="rubric-tone"><b><?php _e( 'Tone', 'example' )?></b> - <?php _e( 'Enter the tone of the chant, if applicable.', 'example' ); ?></label>
+        <br>
+        <select id="rubric-tone" name="rubric-tone">
+            <option value=""></option>
+            <?php for ($i = 1; $i <= 8; $i++) { ?>
+                <option value="<?php echo $i; ?>" <?php if ( $rubric_tone === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
+            <?php } ?>
+        </select>
+    </div>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'rubric_notes_nonce' ) ?>
+
+    <div>
+        <label for="rubric-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant\'s rubric.', 'example' ); ?></label>
+        <br>
+        <textarea class="widefat" type="text" name="rubric-notes" id="rubric-notes" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>
     </div>
 <?php }
 
@@ -252,6 +298,10 @@ function gc_chant_save_all_meta( $post_id, $post ) {
     // Chant Rubric Meta
     gc_chant_save_meta( $post_id, $post, 'calendar_date_month_nonce', 'calendar-date-month', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'calendar_date_day_nonce', 'calendar-date-day', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'rubric_notes_nonce', 'rubric-notes', 'sanitize_text_field_retain_line_breaks' );
 
     // Chant Text Meta
     gc_chant_save_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'sanitize_text_field_retain_line_breaks' );

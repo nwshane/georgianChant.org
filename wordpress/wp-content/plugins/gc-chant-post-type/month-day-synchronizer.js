@@ -17,24 +17,24 @@ function synchronizeDaysToMonths(syncDayToDatabaseValue) {
         deleteDayOptions();
         jQuery("#calendar-date-day").append('<option value></option>');
 
-    } else if (monthSelectValue === "1"
-        || monthSelectValue === "3"
-        || monthSelectValue === "5"
-        || monthSelectValue === "7"
-        || monthSelectValue === "8"
-        || monthSelectValue === "10"
-        || monthSelectValue === "12") {
+    } else if (monthSelectValue === "January"
+        || monthSelectValue === "March"
+        || monthSelectValue === "May"
+        || monthSelectValue === "July"
+        || monthSelectValue === "August"
+        || monthSelectValue === "October"
+        || monthSelectValue === "December") {
         deleteDayOptions();
         addDayOptionsUpTo(31, syncDayToDatabaseValue, daySelectValue);
 
-    } else if (monthSelectValue === "4"
-        || monthSelectValue === "6"
-        || monthSelectValue === "9"
-        || monthSelectValue === "11") {
+    } else if (monthSelectValue === "April"
+        || monthSelectValue === "June"
+        || monthSelectValue === "September"
+        || monthSelectValue === "November") {
         deleteDayOptions();
         addDayOptionsUpTo(30, syncDayToDatabaseValue, daySelectValue);
 
-    } else if (monthSelectValue === "2") {
+    } else if (monthSelectValue === "February") {
         deleteDayOptions();
         addDayOptionsUpTo(29, syncDayToDatabaseValue, daySelectValue);
     }

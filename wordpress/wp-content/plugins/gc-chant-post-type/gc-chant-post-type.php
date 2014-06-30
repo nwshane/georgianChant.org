@@ -48,7 +48,7 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
     wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' );
     wp_nonce_field( basename( __FILE__ ), 'calendar_date_day_nonce' );
 
-    $calendar_date_month = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-month', true));
+    $calendar_date_month = esc_attr(get_post_meta( $chant->ID, 'calendar-date-month', true));
     $calendar_date_day = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-day', true));
     ?>
 
@@ -58,18 +58,18 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         <label for="calendar-date-month">Month:</label>
         <select id="calendar-date-month" name="calendar-date-month">
             <option value></option>
-            <option value="1" <?php if ( $calendar_date_month === 1 ) { ?>selected<?php } ?>>January</option>
-            <option value="2" <?php if ( $calendar_date_month === 2 ) { ?>selected<?php } ?>>February</option>
-            <option value="3" <?php if ( $calendar_date_month === 3 ) { ?>selected<?php } ?>>March</option>
-            <option value="4" <?php if ( $calendar_date_month === 4 ) { ?>selected<?php } ?>>April</option>
-            <option value="5" <?php if ( $calendar_date_month === 5 ) { ?>selected<?php } ?>>May</option>
-            <option value="6" <?php if ( $calendar_date_month === 6 ) { ?>selected<?php } ?>>June</option>
-            <option value="7" <?php if ( $calendar_date_month === 7 ) { ?>selected<?php } ?>>July</option>
-            <option value="8" <?php if ( $calendar_date_month === 8 ) { ?>selected<?php } ?>>August</option>
-            <option value="9" <?php if ( $calendar_date_month === 9 ) { ?>selected<?php } ?>>September</option>
-            <option value="10" <?php if ( $calendar_date_month === 10 ) { ?>selected<?php } ?>>October</option>
-            <option value="11" <?php if ( $calendar_date_month === 11 ) { ?>selected<?php } ?>>November</option>
-            <option value="12" <?php if ( $calendar_date_month === 12 ) { ?>selected<?php } ?>>December</option>
+            <option value="January" <?php if ( $calendar_date_month === "January" ) { ?>selected<?php } ?>>January</option>
+            <option value="February" <?php if ( $calendar_date_month === "February" ) { ?>selected<?php } ?>>February</option>
+            <option value="March" <?php if ( $calendar_date_month === "March" ) { ?>selected<?php } ?>>March</option>
+            <option value="April" <?php if ( $calendar_date_month === "April" ) { ?>selected<?php } ?>>April</option>
+            <option value="May" <?php if ( $calendar_date_month === "May" ) { ?>selected<?php } ?>>May</option>
+            <option value="June" <?php if ( $calendar_date_month === "June" ) { ?>selected<?php } ?>>June</option>
+            <option value="July" <?php if ( $calendar_date_month === "July" ) { ?>selected<?php } ?>>July</option>
+            <option value="August" <?php if ( $calendar_date_month === "August" ) { ?>selected<?php } ?>>August</option>
+            <option value="September" <?php if ( $calendar_date_month === "September" ) { ?>selected<?php } ?>>September</option>
+            <option value="October" <?php if ( $calendar_date_month === "October" ) { ?>selected<?php } ?>>October</option>
+            <option value="November" <?php if ( $calendar_date_month === "November" ) { ?>selected<?php } ?>>November</option>
+            <option value="December" <?php if ( $calendar_date_month === "December" ) { ?>selected<?php } ?>>December</option>
         </select>
 
         <label for="calendar-date-day">Day:</label>

@@ -93,7 +93,8 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
 
     <?php
     wp_nonce_field( basename( __FILE__ ), 'rubric_tone_nonce' );
-    $rubric_tone = 0 + esc_attr(get_post_meta( $chant->ID, 'rubric-tone', true));
+    $rubric_tone = esc_attr(get_post_meta( $chant->ID, 'rubric-tone', true));
+    $rubric_tone_int = 0 + $rubric_tone;
     ?>
 
     <div>
@@ -101,8 +102,9 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         <br>
         <select id="rubric-tone" name="rubric-tone">
             <option value=""></option>
+            <option value="Unassigned" <?php if ( $rubric_tone === "Unassigned" ) { ?>selected<?php } ?>>Unassigned</option>
             <?php for ($i = 1; $i <= 8; $i++) { ?>
-                <option value="<?php echo $i; ?>" <?php if ( $rubric_tone === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
+                <option value="<?php echo $i; ?>" <?php if ( $rubric_tone_int === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
             <?php } ?>
         </select>
     </div>

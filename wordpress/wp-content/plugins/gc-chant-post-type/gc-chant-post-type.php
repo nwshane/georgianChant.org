@@ -44,51 +44,6 @@ add_action('init', 'setup_gc_chant');
  */
 function chant_rubric_meta_box_callback( $chant ) { ?>
 
-    <?php
-    wp_nonce_field( basename( __FILE__ ), 'calendar_date_month_nonce' );
-    wp_nonce_field( basename( __FILE__ ), 'calendar_date_day_nonce' );
-
-    $calendar_date_month = esc_attr(get_post_meta( $chant->ID, 'calendar-date-month', true));
-    $calendar_date_day = 0 + esc_attr(get_post_meta( $chant->ID, 'calendar-date-day', true));
-    ?>
-
-    <div>
-        <b><?php _e( 'Calendar Date', 'example' )?></b> - <?php _e( 'Enter the date on which the chant is performed, if applicable.', 'example' ); ?>
-        <br>
-        <label for="calendar-date-month">Month:</label>
-        <select id="calendar-date-month" name="calendar-date-month">
-            <option value></option>
-            <option value="January" <?php if ( $calendar_date_month === "January" ) { ?>selected<?php } ?>>January</option>
-            <option value="February" <?php if ( $calendar_date_month === "February" ) { ?>selected<?php } ?>>February</option>
-            <option value="March" <?php if ( $calendar_date_month === "March" ) { ?>selected<?php } ?>>March</option>
-            <option value="April" <?php if ( $calendar_date_month === "April" ) { ?>selected<?php } ?>>April</option>
-            <option value="May" <?php if ( $calendar_date_month === "May" ) { ?>selected<?php } ?>>May</option>
-            <option value="June" <?php if ( $calendar_date_month === "June" ) { ?>selected<?php } ?>>June</option>
-            <option value="July" <?php if ( $calendar_date_month === "July" ) { ?>selected<?php } ?>>July</option>
-            <option value="August" <?php if ( $calendar_date_month === "August" ) { ?>selected<?php } ?>>August</option>
-            <option value="September" <?php if ( $calendar_date_month === "September" ) { ?>selected<?php } ?>>September</option>
-            <option value="October" <?php if ( $calendar_date_month === "October" ) { ?>selected<?php } ?>>October</option>
-            <option value="November" <?php if ( $calendar_date_month === "November" ) { ?>selected<?php } ?>>November</option>
-            <option value="December" <?php if ( $calendar_date_month === "December" ) { ?>selected<?php } ?>>December</option>
-        </select>
-
-        <label for="calendar-date-day">Day:</label>
-        <select id="calendar-date-day" name="calendar-date-day">
-            <option value></option>
-            <?php for ($i = 1; $i <= 31; $i++) { ?>
-                <option value="<?php echo $i; ?>" <?php if ( $calendar_date_day === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
-            <?php } ?>
-        </select>
-        <script type="text/javascript">
-            function getCalendarDateDay() {
-                return <?php echo $calendar_date_day ?>;
-            }
-            jQuery.getScript("../wp-content/plugins/gc-chant-post-type/month-day-synchronizer.js", function () {
-                synchronizeDaysToMonths(true);
-            });
-        </script>
-    </div>
-
     <?php wp_nonce_field( basename( __FILE__ ), 'feast_day_service_nonce' ) ?>
 
     <div>

@@ -55,12 +55,18 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         <select id="feast-day-service" name="feast-day-service">
             <option value></option>
             <optgroup label="Services">
-                <option value="Vespers">Vespers</option>
-                <option value="Matins">Matins</option>
+                <?php
+                $services = [ "Vespers", "Matins" ];
+                foreach ( $services as $service ) { ?>
+                    <option value="<?php echo $service; ?>" <?php if ( $feast_day_service === $service ) { ?>selected<?php } ?>><?php echo $service; ?></option>
+                <?php } ?>
             </optgroup>
             <optgroup label="Feast Days">
-                <option value="September 1">September 1</option>
-                <option value="September 8">September 8</option>
+                <?php
+                $feast_days = [ "September 1st", "October 8th" ];
+                foreach ( $feast_days as $feast_day ) { ?>
+                    <option value="<?= $feast_day ?>" <?php if ( $feast_day_service === $feast_day ) { ?>selected<?php } ?>><?php echo $feast_day; ?></option>
+                <?php } ?>
             </optgroup>
         </select>
     </div>
@@ -79,7 +85,7 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
             <?php
             $genres = [ "Troparion", "Squigglydoo", "Dooduh" ];
             foreach ( $genres as $genre ) { ?>
-                <option value=<?php echo $genre; ?> <?php if ( $rubric_genre === $genre ) { ?>selected<?php } ?>><?php echo $genre; ?></option>
+                <option value="<?php echo $genre; ?>" <?php if ( $rubric_genre === $genre ) { ?>selected<?php } ?>><?php echo $genre; ?></option>
             <?php } ?>
 
         </select>
@@ -269,8 +275,6 @@ function gc_chant_save_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize 
 
 function gc_chant_save_all_meta( $post_id, $post ) {
     // Chant Rubric Meta
-    gc_chant_save_meta( $post_id, $post, 'calendar_date_month_nonce', 'calendar-date-month', 'sanitize_text_field' );
-    gc_chant_save_meta( $post_id, $post, 'calendar_date_day_nonce', 'calendar-date-day', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );

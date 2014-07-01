@@ -107,6 +107,14 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         </select>
     </div>
 
+    <?php wp_nonce_field( basename( __FILE__ ), 'specific_rubric_nonce' ) ?>
+
+    <div>
+        <label for="specific-rubric"><b><?php _e( 'Specific Rubric', 'example' )?></b> - <?php _e( 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', 'example' ); ?></label>
+        <br>
+        <input type="text" name="specific-rubric" id="specific-rubric" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'specific-rubric', true ))?>">
+    </div>
+
     <?php wp_nonce_field( basename( __FILE__ ), 'rubric_notes_nonce' ) ?>
 
     <div>
@@ -278,6 +286,7 @@ function gc_chant_save_all_meta( $post_id, $post ) {
     gc_chant_save_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );
     gc_chant_save_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );
+    gc_chant_save_meta( $post_id, $post, 'specific_rubric_nonce', 'specific-rubric', 'sanitize_text_field_retain_line_breaks' );
     gc_chant_save_meta( $post_id, $post, 'rubric_notes_nonce', 'rubric-notes', 'sanitize_text_field_retain_line_breaks' );
 
     // Chant Text Meta

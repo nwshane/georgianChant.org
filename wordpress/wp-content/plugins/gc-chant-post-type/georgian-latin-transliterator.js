@@ -30,7 +30,7 @@ function convertCharToLatin(character) {
     } else if (character === "ი") {
         latinChar = "i";
     } else if (character === "კ") {
-        latinChar = "k";
+        latinChar = "k'";
     } else if (character === "ლ") {
         latinChar = "l";
     } else if (character === "მ") {
@@ -54,7 +54,7 @@ function convertCharToLatin(character) {
     } else if (character === "ფ") {
         latinChar = "p";
     } else if (character === "ქ") {
-        latinChar = "q";
+        latinChar = "k";
     } else if (character === "ღ") {
         latinChar = "gh";
     } else if (character === "ყ") {

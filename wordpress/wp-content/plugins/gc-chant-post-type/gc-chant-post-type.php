@@ -44,12 +44,25 @@ add_action('init', 'setup_gc_chant');
  */
 function chant_rubric_meta_box_callback( $chant ) { ?>
 
-    <?php wp_nonce_field( basename( __FILE__ ), 'feast_day_service_nonce' ) ?>
+    <?php
+    wp_nonce_field( basename( __FILE__ ), 'feast_day_service_nonce' );
+    $feast_day_service = esc_attr(get_post_meta( $chant->ID, 'feast-day-service', true));
+    ?>
 
     <div>
         <label for="feast-day-service"><b><?php _e( 'Feast Day/Service', 'example' )?></b> - <?php _e( 'Enter the feast day or the type of service in which the chant is performed.', 'example' ); ?></label>
         <br>
-        <input type="text" name="feast-day-service" id="feast-day-service" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'feast-day-service', true))?>">
+        <select id="feast-day-service" name="feast-day-service">
+            <option value></option>
+            <optgroup label="Services">
+                <option value="Vespers">Vespers</option>
+                <option value="Matins">Matins</option>
+            </optgroup>
+            <optgroup label="Feast Days">
+                <option value="September 1">September 1</option>
+                <option value="September 8">September 8</option>
+            </optgroup>
+        </select>
     </div>
 
     <?php
@@ -62,8 +75,13 @@ function chant_rubric_meta_box_callback( $chant ) { ?>
         <br>
         <select id="rubric-genre" name="rubric-genre">
             <option value></option>
-            <option value="Troparion" <?php if ( $rubric_genre === "Troparion" ) { ?>selected<?php } ?>>Troparion</option>
-            <option value="Squigglydoo" <?php if ( $rubric_genre === "Squigglydoo" ) { ?>selected<?php } ?>>Squigglydoo</option>
+
+            <?php
+            $genres = [ "Troparion", "Squigglydoo", "Dooduh" ];
+            foreach ( $genres as $genre ) { ?>
+                <option value=<?php echo $genre; ?> <?php if ( $rubric_genre === $genre ) { ?>selected<?php } ?>><?php echo $genre; ?></option>
+            <?php } ?>
+
         </select>
     </div>
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Chant Custom Post Type
- * Description: Creates the chant custom post type
+ * Description: Creates the chant custom post type and the associated chant variant custom post type
  * Author: Nathan Shane
  */
 
@@ -26,6 +26,7 @@ function setup_gc_chant() {
     );
 
     $args = array(
+        'label'         => 'Chants',
         'labels'        => $labels,
         'description'   => 'The information associated with an individual chant.',
         'public'        => true,
@@ -38,6 +39,8 @@ function setup_gc_chant() {
 }
 
 add_action('init', 'setup_gc_chant');
+
+include(dirname( __FILE__ ) .'/gc-chant-variant-post-type.php');
 
 /*
  * Adds chant rubric meta box HTML to chant editor

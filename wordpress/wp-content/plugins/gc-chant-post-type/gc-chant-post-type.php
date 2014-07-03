@@ -199,6 +199,26 @@ function chant_text_meta_box_callback( $chant ) { ?>
     </p>
 <?php }
 
+function chant_history_meta_box_callback( $chant ) { ?>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'history_nonce' ) ?>
+
+    <label for="history"><b><?php _e( 'Chant History', 'example' )?></b> - <?php _e( 'Tell the historical story of this chant.', 'example' ); ?></label>
+    <br>
+    <textarea class="widefat" type="text" name="history" id="history" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'history', true))?></textarea>
+
+<?php }
+
+function chant_liturgy_culture_meta_box_callback( $chant ) { ?>
+
+    <?php wp_nonce_field( basename( __FILE__ ), 'liturgy_culture_nonce' ) ?>
+
+    <label for="Current Role in Liturgy and Culture"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Describe this chant\'s contemporary role in liturgy and culture.', 'example' ); ?></label>
+    <br>
+    <textarea class="widefat" type="text" name="liturgy-culture" id="liturgy-culture" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'liturgy-culture', true))?></textarea>
+
+<?php }
+
 function gc_chant_add_post_meta_boxes() {
     add_meta_box(
         'chant-rubric-meta-box',
@@ -213,6 +233,24 @@ function gc_chant_add_post_meta_boxes() {
         'chant-text-meta-box',
         esc_html__( 'Text', 'example' ),
         'chant_text_meta_box_callback',
+        'gc_chant',
+        'normal',
+        'default'
+    );
+
+    add_meta_box(
+        'chant-history-meta-box',
+        esc_html__( 'History', 'example' ),
+        'chant_history_meta_box_callback',
+        'gc_chant',
+        'normal',
+        'default'
+    );
+
+    add_meta_box(
+        'chant-liturgy-culture-meta-box',
+        esc_html__( 'Liturgical and Cultural Role', 'example' ),
+        'chant_liturgy_culture_meta_box_callback',
         'gc_chant',
         'normal',
         'default'
@@ -300,6 +338,12 @@ function gc_chant_save_all_meta( $post_id, $post ) {
     gc_chant_save_meta( $post_id, $post, 'english_translation_author_nonce', 'english-translation-author', 'sanitize_text_field');
     gc_chant_save_meta( $post_id, $post, 'english_translation_source_nonce', 'english-translation-source', 'sanitize_text_field');
     gc_chant_save_meta( $post_id, $post, 'text_notes_nonce', 'text-notes', 'sanitize_text_field_retain_line_breaks' );
+
+    // History Meta
+    gc_chant_save_meta( $post_id, $post, 'history_nonce', 'history', 'sanitize_text_field_retain_line_breaks' );
+
+    // Liturgy and Culture Meta
+    gc_chant_save_meta( $post_id, $post, 'liturgy_culture_nonce', 'liturgy-culture', 'sanitize_text_field_retain_line_breaks' );
 }
 
 function gc_chant_post_meta_boxes_setup() {

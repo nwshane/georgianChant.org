@@ -37,9 +37,3 @@ function gc_chant_variant_add_post_meta_boxes() {
     );
 }
 
-function setup_gc_chant_variant_meta_boxes() {
-    add_action( 'add_meta_boxes', 'gc_chant_variant_add_post_meta_boxes' );
-}
-
-add_action( 'load-post.php', 'setup_gc_chant_variant_meta_boxes' );
-add_action( 'load-post-new.php', 'setup_gc_chant_variant_meta_boxes' );

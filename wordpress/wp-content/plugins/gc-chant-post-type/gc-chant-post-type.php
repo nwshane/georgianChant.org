@@ -40,8 +40,6 @@ function setup_gc_chant() {
 
 add_action('init', 'setup_gc_chant');
 
-include(dirname( __FILE__ ) .'/gc-chant-variant-post-type.php');
-
 /*
  * Adds chant rubric meta box HTML to chant editor
  */
@@ -222,32 +220,6 @@ function chant_liturgy_culture_meta_box_callback( $chant ) { ?>
 
 <?php }
 
-function chant_variants_meta_box_callback( $chant ) { ?>
-
-    <p>If the chant variant comes out of the oral tradition...</p>
-
-    <?php
-    wp_nonce_field( basename( __FILE__ ), 'monastery_tradition_nonce' );
-    $monastery_tradition = esc_attr(get_post_meta( $chant->ID, 'monastery-tradition', true));
-    ?>
-
-    <div>
-        <label for="monastery-tradition"><b><?php _e( 'Monastery Tradition', 'example' )?></b> - <?php _e( 'Enter the monastery tradition of the chant.', 'example' ); ?></label>
-        <br>
-        <select id="monastery-tradition" name="monastery-tradition">
-            <option value></option>
-
-            <?php
-            $possible_monastery_traditions = [ "Gelati", "Shemokmedi", "East Georgia" ];
-            foreach ( $possible_monastery_traditions as $possible_monastery_tradition ) { ?>
-                <option value="<?php echo $possible_monastery_tradition; ?>" <?php if ( $monastery_tradition === $possible_monastery_tradition ) { ?>selected<?php } ?>><?php echo $possible_monastery_tradition; ?></option>
-            <?php } ?>
-
-        </select>
-    </div>
-
-<?php }
-
 function gc_chant_add_post_meta_boxes() {
     add_meta_box(
         'chant-rubric-meta-box',
@@ -280,15 +252,6 @@ function gc_chant_add_post_meta_boxes() {
         'chant-liturgy-culture-meta-box',
         esc_html__( 'Liturgical and Cultural Role', 'example' ),
         'chant_liturgy_culture_meta_box_callback',
-        'gc_chant',
-        'normal',
-        'default'
-    );
-
-    add_meta_box(
-        'chant-variants-meta-box',
-        esc_html__( 'Variants', 'example' ),
-        'chant_variants_meta_box_callback',
         'gc_chant',
         'normal',
         'default'
@@ -391,3 +354,6 @@ function gc_chant_post_meta_boxes_setup() {
 
 add_action( 'load-post.php', 'gc_chant_post_meta_boxes_setup' );
 add_action( 'load-post-new.php', 'gc_chant_post_meta_boxes_setup' );
+
+// Include all files
+include(dirname( __FILE__ ) .'/gc-chant-variant-post-type.php');

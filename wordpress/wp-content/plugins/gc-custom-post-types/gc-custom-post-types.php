@@ -84,7 +84,7 @@ function save_all_meta( $post_id, $post ) {
         save_chant_post_type_meta( $post_id, $post );
     } else if ( $post_type === "gc_chant_variant" ) {
         save_chant_variant_post_type_meta( $post_id, $post );
-    } else if ( $post_type === "gc_recordings" ) {
+    } else if ( $post_type === "gc_recording" ) {
         save_recordings_post_type_meta( $post_id, $post );
     }
 }

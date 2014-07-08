@@ -7,6 +7,7 @@
 
 require_once(dirname(__FILE__) . '/php/chant-post-type-setup.php');
 require_once(dirname(__FILE__) . '/php/chant-variant-post-type-setup.php');
+require_once(dirname(__FILE__) . '/php/recordings-post-type-setup.php');
 
 /*
  * Sanitize text field but retain line breaks.
@@ -83,12 +84,15 @@ function save_all_meta( $post_id, $post ) {
         save_chant_post_type_meta( $post_id, $post );
     } else if ( $post_type === "gc_chant_variant" ) {
         save_chant_variant_post_type_meta( $post_id, $post );
+    } else if ( $post_type === "gc_recordings" ) {
+        save_recordings_post_type_meta( $post_id, $post );
     }
 }
 
 function setup_meta_boxes() {
     add_action( 'add_meta_boxes', 'gc_chant_add_meta_boxes' );
     add_action( 'add_meta_boxes', 'gc_chant_variant_add_meta_boxes' );
+    add_action( 'add_meta_boxes', 'gc_recordings_add_meta_boxes' );
     add_action( 'save_post', 'save_all_meta', 10, 2 );
 }
 

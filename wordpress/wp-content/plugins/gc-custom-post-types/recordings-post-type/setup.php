@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/recordings-post-type-meta.php');
+require_once(dirname(__FILE__) . '/meta.php');
 
 function setup_gc_recordings() {
     $labels = array(

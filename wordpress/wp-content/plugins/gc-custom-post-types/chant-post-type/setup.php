@@ -1,6 +1,6 @@
 <?php
 
-require_once(dirname(__FILE__) . '/chant-post-type-meta.php');
+require_once(dirname(__FILE__) . '/meta.php');
 
 function setup_gc_chant() {
     $labels = array(

@@ -9,7 +9,7 @@ function gc_recordings_add_meta_boxes() {
         'recording-file-meta-box',
         esc_html__( 'Recording File', 'example' ),
         'recording_file_meta_box_callback',
-        'gc_recordings',
+        'gc_recording',
         'normal',
         'default'
     );

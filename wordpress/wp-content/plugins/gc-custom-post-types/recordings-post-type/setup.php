@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__) . '/meta.php');
 
-function setup_gc_recordings() {
+function setup_gc_recording() {
     $labels = array(
         'name'                  => _x( 'Recordings', 'post type general name'),
         'singular_name'         => _x( 'Recording', 'post type singular name'),
@@ -29,7 +29,7 @@ function setup_gc_recordings() {
         'has_archive'   => true
     );
 
-    register_post_type("gc_recordings", $args);
+    register_post_type("gc_recording", $args);
 }
 
-add_action('init', 'setup_gc_recordings');
+add_action('init', 'setup_gc_recording');

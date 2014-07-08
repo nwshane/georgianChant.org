@@ -26,7 +26,7 @@ $monastery_tradition = esc_attr(get_post_meta( $chant_variant->ID, 'monastery-tr
 
 <?php }
 
-function gc_chant_variant_add_post_meta_boxes() {
+function gc_chant_variant_add_meta_boxes() {
     add_meta_box(
         'chant-variants-meta-box',
         esc_html__( 'Variants', 'example' ),
@@ -37,3 +37,6 @@ function gc_chant_variant_add_post_meta_boxes() {
     );
 }
 
+function save_chant_variant_post_type_meta( $post_id, $post ) {
+
+}

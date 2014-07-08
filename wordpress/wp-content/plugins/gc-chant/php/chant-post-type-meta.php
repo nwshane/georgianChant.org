@@ -212,3 +212,28 @@ function gc_chant_add_meta_boxes() {
     );
 }
 
+function save_chant_post_type_meta( $post_id, $post ) {
+    // Chant Rubric Meta
+    save_single_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );
+    save_single_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );
+    save_single_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );
+    save_single_meta( $post_id, $post, 'specific_rubric_nonce', 'specific-rubric', 'sanitize_text_field_retain_line_breaks' );
+    save_single_meta( $post_id, $post, 'rubric_notes_nonce', 'rubric-notes', 'sanitize_text_field_retain_line_breaks' );
+
+    // Chant Text Meta
+    save_single_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'sanitize_text_field_retain_line_breaks' );
+    save_single_meta( $post_id, $post, 'text_author_nonce', 'text-author', 'sanitize_text_field' );
+    save_single_meta( $post_id, $post, 'text_date_nonce', 'text-date', 'sanitize_text_field' );
+    save_single_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration', 'sanitize_text_field_retain_line_breaks' );
+    save_single_meta( $post_id, $post, 'english_translation_nonce', 'english-translation', 'sanitize_text_field_retain_line_breaks' );
+    save_single_meta( $post_id, $post, 'english_translation_author_nonce', 'english-translation-author', 'sanitize_text_field');
+    save_single_meta( $post_id, $post, 'english_translation_source_nonce', 'english-translation-source', 'sanitize_text_field');
+    save_single_meta( $post_id, $post, 'text_notes_nonce', 'text-notes', 'sanitize_text_field_retain_line_breaks' );
+
+    // History Meta
+    save_single_meta( $post_id, $post, 'history_nonce', 'history', 'sanitize_text_field_retain_line_breaks' );
+
+    // Liturgy and Culture Meta
+    save_single_meta( $post_id, $post, 'liturgy_culture_nonce', 'liturgy-culture', 'sanitize_text_field_retain_line_breaks' );
+
+}

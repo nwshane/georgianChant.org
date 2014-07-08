@@ -1,7 +1,7 @@
 <?php
 /**
- * Plugin Name: Chant Custom Post Type
- * Description: Creates the chant custom post type and the associated chant variant custom post type
+ * Plugin Name: GeorgianChant.org Custom Post Types
+ * Description: Creates the georgianchant.org custom post types.
  * Author: Nathan Shane
  */
 

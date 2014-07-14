@@ -7,7 +7,7 @@
 
 require_once(dirname(__FILE__) . '/chant-post-type/setup.php');
 require_once(dirname(__FILE__) . '/chant-variant-post-type/setup.php');
-require_once(dirname(__FILE__) . '/recordings-post-type/setup.php');
+require_once(dirname(__FILE__) . '/recording-post-type/setup.php');
 
 /*
  * Sanitize text field but retain line breaks.

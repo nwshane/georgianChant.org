@@ -69,8 +69,7 @@ function save_recording_file( $post_id, $post ) {
     }
 
     if( empty( $_FILES['recording-file']['name'] )) {
-        print '$_FILES is empty';
-        exit;
+        return $post_id;
     } else {
         $upload = wp_upload_bits( $_FILES['recording-file']['name'], null, file_get_contents( $_FILES['recording-file']['tmp_name'] ));
 

@@ -4,18 +4,26 @@ function recording_file_meta_box_callback( $recording ) { ?>
 
     <?php
     wp_nonce_field( 'recording-file-action', 'recording_file_nonce' );
-    $recording_file = esc_attr(get_post_meta( $recording->ID, 'recording-file', true));
+    $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
+    $recording_file_url = $recording_file['url'];
+    $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
     ?>
 
-    <input type="file" id="recording-file" name="recording-file">
-    <br>
-    <audio controls>
-<!--        <source src="--><?//=$recording_file?><!--" type="audio/ogg">-->
-<!--        <source src="--><?//=$recording_file?><!--" type="audio/mpeg">-->
-<!--        <source src="--><?//=$recording_file?><!--" type="audio/m4a">-->
-        <source src="<?php echo dirname(__FILE__) . '/01KristeAghsdga.mp3' ?>" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
+    <p class="description">
+        <?php if ( $recording_file === null ) {
+            _e( 'No chant uploaded.', 'example' );
+        } else { ?>
+            Currently uploaded recording: <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
+            <br>
+            <audio controls>
+                <source src="<?=$recording_file_url?>" type="audio/ogg">
+                <source src="<?=$recording_file_url?>" type="audio/mpeg">
+                <source src="<?=$recording_file_url?>" type="audio/m4a">
+                <source src="<?=$recording_file_url?>" type="audio/mp3">
+            </audio>
+        <?php } ?>
+    </p>
+    <input type="file" id="recording-file" name="recording-file" value="<?php if ( $recording_file ) { echo $recording_file_url; } ?>">
 
 <?php }
 
@@ -50,7 +58,38 @@ function gc_recordings_add_meta_boxes() {
     );
 }
 
+function save_recording_file( $post_id, $post ) {
+
+    $meta_nonce = 'recording_file_nonce';
+    $meta_key = 'recording-file-action';
+
+    if ( !isset ( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key ) ) {
+        print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . '.';
+        exit;
+    }
+
+    if( empty( $_FILES['recording-file']['name'] )) {
+        print '$_FILES is empty';
+        exit;
+    } else {
+        $upload = wp_upload_bits( $_FILES['recording-file']['name'], null, file_get_contents( $_FILES['recording-file']['tmp_name'] ));
+
+        if ( ! $upload['error'] ) {
+            update_post_meta( $post_id, 'recording-file', $upload );
+        } else {
+            print 'Upload failed. Error: ' . $upload['error'];
+        }
+    }
+}
+
 function save_recordings_post_type_meta( $post_id, $post ) {
-    save_single_meta( $post_id, $post, 'recording_file_nonce', 'recording-file', 'sanitize_file_name' );
+    save_recording_file( $post_id, $post );
     save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
 }
+
+function add_enctype_to_form_tag() {
+    echo ' enctype="multipart/form-data"';
+}
+
+add_action( 'post_edit_form_tag' , 'add_enctype_to_form_tag' );
+

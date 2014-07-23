@@ -14,27 +14,26 @@ function recording_file_meta_box_callback( $recording ) { ?>
         jQuery.getScript("../wp-content/plugins/gc-custom-post-types/recording-post-type/remove-recording.js");
     </script>
 
+
+    <?php if ($recording_file !== "" ) { ?>
     <div id="recording-controls">
-        <?php if ( ! isset( $recording_file )) {
-            _e( 'No chant uploaded.', 'example' );
-        } else { ?>
-            Currently uploaded recording: <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
-            <br>
-            <audio controls>
-                <source src="<?=$recording_file_url?>" type="audio/ogg">
-                <source src="<?=$recording_file_url?>" type="audio/mpeg">
-                <source src="<?=$recording_file_url?>" type="audio/m4a">
-                <source src="<?=$recording_file_url?>" type="audio/mp3">
-            </audio>
-            <br>
-            <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>">
-            <p id="remove-recording">
-                <a onclick="removeRecording()">Remove current recording</a>
-            </p>
-        <?php } ?>
+        Currently uploaded recording: <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
+        <br>
+        <audio controls>
+            <source src="<?=$recording_file_url?>" type="audio/ogg">
+            <source src="<?=$recording_file_url?>" type="audio/mpeg">
+            <source src="<?=$recording_file_url?>" type="audio/m4a">
+            <source src="<?=$recording_file_url?>" type="audio/mp3">
+        </audio>
+        <br>
+        <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>">
+        <p id="remove-recording">
+            <a onclick="removeRecording()">Remove current recording</a>
+        </p>
     </div>
     <br>
-    <label for="recording-file">Upload a new recording:</label>
+    <?php } ?>
+    <label for="recording-file">Choose a <?php if ( $recording_file !== "" ) { ?>different <?php } ?>recording:</label>
     <input type="file" id="recording-file" name="recording-file" value="<?php if ( $recording_file ) { echo $recording_file_url; } ?>">
 
 <?php }

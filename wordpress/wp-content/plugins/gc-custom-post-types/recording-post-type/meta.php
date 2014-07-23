@@ -15,18 +15,15 @@ function recording_file_meta_box_callback( $recording ) { ?>
     </script>
 
 
-    <?php if ($recording_file !== "" ) { ?>
+    <?php if ( $recording_file !== "" ) { ?>
     <div id="recording-controls">
         Currently uploaded recording: <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
         <br>
         <audio controls>
-            <source src="<?=$recording_file_url?>" type="audio/ogg">
             <source src="<?=$recording_file_url?>" type="audio/mpeg">
-            <source src="<?=$recording_file_url?>" type="audio/m4a">
-            <source src="<?=$recording_file_url?>" type="audio/mp3">
         </audio>
         <br>
-        <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>">
+        <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>" hidden>
         <p id="remove-recording">
             <a onclick="removeRecording()">Remove current recording</a>
         </p>

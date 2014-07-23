@@ -3,5 +3,5 @@
 
 function removeRecording() {
     jQuery( "#recording-file-url" ).val( "" );
-    jQuery( "#remove-recording" ).append( "<span id=\"recording-deleted\"> - Click \"Update\" to confirm deletion</span>" );
+    jQuery( "#remove-recording" ).append( "<span> - Click \"Update\" to confirm deletion</span>" );
 }

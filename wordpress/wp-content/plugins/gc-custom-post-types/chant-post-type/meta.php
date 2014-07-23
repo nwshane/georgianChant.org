@@ -114,7 +114,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
 
     <p>
         <script type="text/javascript">
-            jQuery.getScript("../wp-content/plugins/gc-chant/js/georgian-latin-transliterator.js");
+            jQuery.getScript("../wp-content/plugins/gc-custom-post-types/chant-post-type/georgian-latin-transliterator.js");
         </script>
         <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a onclick="transliterateIntoLatin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
         <br>

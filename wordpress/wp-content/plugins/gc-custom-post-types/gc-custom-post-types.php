@@ -47,7 +47,7 @@ function save_single_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize ) 
     /* Verify the nonce before proceeding. */
     if ( !isset( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key . '-action' ) ) {
         print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . '.';
-        exit;
+        return $post_id;
     } else {
         /* Get the post type object. */
         $post_type = get_post_type_object( $post->post_type );

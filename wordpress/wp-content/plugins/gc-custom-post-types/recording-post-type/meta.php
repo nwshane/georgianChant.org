@@ -3,14 +3,19 @@
 function recording_file_meta_box_callback( $recording ) { ?>
 
     <?php
+
     wp_nonce_field( 'recording-file-action', 'recording_file_nonce' );
     $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
-    $recording_file_url = $recording_file['url'];
+    $recording_file_url = ( ! ($recording_file === "" ) ? $recording_file['url'] : "" );
     $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
     ?>
 
-    <p class="description">
-        <?php if ( $recording_file === null ) {
+    <script type="text/javascript">
+        jQuery.getScript("../wp-content/plugins/gc-custom-post-types/recording-post-type/remove-recording.js");
+    </script>
+
+    <div id="recording-controls">
+        <?php if ( ! isset( $recording_file )) {
             _e( 'No chant uploaded.', 'example' );
         } else { ?>
             Currently uploaded recording: <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
@@ -21,8 +26,15 @@ function recording_file_meta_box_callback( $recording ) { ?>
                 <source src="<?=$recording_file_url?>" type="audio/m4a">
                 <source src="<?=$recording_file_url?>" type="audio/mp3">
             </audio>
+            <br>
+            <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>">
+            <p id="remove-recording">
+                <a onclick="removeRecording()">Remove current recording</a>
+            </p>
         <?php } ?>
-    </p>
+    </div>
+    <br>
+    <label for="recording-file">Upload a new recording:</label>
     <input type="file" id="recording-file" name="recording-file" value="<?php if ( $recording_file ) { echo $recording_file_url; } ?>">
 
 <?php }
@@ -58,14 +70,21 @@ function gc_recordings_add_meta_boxes() {
     );
 }
 
-function save_recording_file( $post_id, $post ) {
+function update_recording_file( $post_id ) {
+
+    $meta_value = get_post_meta($post_id, 'recording-file', true);
+
+    if ( $meta_value !== "" && $_POST[ 'recording-file-url' ] === "" ) {
+        delete_post_meta( $post_id, 'recording-file', $meta_value);
+        unlink( $meta_value['file'] );
+    }
 
     $meta_nonce = 'recording_file_nonce';
     $meta_key = 'recording-file-action';
 
     if ( !isset ( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key ) ) {
         print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . '.';
-        exit;
+        return $post_id;
     }
 
     if( empty( $_FILES['recording-file']['name'] )) {
@@ -82,7 +101,7 @@ function save_recording_file( $post_id, $post ) {
 }
 
 function save_recordings_post_type_meta( $post_id, $post ) {
-    save_recording_file( $post_id, $post );
+    update_recording_file( $post_id, $post );
     save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
 }
 
@@ -92,3 +111,10 @@ function add_enctype_to_form_tag() {
 
 add_action( 'post_edit_form_tag' , 'add_enctype_to_form_tag' );
 
+//function add_remove_recording_script() {
+//    wp_register_script( 'remove-recording-script', dirname(__FILE__) . '/remove-recording.js');
+//    wp_enqueue_script('remove-recording-script');
+//}
+//
+//add_action('load-post.php', 'add_remove_recording_script');
+//add_action('load-post-new.php', 'add_remove_recording_script');

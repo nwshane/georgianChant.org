@@ -71,7 +71,6 @@ function gc_recordings_add_meta_boxes() {
 }
 
 function update_recording_file( $post_id ) {
-
     $meta_value = get_post_meta($post_id, 'recording-file', true);
 
     if ( $meta_value !== "" && $_POST[ 'recording-file-url' ] === "" ) {
@@ -90,6 +89,11 @@ function update_recording_file( $post_id ) {
     if( empty( $_FILES['recording-file']['name'] )) {
         return $post_id;
     } else {
+
+        if ( $meta_value !== "" ) {
+            unlink( $meta_value['file'] );
+        }
+
         $upload = wp_upload_bits( $_FILES['recording-file']['name'], null, file_get_contents( $_FILES['recording-file']['tmp_name'] ));
 
         if ( ! $upload['error'] ) {

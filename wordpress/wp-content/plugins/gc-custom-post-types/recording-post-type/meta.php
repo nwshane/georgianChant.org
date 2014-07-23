@@ -3,8 +3,8 @@
 function recording_file_meta_box_callback( $recording ) { ?>
 
     <?php
-
     wp_nonce_field( 'recording-file-action', 'recording_file_nonce' );
+
     $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
     $recording_file_url = ( ! ($recording_file === "" ) ? $recording_file['url'] : "" );
     $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
@@ -66,25 +66,36 @@ function gc_recordings_add_meta_boxes() {
     );
 }
 
+function remove_recording_file ( $post_id, $meta_value ) {
+    delete_post_meta( $post_id, 'recording-file', $meta_value);
+    unlink( $meta_value['file'] );
+}
+
+function upload_new_recording( $post_id ) {
+    $upload = wp_upload_bits( $_FILES['recording-file']['name'], null, file_get_contents( $_FILES['recording-file']['tmp_name'] ));
+
+    if ( ! $upload['error'] ) {
+        update_post_meta( $post_id, 'recording-file', $upload );
+    } else {
+        print 'Upload failed. Error: ' . $upload['error'];
+    }
+}
+
 function update_recording_file( $post_id ) {
+
+    // Security checks
+    $recording_file_nonce = 'recording_file_nonce';
+    $recording_file_action = 'recording-file-action';
+
+    if ( !isset ( $_POST[$recording_file_nonce] ) || !wp_verify_nonce( $_POST[$recording_file_nonce], $recording_file_action ) ) {
+        print 'Sorry, your nonce did not verify for the meta key ' . $recording_file_action . '.';
+        return $post_id;
+    }
+
     $meta_value = get_post_meta($post_id, 'recording-file', true);
 
-    if ( $meta_value !== "" && $_POST[ 'recording-file-url' ] === "" ) {
-        delete_post_meta( $post_id, 'recording-file', $meta_value);
-        unlink( $meta_value['file'] );
-    }
-
-    $meta_nonce = 'recording_file_nonce';
-    $meta_key = 'recording-file-action';
-
-    if ( !isset ( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key ) ) {
-        print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . '.';
-        return $post_id;
-    }
-
-    if( empty( $_FILES['recording-file']['name'] )) {
-        return $post_id;
-    } else {
+    // Check if a new file has been chosen
+    if ( !empty ( $_FILES['recording-file']['name'] )) {
 
         $supported_file_types = array('audio/mpeg');
         $uploaded_file_type = wp_check_filetype(basename($_FILES['recording-file']['name']))['type'];
@@ -93,17 +104,16 @@ function update_recording_file( $post_id ) {
             return $post_id;
         }
 
+        // Remove old file and metadata
         if ( $meta_value !== "" ) {
-            unlink( $meta_value['file'] );
+            remove_recording_file( $post_id, $meta_value );
         }
 
-        $upload = wp_upload_bits( $_FILES['recording-file']['name'], null, file_get_contents( $_FILES['recording-file']['tmp_name'] ));
+        upload_new_recording( $post_id );
 
-        if ( ! $upload['error'] ) {
-            update_post_meta( $post_id, 'recording-file', $upload );
-        } else {
-            print 'Upload failed. Error: ' . $upload['error'];
-        }
+    // If no new file has been chosen, check if uploaded file should be deleted. If so, delete.
+    } else if ( $meta_value !== "" && $_POST[ 'recording-file-url' ] === "" ) {
+        remove_recording_file( $post_id, $meta_value );
     }
 }
 
@@ -117,11 +127,3 @@ function add_enctype_to_form_tag() {
 }
 
 add_action( 'post_edit_form_tag' , 'add_enctype_to_form_tag' );
-
-//function add_remove_recording_script() {
-//    wp_register_script( 'remove-recording-script', dirname(__FILE__) . '/remove-recording.js');
-//    wp_enqueue_script('remove-recording-script');
-//}
-//
-//add_action('load-post.php', 'add_remove_recording_script');
-//add_action('load-post-new.php', 'add_remove_recording_script');

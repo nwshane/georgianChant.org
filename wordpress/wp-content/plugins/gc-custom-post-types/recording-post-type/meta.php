@@ -86,6 +86,13 @@ function update_recording_file( $post_id ) {
         return $post_id;
     } else {
 
+        $supported_file_types = array('audio/mpeg');
+        $uploaded_file_type = wp_check_filetype(basename($_FILES['recording-file']['name']))['type'];
+
+        if ( ! in_array( $uploaded_file_type, $supported_file_types )) {
+            return $post_id;
+        }
+
         if ( $meta_value !== "" ) {
             unlink( $meta_value['file'] );
         }

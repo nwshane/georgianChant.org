@@ -2,6 +2,29 @@
 
 function chant_variants_meta_box_callback( $chant_variant ) { ?>
 
+    <!--    Chant dropdown -->
+    <?php
+    wp_nonce_field( 'chant-variant-parent-action', 'chant_variant_parent_nonce' );
+
+    $chant_variant_parent_id_int = 0 + get_post_meta( $chant_variant->ID, 'chant-variant-parent', true );
+    ?>
+
+    <div>
+        <label for="chant-variant-parent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant to which this variant belongs. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
+        <br>
+        <select id="chant-variant-parent" name="chant-variant-parent">
+            <option value=""></option>
+            <!--            Fill with available chant posts. -->
+            <?php
+            $all_chants = get_posts( array( 'post_type' => 'gc_chant' ));
+
+            foreach ($all_chants as $chant) { ?>
+                <option value="<?= $chant->ID ?>" <?php if ( $chant_variant_parent_id_int === $chant->ID ) { ?>selected<?php } ?>><?= $chant->post_title ?></option>
+            <?php } ?>
+
+        </select>
+    </div>
+
 <p>If the chant variant comes out of the oral tradition.........</p>
 
 <?php
@@ -38,5 +61,5 @@ function gc_chant_variant_add_meta_boxes() {
 }
 
 function save_chant_variant_post_type_meta( $post_id, $post ) {
-
+    save_single_meta($post_id, $post, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
 }

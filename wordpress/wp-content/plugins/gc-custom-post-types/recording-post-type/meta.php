@@ -4,8 +4,6 @@ function chant_identification_meta_box_callback ( $recording ) { ?>
 
 <!--    Chant dropdown -->
     <?php
-    wp_nonce_field( 'chant-parent-action', 'chant_parent_nonce' );
-
     $chant_parent_int = 0 + get_post_meta( $recording->ID, 'chant-parent', true );
     ?>
 
@@ -153,7 +151,6 @@ function update_recording_file( $post_id ) {
 
 function save_recordings_post_type_meta( $post_id, $post ) {
     update_recording_file( $post_id, $post );
-    save_single_meta( $post_id, $post, 'chant_parent_nonce', 'chant-parent', 'sanitize_text_field' );
     save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
 }
 

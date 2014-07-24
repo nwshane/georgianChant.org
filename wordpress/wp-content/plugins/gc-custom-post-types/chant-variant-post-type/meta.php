@@ -6,7 +6,7 @@ function chant_variants_meta_box_callback( $chant_variant ) { ?>
     <?php
     wp_nonce_field( 'chant-variant-parent-action', 'chant_variant_parent_nonce' );
 
-    $chant_variant_parent_id_int = 0 + get_post_meta( $chant_variant->ID, 'chant-variant-parent', true );
+    $chant_variant_parent_id_int = 0 + $chant_variant->post_parent;
     ?>
 
     <div>
@@ -60,6 +60,20 @@ function gc_chant_variant_add_meta_boxes() {
     );
 }
 
+function save_chant_variant_parent( $post_id, $nonce, $key, $sanitize ) {
+
+    if ( !gc_verify_nonce( $nonce, $key )) {
+        return $post_id;
+    }
+
+    $new_parent_id = ( isset( $_POST[$key] ) ? $sanitize($_POST[$key]) : '' );
+
+    wp_update_post ( array(
+        'ID'            =>  $post_id,
+        'post_parent'   =>  $new_parent_id
+    ));
+}
+
 function save_chant_variant_post_type_meta( $post_id, $post ) {
-    save_single_meta($post_id, $post, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
+    save_chant_variant_parent($post_id, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
 }

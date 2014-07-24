@@ -38,6 +38,15 @@ function sanitize_text_field_retain_line_breaks($str) {
     return apply_filters( 'sanitize_text_field', $filtered, $str );
 }
 
+function gc_verify_nonce( $meta_nonce, $meta_key ) {
+    if ( !isset( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key . '-action' ) ) {
+        print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . ' and the meta nonce ' . $meta_nonce . '.';
+        return false;
+    } else {
+        return true;
+    }
+}
+
 /*
  * Save a single meta box's metadata.
  * Code copied and modified from http://www.smashingmagazine.com/2011/10/04/create-custom-post-meta-boxes-wordpress/
@@ -45,35 +54,35 @@ function sanitize_text_field_retain_line_breaks($str) {
 function save_single_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize ) {
 
     /* Verify the nonce before proceeding. */
-    if ( !isset( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key . '-action' ) ) {
-        print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . ' and the meta nonce ' . $meta_nonce . '.';
+    if ( !gc_verify_nonce( $meta_nonce, $meta_key ) ) {
         return $post_id;
-    } else {
-        /* Get the post type object. */
-        $post_type = get_post_type_object( $post->post_type );
-
-        /* Check if the current user has permission to edit the post. */
-        if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
-            return $post_id;
-
-        /* Get the posted data and sanitize it for use as an HTML class. */
-        $new_meta_value = ( isset( $_POST[$meta_key] ) ? $sanitize($_POST[$meta_key]) : '' );
-
-        /* Get the meta value of the custom field key. */
-        $meta_value = get_post_meta( $post_id, $meta_key, true );
-
-        /* If a new meta value was added and there was no previous value, add it. */
-        if ( $new_meta_value && '' == $meta_value )
-            add_post_meta( $post_id, $meta_key, $new_meta_value, true );
-
-        /* If the new meta value does not match the old value, update it. */
-        elseif ( $new_meta_value && $new_meta_value != $meta_value )
-            update_post_meta( $post_id, $meta_key, $new_meta_value );
-
-        /* If there is no new meta value but an old value exists, delete it. */
-        elseif ( '' == $new_meta_value && $meta_value )
-            delete_post_meta( $post_id, $meta_key, $meta_value );
     }
+
+    /* Get the post type object. */
+    $post_type = get_post_type_object( $post->post_type );
+
+    /* Check if the current user has permission to edit the post. */
+    if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
+        return $post_id;
+
+    /* Get the posted data and sanitize it for use as an HTML class. */
+    $new_meta_value = ( isset( $_POST[$meta_key] ) ? $sanitize($_POST[$meta_key]) : '' );
+
+    /* Get the meta value of the custom field key. */
+    $meta_value = get_post_meta( $post_id, $meta_key, true );
+
+    /* If a new meta value was added and there was no previous value, add it. */
+    if ( $new_meta_value && '' == $meta_value )
+        add_post_meta( $post_id, $meta_key, $new_meta_value, true );
+
+    /* If the new meta value does not match the old value, update it. */
+    elseif ( $new_meta_value && $new_meta_value != $meta_value )
+        update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+    /* If there is no new meta value but an old value exists, delete it. */
+    elseif ( '' == $new_meta_value && $meta_value )
+        delete_post_meta( $post_id, $meta_key, $meta_value );
+
 }
 
 function save_all_meta( $post_id, $post ) {

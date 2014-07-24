@@ -1,19 +1,44 @@
 <?php
 
+function chant_identification_meta_box_callback ( $recording ) { ?>
+
+<!--    Chant dropdown -->
+    <?php
+    wp_nonce_field( 'chant-parent-action', 'chant_parent_nonce' );
+
+    $chant_parent_int = 0 + get_post_meta( $recording->ID, 'chant-parent', true );
+    ?>
+
+    <div>
+        <label for="chant-parent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant that is being performed. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
+        <br>
+        <select id="chant-parent" name="chant-parent">
+            <option value=""></option>
+<!--            Fill with available chant posts. -->
+            <?php
+            $all_chants = get_posts( array( 'post_type' => 'gc_chant' ));
+
+            foreach ($all_chants as $chant) { ?>
+            <option value="<?= $chant->ID ?>" <?php if ( $chant_parent_int === $chant->ID ) { ?>selected<?php } ?>><?= $chant->post_title ?></option>
+            <?php } ?>
+
+        </select>
+    </div>
+<?php }
+
 function recording_file_meta_box_callback( $recording ) { ?>
 
     <?php
     wp_nonce_field( 'recording-file-action', 'recording_file_nonce' );
 
     $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
-    $recording_file_url = ( ! ($recording_file === "" ) ? $recording_file['url'] : "" );
+    $recording_file_url = ( $recording_file !== "" ? $recording_file['url'] : "" );
     $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
     ?>
 
     <script type="text/javascript">
         jQuery.getScript("../wp-content/plugins/gc-custom-post-types/recording-post-type/remove-recording.js");
     </script>
-
 
     <?php if ( $recording_file !== "" ) { ?>
     <div id="recording-controls">
@@ -47,6 +72,15 @@ function recording_information_meta_box_callback( $recording ) { ?>
 <?php }
 
 function gc_recordings_add_meta_boxes() {
+    add_meta_box(
+        'chant-identification-meta-box',
+        esc_html__( 'Chant Identification', 'example' ),
+        'chant_identification_meta_box_callback',
+        'gc_recording',
+        'normal',
+        'default'
+    );
+
     add_meta_box(
         'recording-file-meta-box',
         esc_html__( 'Recording File', 'example' ),
@@ -119,6 +153,7 @@ function update_recording_file( $post_id ) {
 
 function save_recordings_post_type_meta( $post_id, $post ) {
     update_recording_file( $post_id, $post );
+    save_single_meta( $post_id, $post, 'chant_parent_nonce', 'chant-parent', 'sanitize_text_field' );
     save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
 }
 

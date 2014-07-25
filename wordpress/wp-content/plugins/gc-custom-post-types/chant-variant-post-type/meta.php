@@ -60,20 +60,6 @@ function gc_chant_variant_add_meta_boxes() {
     );
 }
 
-function save_chant_variant_parent( $post_id, $nonce, $key, $sanitize ) {
-
-    if ( !gc_verify_nonce( $nonce, $key )) {
-        return $post_id;
-    }
-
-    $new_parent_id = ( isset( $_POST[$key] ) ? $sanitize($_POST[$key]) : '' );
-
-    wp_update_post ( array(
-        'ID'            =>  $post_id,
-        'post_parent'   =>  $new_parent_id
-    ));
-}
-
 function save_chant_variant_post_type_meta( $post_id, $post ) {
-    save_chant_variant_parent($post_id, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
+    save_post_parent($post_id, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
 }

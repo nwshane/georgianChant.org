@@ -2,26 +2,53 @@
 
 function chant_identification_meta_box_callback ( $recording ) { ?>
 
-<!--    Chant dropdown -->
     <?php
-    $chant_parent_int = 0 + get_post_meta( $recording->ID, 'chant-parent', true );
+    $recording_parent_id = isset ( $recording->post_parent ) ? $recording->post_parent : 0;
+    $recording_grandparent_id = ( $recording_parent_id !== 0 ) ? get_post( $recording_parent_id )->post_parent : 0;
+    $all_chant_variants = get_posts( array(
+        'post_type' => 'gc_chant_variant',
+    ));
     ?>
 
+<!--    Chant dropdown -->
     <div>
-        <label for="chant-parent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant that is being performed. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
+        <label for="recording-grandparent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant in the recording. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
         <br>
-        <select id="chant-parent" name="chant-parent">
+        <select id="recording-grandparent" name="recording-grandparent">
             <option value=""></option>
 <!--            Fill with available chant posts. -->
             <?php
             $all_chants = get_posts( array( 'post_type' => 'gc_chant' ));
 
             foreach ($all_chants as $chant) { ?>
-            <option value="<?= $chant->ID ?>" <?php if ( $chant_parent_int === $chant->ID ) { ?>selected<?php } ?>><?= $chant->post_title ?></option>
+                <option value="<?= $chant->ID ?>"
+                        <?php if ( $recording_grandparent_id === $chant->ID ) { ?>selected<?php } ?>
+                    ><?= $chant->post_title ?></option>
             <?php } ?>
 
         </select>
     </div>
+
+<!--    Chant Variant dropdown -->
+    <?php wp_nonce_field( 'recording-parent-action', 'recording_parent_nonce' ); ?>
+
+    <div>
+        <label for="recording-parent"><b><?php _e( 'Chant Variant', 'example' )?></b> - <?php _e( 'Select the chant variant in the recording. If the chant variant is not available, it must be created as a "Chant Variant" post.', 'example' ); ?></label>
+        <br>
+        <select id="recording-parent" name="recording-parent">
+            <option value=""></option>
+        </select>
+    </div>
+
+    <script>
+        var recording_parent_id = <?=$recording_parent_id?>;
+
+        var all_chant_variants = <?= json_encode( $all_chant_variants ) ?>;
+        jQuery.getScript( "../wp-content/plugins/gc-custom-post-types/recording-post-type/synchronize-chant-variant-with-chant.js" , function() {
+            synchronize_chant_variant();
+        });
+    </script>
+
 <?php }
 
 function recording_file_meta_box_callback( $recording ) { ?>
@@ -152,6 +179,7 @@ function update_recording_file( $post_id ) {
 function save_recordings_post_type_meta( $post_id, $post ) {
     update_recording_file( $post_id, $post );
     save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
+    save_post_parent( $post_id, 'recording_parent_nonce', 'recording-parent', 'sanitize_text_field' );
 }
 
 function add_enctype_to_form_tag() {

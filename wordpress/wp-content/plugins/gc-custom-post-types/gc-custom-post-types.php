@@ -47,6 +47,20 @@ function gc_verify_nonce( $meta_nonce, $meta_key ) {
     }
 }
 
+function save_post_parent( $post_id, $nonce, $key, $sanitize ) {
+
+    if ( !gc_verify_nonce( $nonce, $key )) {
+        return $post_id;
+    }
+
+    $new_parent_id = ( isset( $_POST[$key] ) ? $sanitize($_POST[$key]) : '' );
+
+    wp_update_post ( array(
+        'ID'            =>  $post_id,
+        'post_parent'   =>  ($new_parent_id !== '' ) ? $new_parent_id : 0
+    ));
+}
+
 /*
  * Save a single meta box's metadata.
  * Code copied and modified from http://www.smashingmagazine.com/2011/10/04/create-custom-post-meta-boxes-wordpress/

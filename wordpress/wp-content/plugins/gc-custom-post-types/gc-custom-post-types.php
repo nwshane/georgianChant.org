@@ -55,10 +55,14 @@ function save_post_parent( $post_id, $nonce, $key, $sanitize ) {
 
     $new_parent_id = ( isset( $_POST[$key] ) ? $sanitize($_POST[$key]) : '' );
 
+    remove_action('save_post', 'save_all_meta');
+
     wp_update_post ( array(
         'ID'            =>  $post_id,
         'post_parent'   =>  ($new_parent_id !== '' ) ? $new_parent_id : 0
     ));
+
+    add_action('save_post', 'save_all_meta');
 }
 
 /*

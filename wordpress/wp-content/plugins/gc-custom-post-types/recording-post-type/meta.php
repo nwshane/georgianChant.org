@@ -146,8 +146,7 @@ function update_recording_file( $post_id ) {
     $recording_file_nonce = 'recording_file_nonce';
     $recording_file_action = 'recording-file-action';
 
-    if ( !isset ( $_POST[$recording_file_nonce] ) || !wp_verify_nonce( $_POST[$recording_file_nonce], $recording_file_action ) ) {
-        print 'Sorry, your nonce did not verify for the meta key ' . $recording_file_action . '.';
+    if ( !gc_verify_nonce( $recording_file_nonce, $recording_file_action )) {
         return $post_id;
     }
 

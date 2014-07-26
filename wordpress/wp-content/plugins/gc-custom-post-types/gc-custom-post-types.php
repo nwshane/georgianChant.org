@@ -38,9 +38,9 @@ function sanitize_text_field_retain_line_breaks($str) {
     return apply_filters( 'sanitize_text_field', $filtered, $str );
 }
 
-function gc_verify_nonce( $meta_nonce, $meta_key ) {
-    if ( !isset( $_POST[$meta_nonce] ) || !wp_verify_nonce( $_POST[$meta_nonce], $meta_key . '-action' ) ) {
-        print 'Sorry, your nonce did not verify for the meta key ' . $meta_key . ' and the meta nonce ' . $meta_nonce . '.';
+function gc_verify_nonce( $nonce, $key ) {
+    if ( !isset( $_POST[$nonce] ) || !wp_verify_nonce( $_POST[$nonce], $key . '-action' ) ) {
+        print 'Sorry, your nonce did not verify for the meta key ' . $key . ' and the meta nonce ' . $nonce . '.';
         return false;
     } else {
         return true;
@@ -116,7 +116,7 @@ function setup_meta_boxes() {
     add_action( 'add_meta_boxes', 'gc_chant_add_meta_boxes' );
     add_action( 'add_meta_boxes', 'gc_chant_variant_add_meta_boxes' );
     add_action( 'add_meta_boxes', 'gc_recordings_add_meta_boxes' );
-    add_action( 'save_post', 'save_all_meta', 10, 2 );
+    add_action( 'edit_post', 'save_all_meta', 10, 2 );
 }
 
 add_action( 'load-post.php', 'setup_meta_boxes' );

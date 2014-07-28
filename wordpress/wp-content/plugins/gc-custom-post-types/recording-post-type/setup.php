@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/meta.php');
+require_once(dirname(__FILE__) . '/columns.php');
 
 function setup_gc_recording() {
     $labels = array(
@@ -29,7 +30,8 @@ function setup_gc_recording() {
         'has_archive'   => true
     );
 
-    register_post_type("gc_recording", $args);
+    register_post_type( "gc_recording", $args );
+    setup_gc_recording_custom_columns();
 }
 
 add_action('init', 'setup_gc_recording');

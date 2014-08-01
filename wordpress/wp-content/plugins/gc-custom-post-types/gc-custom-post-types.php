@@ -40,7 +40,6 @@ function gc_sanitize_text_field_retain_line_breaks($str) {
 
 function gc_verify_nonce( $nonce, $key ) {
     if ( !isset( $_POST[$nonce] ) || !wp_verify_nonce( $_POST[$nonce], $key . '-action' ) ) {
-//        print 'Sorry, your nonce did not verify for the meta key ' . $key . ' and the meta nonce ' . $nonce . '.';
         return false;
     } else {
         return true;

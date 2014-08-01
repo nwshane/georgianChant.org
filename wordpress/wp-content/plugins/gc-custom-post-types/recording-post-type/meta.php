@@ -145,7 +145,7 @@ function gc_recording_update_file( $post_id ) {
 
     // Security checks
     $recording_file_nonce = 'recording_file_nonce';
-    $recording_file_action = 'recording-file-action';
+    $recording_file_action = 'recording-file';
 
     if ( !gc_verify_nonce( $recording_file_nonce, $recording_file_action )) {
         return $post_id;

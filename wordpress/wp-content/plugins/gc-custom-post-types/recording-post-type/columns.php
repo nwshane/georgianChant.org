@@ -12,17 +12,23 @@ function gc_recording_custom_column_headers( $columns ) {
     return $columns;
 }
 
+function gc_echo_post_title( $post_id ) {
+    $post_title = $post_id === 0 ? 'Unassigned' : get_post( $post_id ) -> post_title;
+
+    if ( $post_title === 'Unassigned' ) {
+        echo $post_title;
+    } else {
+        echo '<a href="' . get_edit_post_link($post_id) . '">' . $post_title . '</a>';
+    }
+}
+
 function gc_recording_fill_custom_columns( $column_name, $post_id ) {
     $chant_variant_id = get_post( $post_id ) -> post_parent;
     $chant_id = get_post( $chant_variant_id ) -> post_parent;
 
     if ( $column_name === 'chant_variant' ) {
-        $chant_variant_title = get_post( $chant_variant_id ) -> post_title;
-        echo '<a href="' . get_edit_post_link($chant_variant_id) . '">' . $chant_variant_title . '</a>';
-    }
-
-    if ( $column_name === 'chant' ) {
-        $chant_title = get_post( $chant_id ) -> post_title;
-        echo '<a href="' . get_edit_post_link($chant_id) . '">' . $chant_title . '</a>';
+        gc_echo_post_title( $chant_variant_id );
+    } else if ( $column_name === 'chant' ) {
+        gc_echo_post_title( $chant_id );
     }
 }

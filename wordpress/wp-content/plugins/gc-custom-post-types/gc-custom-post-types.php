@@ -125,3 +125,13 @@ function setup_meta_boxes() {
 
 add_action( 'load-post.php', 'setup_meta_boxes' );
 add_action( 'load-post-new.php', 'setup_meta_boxes' );
+
+function gc_echo_post_title( $post_id ) {
+    $post_title = $post_id === 0 ? 'Unassigned' : get_post( $post_id ) -> post_title;
+
+    if ( $post_title === 'Unassigned' ) {
+        echo $post_title;
+    } else {
+        echo '<a href="' . get_edit_post_link($post_id) . '">' . $post_title . '</a>';
+    }
+}

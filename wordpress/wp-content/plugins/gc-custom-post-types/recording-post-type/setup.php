@@ -31,7 +31,7 @@ function setup_gc_recording() {
     );
 
     register_post_type( "gc_recording", $args );
-    setup_gc_recording_custom_columns();
+    setup_gc_recording_columns();
 }
 
 add_action('init', 'setup_gc_recording');

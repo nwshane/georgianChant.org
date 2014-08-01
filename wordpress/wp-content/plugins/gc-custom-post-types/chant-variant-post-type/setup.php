@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/meta.php');
+require_once(dirname(__FILE__) . '/columns.php');
 
 function setup_gc_chant_variant() {
     $labels = array(
@@ -30,6 +31,8 @@ function setup_gc_chant_variant() {
     );
 
     register_post_type("gc_chant_variant", $args);
+    setup_gc_chant_variant_columns();
+
 }
 
 add_action('init', 'setup_gc_chant_variant');

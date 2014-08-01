@@ -1,6 +1,6 @@
 <?php
 
-function chant_identification_meta_box_callback ( $recording ) { ?>
+function gc_recording_identification_meta_box ( $recording ) { ?>
 
     <?php
     $recording_parent_id = isset ( $recording->post_parent ) ? $recording->post_parent : 0;
@@ -51,7 +51,7 @@ function chant_identification_meta_box_callback ( $recording ) { ?>
 
 <?php }
 
-function recording_file_meta_box_callback( $recording ) { ?>
+function gc_recording_file_meta_box( $recording ) { ?>
 
     <?php
     wp_nonce_field( 'recording-file-action', 'recording_file_nonce' );
@@ -75,7 +75,7 @@ function recording_file_meta_box_callback( $recording ) { ?>
         <br>
         <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>" hidden>
         <p id="remove-recording">
-            <a onclick="removeRecording()">Remove current recording</a>
+            <a onclick="remove_recording()">Remove current recording</a>
         </p>
     </div>
     <br>
@@ -85,7 +85,7 @@ function recording_file_meta_box_callback( $recording ) { ?>
 
 <?php }
 
-function recording_information_meta_box_callback( $recording ) { ?>
+function gc_recording_information_meta_box( $recording ) { ?>
 
 <?php wp_nonce_field( 'artist-name-action', 'artist_name_nonce' ) ?>
 
@@ -100,7 +100,7 @@ function gc_recordings_add_meta_boxes() {
     add_meta_box(
         'chant-identification-meta-box',
         esc_html__( 'Chant Identification', 'example' ),
-        'chant_identification_meta_box_callback',
+        'gc_recording_identification_meta_box',
         'gc_recording',
         'normal',
         'default'
@@ -109,7 +109,7 @@ function gc_recordings_add_meta_boxes() {
     add_meta_box(
         'recording-file-meta-box',
         esc_html__( 'Recording File', 'example' ),
-        'recording_file_meta_box_callback',
+        'gc_recording_file_meta_box',
         'gc_recording',
         'normal',
         'default'
@@ -118,19 +118,19 @@ function gc_recordings_add_meta_boxes() {
     add_meta_box(
         'recording-information-meta-box',
         esc_html__( 'Recording Information', 'example' ),
-        'recording_information_meta_box_callback',
+        'gc_recording_information_meta_box',
         'gc_recording',
         'normal',
         'default'
     );
 }
 
-function remove_recording_file ( $post_id, $meta_value ) {
+function gc_recording_remove_file ( $post_id, $meta_value ) {
     delete_post_meta( $post_id, 'recording-file', $meta_value);
     unlink( $meta_value['file'] );
 }
 
-function upload_new_recording( $post_id ) {
+function gc_recording_upload_new_file( $post_id ) {
     $upload = wp_upload_bits( $_FILES['recording-file']['name'], null, file_get_contents( $_FILES['recording-file']['tmp_name'] ));
 
     if ( ! $upload['error'] ) {
@@ -140,7 +140,8 @@ function upload_new_recording( $post_id ) {
     }
 }
 
-function update_recording_file( $post_id ) {
+function gc_recording_update_file( $post_id ) {
+
 
     // Security checks
     $recording_file_nonce = 'recording_file_nonce';
@@ -164,25 +165,25 @@ function update_recording_file( $post_id ) {
 
         // Remove old file and metadata
         if ( $meta_value !== "" ) {
-            remove_recording_file( $post_id, $meta_value );
+            gc_recording_remove_file( $post_id, $meta_value );
         }
 
-        upload_new_recording( $post_id );
+        gc_recording_upload_new_file( $post_id );
 
     // If no new file has been chosen, check if uploaded file should be deleted. If so, delete.
     } else if ( $meta_value !== "" && $_POST[ 'recording-file-url' ] === "" ) {
-        remove_recording_file( $post_id, $meta_value );
+        gc_recording_remove_file( $post_id, $meta_value );
     }
 }
 
 function save_recordings_post_type_meta( $post_id, $post ) {
-    update_recording_file( $post_id, $post );
-    save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
-    save_post_parent( $post_id, 'recording_parent_nonce', 'recording-parent', 'sanitize_text_field' );
+    gc_recording_update_file( $post_id, $post );
+    gc_save_single_meta( $post_id, $post, 'artist_name_nonce', 'artist-name', 'sanitize_text_field' );
+    gc_save_post_parent( $post_id, 'recording_parent_nonce', 'recording-parent', 'sanitize_text_field' );
 }
 
-function add_enctype_to_form_tag() {
+function gc_recording_add_enctype_to_form_tag() {
     echo ' enctype="multipart/form-data"';
 }
 
-add_action( 'post_edit_form_tag' , 'add_enctype_to_form_tag' );
+add_action( 'post_edit_form_tag' , 'gc_recording_add_enctype_to_form_tag' );

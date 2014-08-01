@@ -1,6 +1,6 @@
 <?php
 
-function chant_variants_meta_box_callback( $chant_variant ) { ?>
+function gc_chant_variants_meta_box( $chant_variant ) { ?>
 
     <!--    Chant dropdown -->
     <?php
@@ -53,13 +53,13 @@ function gc_chant_variant_add_meta_boxes() {
     add_meta_box(
         'chant-variants-meta-box',
         esc_html__( 'Variants', 'example' ),
-        'chant_variants_meta_box_callback',
+        'gc_chant_variants_meta_box',
         'gc_chant_variant',
         'normal',
         'default'
     );
 }
 
-function save_chant_variant_post_type_meta( $post_id, $post ) {
-    save_post_parent($post_id, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
+function save_chant_variant_meta( $post_id, $post ) {
+    gc_save_post_parent($post_id, 'chant_variant_parent_nonce', 'chant-variant-parent', 'sanitize_text_field');
 }

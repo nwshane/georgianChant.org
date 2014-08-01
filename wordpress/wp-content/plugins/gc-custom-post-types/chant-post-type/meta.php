@@ -1,6 +1,6 @@
 <?php
 
-function chant_rubric_meta_box_callback( $chant ) { ?>
+function gc_chant_rubric_meta_box( $chant ) { ?>
 
 <?php
 wp_nonce_field( 'feast-day-service-action', 'feast_day_service_nonce' );
@@ -84,7 +84,7 @@ $rubric_tone_int = 0 + $rubric_tone;
 </div>
 <?php }
 
-function chant_text_meta_box_callback( $chant ) { ?>
+function gc_chant_text_meta_box( $chant ) { ?>
 
     <?php wp_nonce_field( 'georgian-text-action', 'georgian_text_nonce' ) ?>
 
@@ -116,7 +116,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
         <script type="text/javascript">
             jQuery.getScript("../wp-content/plugins/gc-custom-post-types/chant-post-type/georgian-latin-transliterator.js");
         </script>
-        <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a onclick="transliterateIntoLatin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
+        <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a onclick="gc_transliterate_into_latin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
         <br>
         <textarea class="widefat" type="text" name="latin-transliteration" id="latin-transliteration" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration', true))?></textarea>
     </p>
@@ -154,7 +154,7 @@ function chant_text_meta_box_callback( $chant ) { ?>
     </p>
 <?php }
 
-function chant_history_meta_box_callback( $chant ) { ?>
+function gc_chant_history_meta_box( $chant ) { ?>
 
     <?php wp_nonce_field( 'history-action', 'history_nonce' ) ?>
 
@@ -164,7 +164,7 @@ function chant_history_meta_box_callback( $chant ) { ?>
 
 <?php }
 
-function chant_liturgy_culture_meta_box_callback( $chant ) { ?>
+function gc_chant_liturgy_culture_meta_box( $chant ) { ?>
 
     <?php wp_nonce_field( 'liturgy-culture-action', 'liturgy_culture_nonce' ) ?>
 
@@ -178,7 +178,7 @@ function gc_chant_add_meta_boxes() {
     add_meta_box(
         'chant-rubric-meta-box',
         esc_html__( 'Rubric', 'example' ),
-        'chant_rubric_meta_box_callback',
+        'gc_chant_rubric_meta_box',
         'gc_chant',
         'normal',
         'default'
@@ -187,7 +187,7 @@ function gc_chant_add_meta_boxes() {
     add_meta_box(
         'chant-text-meta-box',
         esc_html__( 'Text', 'example' ),
-        'chant_text_meta_box_callback',
+        'gc_chant_text_meta_box',
         'gc_chant',
         'normal',
         'default'
@@ -196,7 +196,7 @@ function gc_chant_add_meta_boxes() {
     add_meta_box(
         'chant-history-meta-box',
         esc_html__( 'History', 'example' ),
-        'chant_history_meta_box_callback',
+        'gc_chant_history_meta_box',
         'gc_chant',
         'normal',
         'default'
@@ -205,35 +205,35 @@ function gc_chant_add_meta_boxes() {
     add_meta_box(
         'chant-liturgy-culture-meta-box',
         esc_html__( 'Liturgical and Cultural Role', 'example' ),
-        'chant_liturgy_culture_meta_box_callback',
+        'gc_chant_liturgy_culture_meta_box',
         'gc_chant',
         'normal',
         'default'
     );
 }
 
-function save_chant_post_type_meta( $post_id, $post ) {
+function gc_chant_save_meta( $post_id, $post ) {
     // Chant Rubric Meta
-    save_single_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );
-    save_single_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );
-    save_single_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );
-    save_single_meta( $post_id, $post, 'specific_rubric_nonce', 'specific-rubric', 'sanitize_text_field_retain_line_breaks' );
-    save_single_meta( $post_id, $post, 'rubric_notes_nonce', 'rubric-notes', 'sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );
+    gc_save_single_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );
+    gc_save_single_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );
+    gc_save_single_meta( $post_id, $post, 'specific_rubric_nonce', 'specific-rubric', 'gc_sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'rubric_notes_nonce', 'rubric-notes', 'gc_sanitize_text_field_retain_line_breaks' );
 
     // Chant Text Meta
-    save_single_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'sanitize_text_field_retain_line_breaks' );
-    save_single_meta( $post_id, $post, 'text_author_nonce', 'text-author', 'sanitize_text_field' );
-    save_single_meta( $post_id, $post, 'text_date_nonce', 'text-date', 'sanitize_text_field' );
-    save_single_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration', 'sanitize_text_field_retain_line_breaks' );
-    save_single_meta( $post_id, $post, 'english_translation_nonce', 'english-translation', 'sanitize_text_field_retain_line_breaks' );
-    save_single_meta( $post_id, $post, 'english_translation_author_nonce', 'english-translation-author', 'sanitize_text_field');
-    save_single_meta( $post_id, $post, 'english_translation_source_nonce', 'english-translation-source', 'sanitize_text_field');
-    save_single_meta( $post_id, $post, 'text_notes_nonce', 'text-notes', 'sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'gc_sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'text_author_nonce', 'text-author', 'sanitize_text_field' );
+    gc_save_single_meta( $post_id, $post, 'text_date_nonce', 'text-date', 'sanitize_text_field' );
+    gc_save_single_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration', 'gc_sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'english_translation_nonce', 'english-translation', 'gc_sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'english_translation_author_nonce', 'english-translation-author', 'sanitize_text_field');
+    gc_save_single_meta( $post_id, $post, 'english_translation_source_nonce', 'english-translation-source', 'sanitize_text_field');
+    gc_save_single_meta( $post_id, $post, 'text_notes_nonce', 'text-notes', 'gc_sanitize_text_field_retain_line_breaks' );
 
     // History Meta
-    save_single_meta( $post_id, $post, 'history_nonce', 'history', 'sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'history_nonce', 'history', 'gc_sanitize_text_field_retain_line_breaks' );
 
     // Liturgy and Culture Meta
-    save_single_meta( $post_id, $post, 'liturgy_culture_nonce', 'liturgy-culture', 'sanitize_text_field_retain_line_breaks' );
+    gc_save_single_meta( $post_id, $post, 'liturgy_culture_nonce', 'liturgy-culture', 'gc_sanitize_text_field_retain_line_breaks' );
 
 }

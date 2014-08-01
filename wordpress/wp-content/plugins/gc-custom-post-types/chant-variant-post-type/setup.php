@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__) . '/meta.php');
 require_once(dirname(__FILE__) . '/columns.php');
 
-function setup_gc_chant_variant() {
+function gc_chant_variant_setup() {
     $labels = array(
         'name'                  => _x( 'Chant Variants', 'post type general name'),
         'singular_name'         => _x( 'Chant Variant', 'post type singular name'),
@@ -31,8 +31,8 @@ function setup_gc_chant_variant() {
     );
 
     register_post_type("gc_chant_variant", $args);
-    setup_gc_chant_variant_columns();
+    gc_chant_variant_setup_columns();
 
 }
 
-add_action('init', 'setup_gc_chant_variant');
+add_action('init', 'gc_chant_variant_setup');

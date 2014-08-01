@@ -3,7 +3,7 @@
 require_once(dirname(__FILE__) . '/meta.php');
 require_once(dirname(__FILE__) . '/columns.php');
 
-function setup_gc_recording() {
+function gc_recording_setup() {
     $labels = array(
         'name'                  => _x( 'Recordings', 'post type general name'),
         'singular_name'         => _x( 'Recording', 'post type singular name'),
@@ -31,7 +31,7 @@ function setup_gc_recording() {
     );
 
     register_post_type( "gc_recording", $args );
-    setup_gc_recording_columns();
+    gc_recording_setup_columns();
 }
 
-add_action('init', 'setup_gc_recording');
+add_action('init', 'gc_recording_setup');

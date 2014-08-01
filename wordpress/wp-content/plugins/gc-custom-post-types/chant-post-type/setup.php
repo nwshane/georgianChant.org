@@ -2,7 +2,7 @@
 
 require_once(dirname(__FILE__) . '/meta.php');
 
-function setup_gc_chant() {
+function gc_chant_setup() {
     $labels = array(
         'name'                  => _x( 'Chants', 'post type general name'),
         'singular_name'         => _x( 'Chant', 'post type singular name'),
@@ -32,4 +32,4 @@ function setup_gc_chant() {
     register_post_type("gc_chant", $args);
 }
 
-add_action('init', 'setup_gc_chant');
+add_action('init', 'gc_chant_setup');

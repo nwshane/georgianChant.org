@@ -8,7 +8,7 @@
 /*
  * Converts Georgian character to Latin character according to the transliteration system used in Malkhaz Erkvanidze's chant books.
  */
-function convertCharToLatin(character) {
+function gc_convert_char_to_latin(character) {
     var latinChar;
 
     if (character === "ა") {
@@ -84,7 +84,7 @@ function convertCharToLatin(character) {
     return latinChar;
 }
 
-function firstCharInSentenceLineOrPar(georgianText, index) {
+function gc_first_char_in_sentence_line_or_paragraph(georgianText, index) {
     var previousCharacter = georgianText.charAt(index - 1);
 
     if (index === 0) {
@@ -94,21 +94,21 @@ function firstCharInSentenceLineOrPar(georgianText, index) {
     } else if (previousCharacter === "\n"){
         return true;
     } else if (previousCharacter === " ") {
-        return firstCharInSentenceLineOrPar(georgianText, index - 1);
+        return gc_first_char_in_sentence_line_or_paragraph(georgianText, index - 1);
     } else {
         return false;
     }
 }
 
-function transliterateIntoLatin() {
+function gc_transliterate_into_latin() {
     var georgianText = jQuery("#georgian-text").val();
 
     var latinText = "";
 
     for (var index = 0; index < georgianText.length; index++) {
-        var character = convertCharToLatin(georgianText.charAt(index));
+        var character = gc_convert_char_to_latin(georgianText.charAt(index));
 
-        if (firstCharInSentenceLineOrPar(georgianText, index)) {
+        if (gc_first_char_in_sentence_line_or_paragraph(georgianText, index)) {
 
             var firstLetter = character.substring(0, 1);
             var remaining = character.substring(1, character.length);

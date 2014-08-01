@@ -13,7 +13,7 @@ require_once(dirname(__FILE__) . '/recording-post-type/setup.php');
  * Sanitize text field but retain line breaks.
  * Identical to sanitize_text_field function in formatting.php, EXCEPT does not strip "\n" characters.
  */
-function sanitize_text_field_retain_line_breaks($str) {
+function gc_sanitize_text_field_retain_line_breaks($str) {
     $filtered = wp_check_invalid_utf8( $str );
 
     if ( strpos($filtered, '<') !== false ) {
@@ -47,7 +47,7 @@ function gc_verify_nonce( $nonce, $key ) {
     }
 }
 
-function save_post_parent( $post_id, $nonce, $key, $sanitize ) {
+function gc_save_post_parent( $post_id, $nonce, $key, $sanitize ) {
 
     if ( !gc_verify_nonce( $nonce, $key )) {
         return $post_id;
@@ -55,21 +55,21 @@ function save_post_parent( $post_id, $nonce, $key, $sanitize ) {
 
     $new_parent_id = ( isset( $_POST[$key] ) ? $sanitize($_POST[$key]) : '' );
 
-    remove_action('save_post', 'save_all_meta');
+    remove_action('save_post', 'gc_save_all_meta');
 
     wp_update_post ( array(
         'ID'            =>  $post_id,
         'post_parent'   =>  ($new_parent_id !== '' ) ? $new_parent_id : 0
     ));
 
-    add_action('save_post', 'save_all_meta');
+    add_action('save_post', 'gc_save_all_meta');
 }
 
 /*
  * Save a single meta box's metadata.
  * Code copied and modified from http://www.smashingmagazine.com/2011/10/04/create-custom-post-meta-boxes-wordpress/
  */
-function save_single_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize ) {
+function gc_save_single_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize ) {
 
     /* Verify the nonce before proceeding. */
     if ( !gc_verify_nonce( $meta_nonce, $meta_key ) ) {
@@ -103,28 +103,28 @@ function save_single_meta( $post_id, $post, $meta_nonce, $meta_key, $sanitize ) 
 
 }
 
-function save_all_meta( $post_id, $post ) {
+function gc_save_all_meta( $post_id, $post ) {
 
     $post_type = $post->post_type;
 
     if ( $post_type === "gc_chant" ) {
-        save_chant_post_type_meta( $post_id, $post );
+        gc_chant_save_meta( $post_id, $post );
     } else if ( $post_type === "gc_chant_variant" ) {
-        save_chant_variant_post_type_meta( $post_id, $post );
+        save_chant_variant_meta( $post_id, $post );
     } else if ( $post_type === "gc_recording" ) {
         save_recordings_post_type_meta( $post_id, $post );
     }
 }
 
-function setup_meta_boxes() {
+function gc_setup_meta_boxes() {
     add_action( 'add_meta_boxes', 'gc_chant_add_meta_boxes' );
     add_action( 'add_meta_boxes', 'gc_chant_variant_add_meta_boxes' );
     add_action( 'add_meta_boxes', 'gc_recordings_add_meta_boxes' );
-    add_action( 'save_post', 'save_all_meta', 10, 2 );
+    add_action( 'save_post', 'gc_save_all_meta', 10, 2 );
 }
 
-add_action( 'load-post.php', 'setup_meta_boxes' );
-add_action( 'load-post-new.php', 'setup_meta_boxes' );
+add_action( 'load-post.php', 'gc_setup_meta_boxes' );
+add_action( 'load-post-new.php', 'gc_setup_meta_boxes' );
 
 function gc_echo_post_title( $post_id ) {
     $post_title = $post_id === 0 ? 'Unassigned' : get_post( $post_id ) -> post_title;

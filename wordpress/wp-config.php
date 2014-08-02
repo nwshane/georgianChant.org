@@ -14,25 +14,19 @@
  * @package WordPress
  */
 
-if (file_exists(dirname( __FILE__ ) .'/local-config.php')) {
-    // Will be used when developing locally
-    include(dirname( __FILE__ ) .'/local-config.php');
+/** MySQL settings - You can get this info from your web host */
+/** The name of the database for WordPress */
 
-} else {
-// ** MySQL settings - You can get this info from your web host ** //
-    /** The name of the database for WordPress */
+define('DB_NAME', 'ChangeThisAccordingToServerSettingsName');
 
-    define('DB_NAME', 'ChangeThisAccordingToServerSettingsName');
+/** MySQL database username */
+define('DB_USER', 'ChangeThisAccordingToServerSettingsUser');
 
-    /** MySQL database username */
-    define('DB_USER', 'ChangeThisAccordingToServerSettingsUser');
+/** MySQL database password */
+define('DB_PASSWORD', 'ChangeThisAccordingToServerSettingsPassword');
 
-    /** MySQL database password */
-    define('DB_PASSWORD', 'ChangeThisAccordingToServerSettingsPassword');
-
-    /** MySQL hostname */
-    define('DB_HOST', 'ChangeThisAccordingToServerSettingsHost');
-}
+/** MySQL hostname */
+define('DB_HOST', 'ChangeThisAccordingToServerSettingsHost');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');

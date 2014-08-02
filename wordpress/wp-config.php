@@ -14,12 +14,6 @@
  * @package WordPress
  */
 
-if (file_exists(dirname( __FILE__ ) . '/ChromePhp.php')) {
-    include (dirname( __FILE__) . '/ChromePhp.php');
-}
-
-ChromePhp::log('ChromePhp working!');
-
 if (file_exists(dirname( __FILE__ ) .'/local-config.php')) {
     // Will be used when developing locally
     include(dirname( __FILE__ ) .'/local-config.php');

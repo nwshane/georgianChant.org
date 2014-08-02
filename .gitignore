@@ -1,3 +1,4 @@
 wordpress/local-config.php
 wordpress/ChromePhp.php
 wordpress/wp-content/uploads
+wordpress/wp-content/backupwordpress*

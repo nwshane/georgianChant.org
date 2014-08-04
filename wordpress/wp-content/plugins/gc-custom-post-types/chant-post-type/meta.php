@@ -113,9 +113,6 @@ function gc_chant_text_meta_box( $chant ) { ?>
     <?php wp_nonce_field( 'latin-transliteration-action', 'latin_transliteration_nonce' ) ?>
 
     <p>
-        <script type="text/javascript">
-            jQuery.getScript("../wp-content/plugins/gc-custom-post-types/chant-post-type/georgian-latin-transliterator.js");
-        </script>
         <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a onclick="gc_transliterate_into_latin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
         <br>
         <textarea class="widefat" type="text" name="latin-transliteration" id="latin-transliteration" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration', true))?></textarea>

@@ -35,3 +35,8 @@ function gc_recording_setup() {
 }
 
 add_action('init', 'gc_recording_setup');
+
+function gc_recording_enqueue_scripts() {
+    wp_enqueue_script( 'synchronize-chant-variant-with-chant', plugins_url( '/gc-custom-post-types/recording-post-type/synchronize-chant-variant-with-chant.js' ), array( 'jquery' ), false, true );
+    wp_enqueue_script( 'remove-recording-file', plugins_url( '/gc-custom-post-types/recording-post-type/remove-recording-file.js' ), array( 'jquery' ), false, true );
+}

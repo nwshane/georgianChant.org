@@ -42,11 +42,7 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
 
     <script>
         var recording_parent_id = <?=$recording_parent_id?>;
-
         var all_chant_variants = <?= json_encode( $all_chant_variants ) ?>;
-        jQuery.getScript( "../wp-content/plugins/gc-custom-post-types/recording-post-type/synchronize-chant-variant-with-chant.js" , function() {
-            synchronize_chant_variant();
-        });
     </script>
 
 <?php }
@@ -60,10 +56,6 @@ function gc_recording_file_meta_box( $recording ) { ?>
     $recording_file_url = ( $recording_file !== "" ? $recording_file['url'] : "" );
     $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
     ?>
-
-    <script type="text/javascript">
-        jQuery.getScript("../wp-content/plugins/gc-custom-post-types/recording-post-type/remove-recording.js");
-    </script>
 
     <?php if ( $recording_file !== "" ) { ?>
     <div id="recording-controls">

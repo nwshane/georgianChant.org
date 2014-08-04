@@ -37,6 +37,19 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
         <br>
         <select id="recording-parent" name="recording-parent">
             <option value=""></option>
+
+            <?php
+            $possible_chant_variants = get_posts( array(
+                'post_type' => 'gc_chant_variant',
+                'post_parent' => $recording_grandparent_id
+            ));
+
+            foreach ($possible_chant_variants as $chant_variant) { ?>
+                <option value="<?= $chant_variant->ID ?>"
+                        <?php if ( get_post( $recording ) -> post_parent === $chant_variant->ID ) { ?>selected<?php } ?>
+                    ><?= $chant_variant->post_title ?></option>
+            <?php } ?>
+            ?>
         </select>
     </div>
 

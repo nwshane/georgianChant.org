@@ -5,9 +5,8 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
     <?php
     $recording_parent_id = isset ( $recording->post_parent ) ? $recording->post_parent : 0;
     $recording_grandparent_id = ( $recording_parent_id !== 0 ) ? get_post( $recording_parent_id )->post_parent : 0;
-    $all_chant_variants = get_posts( array(
-        'post_type' => 'gc_chant_variant',
-    ));
+
+    wp_localize_script( 'synchronize-chant-variant-with-chant', 'recording_parent_id', array( $recording_parent_id ));
     ?>
 
 <!--    Chant dropdown -->
@@ -38,6 +37,7 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
         <select id="recording-parent" name="recording-parent">
             <option value=""></option>
 
+<!--            Fill with chant variants that are children of the recording's grandparent chant. -->
             <?php
             $possible_chant_variants = get_posts( array(
                 'post_type' => 'gc_chant_variant',
@@ -52,11 +52,6 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
             ?>
         </select>
     </div>
-
-    <script>
-        var recording_parent_id = <?=$recording_parent_id?>;
-        var all_chant_variants = <?= json_encode( $all_chant_variants ) ?>;
-    </script>
 
 <?php }
 

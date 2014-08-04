@@ -3,13 +3,12 @@
 
 // When selected value of chant dropdown changes, changes the chant variants to correspond with it.
 
-
 jQuery('#recording-grandparent').change(synchronize_chant_variant);
 
 function synchronize_chant_variant() {
     var selected_chant_id_int = parseInt(jQuery('#recording-grandparent').val());
-
     var recording_parent_select = jQuery("#recording-parent");
+    var stored_recording_parent_id = parseInt( recording_parent_id[ 0 ])
 
     // 1. Remove all select options
     recording_parent_select.empty();
@@ -20,7 +19,7 @@ function synchronize_chant_variant() {
     all_chant_variants.forEach(function(variant) {
         if (variant.post_parent === selected_chant_id_int) {
             var selectedString = "";
-            if (variant.ID === recording_parent_id) {
+            if ( variant.ID === stored_recording_parent_id ) {
                 selectedString = "selected"
             }
 

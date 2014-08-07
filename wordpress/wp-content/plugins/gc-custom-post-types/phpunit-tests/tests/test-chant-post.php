@@ -2,32 +2,32 @@
 
 class ChantPost extends WP_UnitTestCase {
 
-	function test_transliterate_button() {
-        $input = "შენ ხარ ვენახი, ახლად აყვავებული, ნორჩი კეთილი, ედემს შინა ნერგული,ალვა სუნელი, სამოთხეს ამოსული, ღმერთმან შეგამკო ვერვინა გჯობს ქებული, და თავით თვისით მზე ხარ და გაბრწყინვებული.";
+    function test_save_georgian_text() {
+        $message = 'Tests gc_save_single_meta function.';
+        $input = 'ქართული ტექსტი';
+        $expected = $input;
 
-        // Create new post
-        $chant_post = $this->factory->post->create_and_get(array( 'post_type' => 'gc_chant' ));
+        // Create new user and set to current user
+        $current_user = $this->factory->user->create(array(
+            'role' => 'administrator'
+        ));
+        wp_set_current_user( $current_user );
 
-        // Open up the post's editor. Probably need to uses some sort of crawler/client.
-        // NOTE: May need to use a javascript testing library to test javascript function instead.
+        // Create new chant post
+        $chant_post_id = $this->factory->post->create(array( 'post_type' => 'gc_chant' ));
 
-//        $editor = fopen( 'http://localhost/wp-admin/post.php?post=' . $chant_post->ID . '&action=edit', 'r' );
+        // Create nonce
+        $_POST['georgian_text_nonce'] = wp_create_nonce( 'georgian-text-action' );
 
-        // Enter input into the "Georgian Text" metafield.
+        // Make $input the value of georgian-text post variable
+        $_POST['georgian-text'] = $input;
 
+        // Save to database
+        gc_save_single_meta( $chant_post_id, get_post( $chant_post_id ), 'georgian_text_nonce', 'georgian-text', 'gc_sanitize_text_field_retain_line_breaks' );
 
-        // Click the "Transliterate" button.
-
-
-        // Get the output from the "Latin Transliteration" metafield.
-
-
-        $output = "Shen khar venakhi, akhlad aqvavebuli, Norchi k'etili, edems shina nerguli, Alva suneli, samotkhes amosuli, Ghmertman shegamk'o vervina gjobs kebuli, Da tavit tvisit mze khar da gabrts'qinvebuli.";
-        $expected = "Shen khar venakhi, akhlad aqvavebuli, Norchi k'etili, edems shina nerguli, Alva suneli, samotkhes amosuli, Ghmertman shegamk'o vervina gjobs kebuli, Da tavit tvisit mze khar da gabrts'qinvebuli.";
-
-        $message = 'Tests that the transliterate button in the chant editor works correctly.';
-
-        $this->assertEquals( $output, $expected, $message);
-	}
+        // Retrieve from database as $output
+        $output = get_post_meta( $chant_post_id, 'georgian-text', true );
+        $this->assertEquals( $expected, $output, $message );
+    }
 }
 

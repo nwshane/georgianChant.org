@@ -3,7 +3,7 @@
 class ChantPost extends WP_UnitTestCase {
 
     function test_save_georgian_text() {
-        $message = 'Tests gc_save_single_meta function.';
+        $message = 'Tests gc_save_all_meta function.';
         $input = 'ქართული ტექსტი';
         $expected = $input;
 
@@ -23,7 +23,7 @@ class ChantPost extends WP_UnitTestCase {
         $_POST['georgian-text'] = $input;
 
         // Save to database
-        gc_save_single_meta( $chant_post_id, get_post( $chant_post_id ), 'georgian_text_nonce', 'georgian-text', 'gc_sanitize_text_field_retain_line_breaks' );
+        gc_save_all_meta( $chant_post_id, get_post( $chant_post_id ));
 
         // Retrieve from database as $output
         $output = get_post_meta( $chant_post_id, 'georgian-text', true );

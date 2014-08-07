@@ -1,5 +1,5 @@
 // The following line allows Chrome Developer Tools to detect this file in its Sources section:
-//# sourceURL=remove-recording.js
+//# sourceURL=remove-recording-file.js
 
 function remove_recording() {
     jQuery( "#recording-file-url" ).val( "" );

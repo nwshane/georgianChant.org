@@ -32,4 +32,8 @@ function gc_chant_setup() {
     register_post_type("gc_chant", $args);
 }
 
+function gc_chant_enqueue_scripts() {
+    wp_enqueue_script( 'georgian-latin-transliterator', plugins_url( '/gc-custom-post-types/chant-post-type/georgian-latin-transliterator.js' ), array( 'jquery' ), false, true );
+}
+
 add_action('init', 'gc_chant_setup');

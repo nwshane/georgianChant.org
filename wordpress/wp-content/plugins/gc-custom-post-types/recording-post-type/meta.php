@@ -5,9 +5,8 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
     <?php
     $recording_parent_id = isset ( $recording->post_parent ) ? $recording->post_parent : 0;
     $recording_grandparent_id = ( $recording_parent_id !== 0 ) ? get_post( $recording_parent_id )->post_parent : 0;
-    $all_chant_variants = get_posts( array(
-        'post_type' => 'gc_chant_variant',
-    ));
+
+    wp_localize_script( 'synchronize-chant-variant-with-chant', 'recording_parent_id', array( $recording_parent_id ));
     ?>
 
 <!--    Chant dropdown -->
@@ -37,17 +36,22 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
         <br>
         <select id="recording-parent" name="recording-parent">
             <option value=""></option>
+
+<!--            Fill with chant variants that are children of the recording's grandparent chant. -->
+            <?php
+            $possible_chant_variants = get_posts( array(
+                'post_type' => 'gc_chant_variant',
+                'post_parent' => $recording_grandparent_id
+            ));
+
+            foreach ($possible_chant_variants as $chant_variant) { ?>
+                <option value="<?= $chant_variant->ID ?>"
+                        <?php if ( get_post( $recording ) -> post_parent === $chant_variant->ID ) { ?>selected<?php } ?>
+                    ><?= $chant_variant->post_title ?></option>
+            <?php } ?>
+            ?>
         </select>
     </div>
-
-    <script>
-        var recording_parent_id = <?=$recording_parent_id?>;
-
-        var all_chant_variants = <?= json_encode( $all_chant_variants ) ?>;
-        jQuery.getScript( "../wp-content/plugins/gc-custom-post-types/recording-post-type/synchronize-chant-variant-with-chant.js" , function() {
-            synchronize_chant_variant();
-        });
-    </script>
 
 <?php }
 
@@ -60,10 +64,6 @@ function gc_recording_file_meta_box( $recording ) { ?>
     $recording_file_url = ( $recording_file !== "" ? $recording_file['url'] : "" );
     $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
     ?>
-
-    <script type="text/javascript">
-        jQuery.getScript("../wp-content/plugins/gc-custom-post-types/recording-post-type/remove-recording.js");
-    </script>
 
     <?php if ( $recording_file !== "" ) { ?>
     <div id="recording-controls">

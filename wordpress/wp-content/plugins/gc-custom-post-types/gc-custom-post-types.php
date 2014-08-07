@@ -134,3 +134,10 @@ function gc_echo_post_title( $post_id ) {
         echo '<a href="' . get_edit_post_link($post_id) . '">' . $post_title . '</a>';
     }
 }
+
+function gc_enqueue_scripts() {
+    gc_chant_enqueue_scripts();
+    gc_recording_enqueue_scripts();
+}
+
+add_action( 'admin_init', 'gc_enqueue_scripts' );

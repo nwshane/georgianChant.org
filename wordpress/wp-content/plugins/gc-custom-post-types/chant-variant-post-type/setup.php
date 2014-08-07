@@ -25,7 +25,6 @@ function gc_chant_variant_setup() {
         'labels'        => $labels,
         'description'   => 'The information associated with an individual chant variant.',
         'public'        => true,
-        'hierarchical'  => true,
         'supports'      => array( 'title' ),
         'has_archive'   => true
     );

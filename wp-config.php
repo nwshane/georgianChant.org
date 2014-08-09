@@ -26,7 +26,7 @@ define('DB_USER', 'gc_root_user');
 define('DB_PASSWORD', 'chantAroundDaWorld');
 
 /** MySQL hostname */
-define('DB_HOST', 'gc-host');
+define('DB_HOST', 'gc-host.georgianchant.dreamhosters.com');
 
 /** Database Charset to use in creating database tables. */
 define('DB_CHARSET', 'utf8');

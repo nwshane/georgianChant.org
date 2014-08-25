@@ -7,12 +7,7 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $this->setBrowserUrl( 'http://localhost/wp-admin' );
     }
 
-    public function testTitle() {
-        $this->url( 'http://localhost/wp-admin' );
-
-        // Check correct web page
-        $this->assertEquals( 'Georgian Chant › Log In', $this->title() );
-
+    public function login() {
         // Set user and password
         $user = 'testUser';
         $password = 'testPassword';
@@ -26,7 +21,9 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 
         // Check correct web page
         $this->assertEquals( 'Dashboard ‹ Georgian Chant — WordPress', $this->title() );
+    }
 
+    public function navigateToAddNewChant() {
         // Click the Chants link in the left column navigation
         $this->byXPath( '//li[@id="menu-posts-gc_chant"]/descendant::a[1]' )->click();
 
@@ -35,18 +32,9 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 
         // Test correct web page
         $this->assertEquals( 'Add New Chant ‹ Georgian Chant — WordPress', $this->title() );
+    }
 
-        // Fill out form
-        $chantNumber = substr( str_shuffle( '0123456789' ), 5 );
-        $chantTitle = 'Test Chant #' . $chantNumber;
-        $this->byID( 'title' )->value( $chantTitle );
-
-        // Submit form -- CHANGE THIS TO CLICK ON PUBLISH BUTTON
-        $this->byID( 'publish' )->click();
-
-        // Check form values
-        $this->assertEquals( $chantTitle, $this->byID( 'title' )->attribute( 'value' ) );
-
+    public function deleteChantPost( $chantTitle ) {
         // Trash test chant
         $this->byXPath( '//div[@id="delete-action"]/descendant::a[1]' )->click();
 
@@ -77,5 +65,28 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         }
 
         $this->fail( 'Chant was not deleted.' );
+    }
+
+    public function testPublishChantPost() {
+        $this->url( 'http://localhost/wp-admin' );
+
+        // Check correct web page
+        $this->assertEquals( 'Georgian Chant › Log In', $this->title() );
+
+        $this->login();
+
+        $this->navigateToAddNewChant();
+
+        // Fill out form
+        $chantTitle = 'Test Chant #' . substr( str_shuffle( '0123456789' ), 5 );
+        $this->byID( 'title' )->value( $chantTitle );
+
+        // Submit form
+        $this->byID( 'publish' )->click();
+
+        // Check form values
+        $this->assertEquals( $chantTitle, $this->byID( 'title' )->attribute( 'value' ) );
+
+        $this->deleteChantPost( $chantTitle );
     }
 }

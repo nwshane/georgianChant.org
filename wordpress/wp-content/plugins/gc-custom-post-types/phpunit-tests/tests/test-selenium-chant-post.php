@@ -3,7 +3,7 @@
 class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 {
     protected function setUp() {
-        $this->setBrowser( '*chrome' );
+        $this->setBrowser( 'chrome' );
         $this->setBrowserUrl( 'http://localhost/wp-admin' );
     }
 
@@ -32,6 +32,29 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 
         // Test correct web page
         $this->assertEquals( 'Add New Chant ‹ Georgian Chant — WordPress', $this->title() );
+    }
+
+    public function fillOutForm( $chantTitle ) {
+        $this->byID( 'title' )->value( $chantTitle );
+
+        // Rubric
+        $this->select( $this->byID( 'feast-day-service' ))->selectOptionByLabel( 'October 8th' );
+        $this->select( $this->byID( 'rubric-genre' ))->selectOptionByLabel( 'Troparion' );
+        $this->select( $this->byID( 'rubric-tone' ))->selectOptionByLabel( '1' );
+        $this->byID( 'specific-rubric' )->value( '3rd Heirmoi of the Nativity<script>' );
+        $this->byID( 'rubric-notes' )->value( 'The rubric notes' );
+
+    }
+
+    public function checkFormValues( $chantTitle ) {
+        $this->assertEquals( $chantTitle, $this->byID( 'title' )->attribute( 'value' ) );
+
+        // Rubric
+        $this->assertEquals( 'October 8th', $this->byID( 'feast-day-service' )->attribute( 'value' ));
+        $this->assertEquals( 'Troparion', $this->byID( 'rubric-genre' )->attribute( 'value' ));
+        $this->assertEquals( '1', $this->byID( 'rubric-tone' )->attribute( 'value' ));
+        $this->assertEquals( '3rd Heirmoi of the Nativity', $this->byID( 'specific-rubric' )->attribute( 'value' ));
+        $this->assertEquals( 'The rubric notes', $this->byID( 'rubric-notes' )->attribute( 'value' ));
     }
 
     public function deleteChantPost( $chantTitle ) {
@@ -77,15 +100,13 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->navigateToAddNewChant();
 
-        // Fill out form
         $chantTitle = 'Test Chant #' . substr( str_shuffle( '0123456789' ), 5 );
-        $this->byID( 'title' )->value( $chantTitle );
+        $this->fillOutForm( $chantTitle );
 
         // Submit form
         $this->byID( 'publish' )->click();
 
-        // Check form values
-        $this->assertEquals( $chantTitle, $this->byID( 'title' )->attribute( 'value' ) );
+        $this->checkFormValues( $chantTitle );
 
         $this->deleteChantPost( $chantTitle );
     }

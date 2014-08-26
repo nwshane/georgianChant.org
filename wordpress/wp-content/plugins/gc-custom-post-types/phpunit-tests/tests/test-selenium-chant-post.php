@@ -44,6 +44,19 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $this->byID( 'specific-rubric' )->value( '3rd Heirmoi of the Nativity<script>' );
         $this->byID( 'rubric-notes' )->value( 'The rubric notes' );
 
+        // Text
+        $this->byID( 'georgian-text' )->value( 'ეს ჩემი გალობაა' );
+        $this->byID( 'text-author' )->value( 'The greatest author who ever did live' );
+        $this->byID( 'text-date' )->value( 'January 1st, 1733' );
+        $this->byID( 'latin-transliterate-button' )->click();
+        $this->byID( 'english-translation' )->value( 'This is the English translation' );
+        $this->byID( 'english-translation-author' )->value( 'The translation author' );
+        $this->byID( 'english-translation-source' )->value( 'The translation source' );
+        $this->byID( 'text-notes' )->value( 'Notes on the text' );
+
+        // Further
+        $this->byID( 'history' )->value( 'The history of the chant' );
+        $this->byID( 'liturgy-culture' )->value( 'The historical and liturgical significance of the chant' );
     }
 
     public function checkFormValues( $chantTitle ) {
@@ -55,6 +68,21 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertEquals( '1', $this->byID( 'rubric-tone' )->attribute( 'value' ));
         $this->assertEquals( '3rd Heirmoi of the Nativity', $this->byID( 'specific-rubric' )->attribute( 'value' ));
         $this->assertEquals( 'The rubric notes', $this->byID( 'rubric-notes' )->attribute( 'value' ));
+
+        // Text
+        $this->assertEquals( 'ეს ჩემი გალობაა', $this->byID( 'georgian-text' )->attribute( 'value' ));
+        $this->assertEquals( 'The greatest author who ever did live', $this->byID( 'text-author' )->attribute( 'value' ));
+        $this->assertEquals( 'January 1st, 1733', $this->byID( 'text-date' )->attribute( 'value' ));
+        $this->assertEquals( 'Es chemi galobaa', $this->byID( 'latin-transliteration' )->attribute( 'value' ));
+        $this->assertEquals( 'This is the English translation', $this->byID( 'english-translation' )->attribute( 'value' ));
+        $this->assertEquals( 'The translation author', $this->byID( 'english-translation-author' )->attribute( 'value' ));
+        $this->assertEquals( 'The translation source', $this->byID( 'english-translation-source' )->attribute( 'value' ));
+        $this->assertEquals( 'Notes on the text', $this->byID( 'text-notes' )->attribute( 'value' ));
+
+        // Further
+        $this->assertEquals( 'The history of the chant', $this->byID( 'history' )->attribute( 'value' ));
+        $this->assertEquals( 'The historical and liturgical significance of the chant', $this->byID( 'liturgy-culture' )->attribute( 'value' ));
+
     }
 
     public function deleteChantPost( $chantTitle ) {
@@ -68,10 +96,8 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $this->byXPath( '//div[@id="wpbody-content"]/descendant::li[@class="trash"]/descendant::a[1]' )->click();
 
         // Make Delete Permanently visible
-//        $script = 'document.getElementsByClassName("row-actions").style.visibility = "visible";';
-        $script = "jQuery('.row-actions').css('visibility', 'visible');";
         $this->execute(array(
-            'script' => $script,
+            'script' => "jQuery('.row-actions').css('visibility', 'visible');",
             'args'   => array()
         ));
 
@@ -103,7 +129,13 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $chantTitle = 'Test Chant #' . substr( str_shuffle( '0123456789' ), 5 );
         $this->fillOutForm( $chantTitle );
 
-        // Submit form
+        // Scroll to top of page
+        $this->execute(array(
+            'script' => 'window.scrollTo(0, 0)',
+            'args'   => array()
+        ));
+
+        // Publish chant post
         $this->byID( 'publish' )->click();
 
         $this->checkFormValues( $chantTitle );

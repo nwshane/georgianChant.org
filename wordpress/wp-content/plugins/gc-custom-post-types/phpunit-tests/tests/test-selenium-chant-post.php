@@ -23,15 +23,15 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $this->assertEquals( 'Dashboard ‹ Georgian Chant — WordPress', $this->title() );
     }
 
-    public function navigateToAddNewChant() {
+    public function navigateToPostMenuOption( $postTypeID, $menuOptionText, $targetWebPageTitle ) {
         // Click the Chants link in the left column navigation
-        $this->byXPath( '//li[@id="menu-posts-gc_chant"]/descendant::a[1]' )->click();
+        $this->byXPath( '//li[@id="menu-posts-' . $postTypeID . '"]/descendant::a[1]' )->click();
 
         // Click the Add New Chant button
-        $this->byXPath( '//li[@id="menu-posts-gc_chant"]/descendant::a[.="Add New"]' )->click();
+        $this->byXPath( '//li[@id="menu-posts-' . $postTypeID . '"]/descendant::a[.="' . $menuOptionText . '"]' )->click();
 
         // Test correct web page
-        $this->assertEquals( 'Add New Chant ‹ Georgian Chant — WordPress', $this->title() );
+        $this->assertEquals( $targetWebPageTitle, $this->title() );
     }
 
     public function fillOutForm( $chantTitle ) {
@@ -124,7 +124,7 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->login();
 
-        $this->navigateToAddNewChant();
+        $this->navigateToPostMenuOption( 'gc_chant', 'Add New', 'Add New Chant ‹ Georgian Chant — WordPress' );
 
         $chantTitle = 'Test Chant #' . substr( str_shuffle( '0123456789' ), 5 );
         $this->fillOutForm( $chantTitle );

@@ -82,7 +82,6 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         // Further
         $this->assertEquals( 'The history of the chant', $this->byID( 'history' )->attribute( 'value' ));
         $this->assertEquals( 'The historical and liturgical significance of the chant', $this->byID( 'liturgy-culture' )->attribute( 'value' ));
-
     }
 
     public function deleteChantPost( $chantTitle ) {
@@ -105,7 +104,7 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
         $deleteLink = $this->byXPath( '//tbody[@id="the-list"]/descendant::strong[.="' . $chantTitle . '"]/following-sibling::div[@class="row-actions"]/descendant::a[.="Delete Permanently"]' );
         $deleteLink->click();
 
-        // Check that no Test Chant#<number> exists
+        // Check that no Test Chant exists
         try {
             $chantElement = $this->byXPath( '//tbody[@id="the-list"]/descendant::strong[.="' . $chantTitle . '"]' );
         } catch( PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e ) {
@@ -126,7 +125,7 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 
         $this->navigateToPostMenuOption( 'gc_chant', 'Add New', 'Add New Chant ‹ Georgian Chant — WordPress' );
 
-        $chantTitle = 'Test Chant #' . substr( str_shuffle( '0123456789' ), 5 );
+        $chantTitle = 'Test Chant ' . date( 'Y-m-d h:i:sa' );
         $this->fillOutForm( $chantTitle );
 
         // Scroll to top of page

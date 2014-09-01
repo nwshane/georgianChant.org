@@ -3,6 +3,14 @@
 	{
 		"selected_items":
 		[
+			[
+				"wpa",
+				"wpackagist-plugin"
+			],
+			[
+				"wp",
+				"wpackagist"
+			]
 		]
 	},
 	"buffers":
@@ -11,7 +19,7 @@
 	"build_system": "",
 	"command_palette":
 	{
-		"height": 47.0,
+		"height": 392.0,
 		"selected_items":
 		[
 			[
@@ -48,14 +56,19 @@
 	},
 	"file_history":
 	[
-		"/Users/django09/.bash_aliases",
-		"/Users/django09/Dropbox/Programming/georgianChant.org/.env",
-		"/Users/django09/Dropbox/Programming/georgianChant.org/web/wp-config.php",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/.gitignore",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/composer.json",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/gc-custom-post-types.php",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/.gitkeep",
+		"/Applications/MAMP/htdocs/test/index.html",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/.env",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/georgianchant.org.sublime-project",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/georgianchant.org.sublime-workspace",
+		"/Users/django09/.bash_aliases",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/wp-config.php",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/newSetup/.env",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/bedrock/.env",
 		"/Users/django09/.bash_profile",
-		"/Users/django09/Dropbox/Programming/georgianChant.org/composer.json",
 		"/Applications/MAMP/bin/php/php5.5.10/conf/php.ini",
 		"/Users/django09/Dropbox/Programming/GeorgianChant.org/.bash_aliases",
 		"/Users/django09/.profile"
@@ -154,6 +167,6 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 150.0,
+	"side_bar_width": 273.0,
 	"status_bar_visible": true
 }

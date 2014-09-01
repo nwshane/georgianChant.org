@@ -1,0 +1,14 @@
+{
+	"folders":
+	[
+		{
+			"path": "./"
+		},
+		{
+			"path": "./web/app/plugins/gc-custom-post-types"
+		},
+		{
+			"path": "./web/app/themes/roots"
+		}
+	]
+}

@@ -4,7 +4,7 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
 {
     protected function setUp() {
         $this->setBrowser( 'chrome' );
-        $this->setBrowserUrl( 'http://localhost/wp-admin' );
+        $this->setBrowserUrl( 'http://localhost/wp/wp-admin' );
     }
 
     public function login() {
@@ -116,7 +116,7 @@ class SeleniumChantPost extends PHPUnit_Extensions_Selenium2TestCase
     }
 
     public function testPublishChantPost() {
-        $this->url( 'http://localhost/wp-admin' );
+        $this->url( 'http://localhost/wp/wp-admin' );
 
         // Check correct web page
         $this->assertEquals( 'Georgian Chant › Log In', $this->title() );

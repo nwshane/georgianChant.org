@@ -59,7 +59,9 @@
     "wordpress/wordpress": "3.9.2",
     "fancyguy/webroot-installer": "1.1.0",
     "composer/installers": "v1.0.12",
-    "vlucas/phpdotenv": "~1.0.6"
+    "vlucas/phpdotenv": "~1.0.6",
+    "wpackagist-plugin/debug-objects": "~2.1",
+    "wpackagist-plugin/backupwordpress": "~2.6"
   },
   "extra": {
     "installer-paths": {

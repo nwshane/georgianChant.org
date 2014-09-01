@@ -33,6 +33,6 @@ node_modules
 bin
 .vagrant
 
-
 # Added by Nathan Shane
 .DS_Store
+web/app/backupwordpress*

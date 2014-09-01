@@ -1,2 +1,2 @@
-alias ge="cd ~/Dropbox/Programming/georgianChant.org"
-alias gegc="cd ~/Dropbox/Programming/georgianChant.org/wordpress/wp-content/plugins/gc-custom-post-types"
+alias ge="cd /Users/django09/Dropbox/Programming/georgianChant.org"
+alias gegc="cd /Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types"

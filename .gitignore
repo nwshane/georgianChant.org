@@ -36,3 +36,4 @@ bin
 # Added by Nathan Shane
 .DS_Store
 web/app/backupwordpress*
+!web/app/plugins/gc-custom-post-types

@@ -61,7 +61,12 @@
     "composer/installers": "v1.0.12",
     "vlucas/phpdotenv": "~1.0.6",
     "wpackagist-plugin/debug-objects": "~2.1",
-    "wpackagist-plugin/backupwordpress": "~2.6"
+    "wpackagist-plugin/backupwordpress": "~2.6",
+    "claylo/selenium-server-standalone": "dev-master"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "4.2.*",
+    "phpunit/phpunit-selenium": ">=1.2"
   },
   "extra": {
     "installer-paths": {

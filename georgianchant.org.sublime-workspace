@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"chant",
+				"chant_variants"
+			],
+			[
 				"wpa",
 				"wpackagist-plugin"
 			],
@@ -15,6 +19,33 @@
 	},
 	"buffers":
 	[
+		{
+			"contents": "<?php\n\nfunction gc_chant_rubric_meta_box( $chant ) { ?>\n\n<?php\nwp_nonce_field( 'feast-day-service-action', 'feast_day_service_nonce' );\n$feast_day_service = esc_attr(get_post_meta( $chant->ID, 'feast-day-service', true));\n?>\n\n<div>\n    <label for=\"feast-day-service\"><b><?php _e( 'Feast Day/Service', 'example' )?></b> - <?php _e( 'Enter the feast day or the type of service in which the chant is performed.', 'example' ); ?></label>\n    <br>\n    <select id=\"feast-day-service\" name=\"feast-day-service\">\n        <option value></option>\n        <optgroup label=\"Services\">\n            <?php\n            $services = [ \"Vespers\", \"Matins\" ];\n            foreach ( $services as $service ) { ?>\n                <option value=\"<?php echo $service; ?>\" <?php if ( $feast_day_service === $service ) { ?>selected<?php } ?>><?php echo $service; ?></option>\n            <?php } ?>\n        </optgroup>\n        <optgroup label=\"Feast Days\">\n            <?php\n            $feast_days = [ \"September 1st\", \"October 8th\" ];\n            foreach ( $feast_days as $feast_day ) { ?>\n                <option value=\"<?= $feast_day ?>\" <?php if ( $feast_day_service === $feast_day ) { ?>selected<?php } ?>><?php echo $feast_day; ?></option>\n            <?php } ?>\n        </optgroup>\n    </select>\n</div>\n\n<?php\nwp_nonce_field( 'rubric-genre-action', 'rubric_genre_nonce' );\n$rubric_genre = esc_attr(get_post_meta( $chant->ID, 'rubric-genre', true));\n?>\n\n<div>\n    <label for=\"rubric-genre\"><b><?php _e( 'Genre', 'example' )?></b> - <?php _e( 'Enter the genre of the chant.', 'example' ); ?></label>\n    <br>\n    <select id=\"rubric-genre\" name=\"rubric-genre\">\n        <option value></option>\n\n        <?php\n        $genres = [ \"Troparion\", \"Squigglydoo\", \"Dooduh\" ];\n        foreach ( $genres as $genre ) { ?>\n            <option value=\"<?php echo $genre; ?>\" <?php if ( $rubric_genre === $genre ) { ?>selected<?php } ?>><?php echo $genre; ?></option>\n        <?php } ?>\n\n    </select>\n</div>\n\n<?php\nwp_nonce_field( 'rubric-tone-action', 'rubric_tone_nonce' );\n$rubric_tone = esc_attr(get_post_meta( $chant->ID, 'rubric-tone', true));\n$rubric_tone_int = 0 + $rubric_tone;\n?>\n\n<div>\n    <label for=\"rubric-tone\"><b><?php _e( 'Tone', 'example' )?></b> - <?php _e( 'Enter the tone of the chant, if applicable.', 'example' ); ?></label>\n    <br>\n    <select id=\"rubric-tone\" name=\"rubric-tone\">\n        <option value=\"\"></option>\n        <option value=\"Unassigned\" <?php if ( $rubric_tone === \"Unassigned\" ) { ?>selected<?php } ?>>Unassigned</option>\n        <?php for ($i = 1; $i <= 8; $i++) { ?>\n            <option value=\"<?php echo $i; ?>\" <?php if ( $rubric_tone_int === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>\n        <?php } ?>\n    </select>\n</div>\n\n<?php wp_nonce_field( 'specific-rubric-action', 'specific_rubric_nonce' ) ?>\n\n<div>\n    <label for=\"specific-rubric\"><b><?php _e( 'Specific Rubric', 'example' )?></b> - <?php _e( 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', 'example' ); ?></label>\n    <br>\n    <input type=\"text\" name=\"specific-rubric\" id=\"specific-rubric\" value=\"<?php echo esc_attr(get_post_meta( $chant->ID, 'specific-rubric', true ))?>\">\n</div>\n\n<?php wp_nonce_field( 'rubric-notes-action', 'rubric_notes_nonce' ) ?>\n\n<div>\n    <label for=\"rubric-notes\"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant\\'s rubric.', 'example' ); ?></label>\n    <br>\n    <textarea class=\"widefat\" type=\"text\" name=\"rubric-notes\" id=\"rubric-notes\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>\n</div>\n<?php }\n\nfunction gc_chant_text_meta_box( $chant ) { ?>\n\n    <?php wp_nonce_field( 'georgian-text-action', 'georgian_text_nonce' ) ?>\n\n    <p>\n        <label for=\"georgian-text\"><b><?php _e( 'Georgian Text', 'example' )?></b> - <?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>\n        <br>\n        <textarea class=\"widefat\" type=\"text\" name=\"georgian-text\" id=\"georgian-text\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text', true))?></textarea>\n    </p>\n\n    <?php wp_nonce_field( 'text-author-action', 'text_author_nonce' ) ?>\n\n    <p>\n        <label for=\"text-author\"><b><?php _e( 'Author', 'example' )?></b> - <?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>\n        <br>\n        <input type=\"text\" name=\"text-author\" id=\"text-author\" value=\"<?php echo esc_attr(get_post_meta( $chant->ID, 'text-author', true))?>\">\n    </p>\n\n    <?php wp_nonce_field( 'text-date-action', 'text_date_nonce' ) ?>\n\n    <p>\n        <label for=\"text-date\"><b><?php _e( 'Date of Authorship', 'example' )?></b> - <?php _e( 'Enter the date the chant text was written, if applicable.', 'example' ); ?></label>\n        <br>\n        <input type=\"text\" name=\"text-date\" id=\"text-date\" value=\"<?php echo esc_attr(get_post_meta( $chant->ID, 'text-date', true))?>\">\n    </p>\n\n    <?php wp_nonce_field( 'latin-transliteration-action', 'latin_transliteration_nonce' ) ?>\n\n    <p>\n        <label for=\"latin-transliteration\"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a id=\"latin-transliterate-button\" onclick=\"gc_transliterate_into_latin()\"> <?php _e( 'Transliterate directly from \"Georgian Text\" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>\n        <br>\n        <textarea class=\"widefat\" type=\"text\" name=\"latin-transliteration\" id=\"latin-transliteration\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration', true))?></textarea>\n    </p>\n\n    <?php wp_nonce_field( 'english-translation-action', 'english_translation_nonce' ) ?>\n\n    <p>\n        <label for=\"english-translation\"><b><?php _e( 'English Translation', 'example' )?></b> - <?php _e( 'Enter the English Translation of the chant.', 'example' ); ?></label>\n        <br>\n        <textarea class=\"widefat\" type=\"text\" name=\"english-translation\" id=\"english-translation\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation', true))?></textarea>\n    </p>\n\n    <?php wp_nonce_field( 'english-translation-author-action', 'english_translation_author_nonce' ) ?>\n\n    <p>\n        <label for=\"english-translation-author\"><b><?php _e( 'English Translation Author', 'example' )?></b> - <?php _e( 'Enter the author of the English translation.', 'example' ); ?></label>\n        <br>\n        <input type=\"text\" name=\"english-translation-author\" id=\"english-translation-author\" value=\"<?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-author', true))?>\">\n    </p>\n\n    <?php wp_nonce_field( 'english-translation-source-action', 'english_translation_source_nonce' ) ?>\n\n    <p>\n        <label for=\"english-translation-source\"><b><?php _e( 'English Translation Source', 'example' )?></b> - <?php _e( 'Enter the source of the English translation (i.e. a website URL, book name, etc.).', 'example' ); ?></label>\n        <br>\n        <input type=\"text\" name=\"english-translation-source\" id=\"english-translation-source\" value=\"<?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-source', true))?>\">\n    </p>\n\n    <?php wp_nonce_field( 'text-notes-action', 'text_notes_nonce' ) ?>\n\n    <p>\n        <label for=\"text-notes\"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant text.', 'example' ); ?></label>\n        <br>\n        <textarea class=\"widefat\" type=\"text\" name=\"text-notes\" id=\"text-notes\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'text-notes', true))?></textarea>\n    </p>\n<?php }\n\nfunction gc_chant_history_meta_box( $chant ) { ?>\n\n    <?php wp_nonce_field( 'history-action', 'history_nonce' ) ?>\n\n    <label for=\"history\"><b><?php _e( 'Chant History', 'example' )?></b> - <?php _e( 'Tell the historical story of this chant.', 'example' ); ?></label>\n    <br>\n    <textarea class=\"widefat\" type=\"text\" name=\"history\" id=\"history\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'history', true))?></textarea>\n\n<?php }\n\nfunction gc_chant_liturgy_culture_meta_box( $chant ) { ?>\n\n    <?php wp_nonce_field( 'liturgy-culture-action', 'liturgy_culture_nonce' ) ?>\n\n    <label for=\"Current Role in Liturgy and Culture\"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Describe this chant\\'s contemporary role in liturgy and culture.', 'example' ); ?></label>\n    <br>\n    <textarea class=\"widefat\" type=\"text\" name=\"liturgy-culture\" id=\"liturgy-culture\" size=\"30\"><?php echo esc_attr(get_post_meta( $chant->ID, 'liturgy-culture', true))?></textarea>\n\n<?php }\n\nfunction gc_chant_display_variants_meta_box( $chant ) { ?>\n\n    <?php \n    $chant_variants = get_posts( array(\n        'post_type' => 'gc_chant_variant',\n        'post_parent' => $chant->ID\n    )); \n\n    pre_print( $chant_variants );\n    \n    foreach( $chant_variants as $chant_variant ) {\n        ?> \n        <?=$chant_variant->post_title;?>\n\n\n        <?php\n    }\n    ?>\n\n\n\n<?php }\n\nfunction gc_chant_add_meta_boxes() {\n    add_meta_box(\n        'chant-rubric-meta-box',\n        esc_html__( 'Rubric', 'example' ),\n        'gc_chant_rubric_meta_box',\n        'gc_chant',\n        'normal',\n        'default'\n    );\n\n    add_meta_box(\n        'chant-text-meta-box',\n        esc_html__( 'Text', 'example' ),\n        'gc_chant_text_meta_box',\n        'gc_chant',\n        'normal',\n        'default'\n    );\n\n    add_meta_box(\n        'chant-history-meta-box',\n        esc_html__( 'History', 'example' ),\n        'gc_chant_history_meta_box',\n        'gc_chant',\n        'normal',\n        'default'\n    );\n\n    add_meta_box(\n        'chant-liturgy-culture-meta-box',\n        esc_html__( 'Liturgical and Cultural Role', 'example' ),\n        'gc_chant_liturgy_culture_meta_box',\n        'gc_chant',\n        'normal',\n        'default'\n    );\n\n        add_meta_box(\n        'display-variants-meta-box',\n        esc_html__( 'Variants', 'example' ),\n        'gc_chant_display_variants_meta_box',\n        'gc_chant',\n        'normal',\n        'default'\n    );\n}\n\nfunction gc_chant_save_meta( $post_id, $post ) {\n    // Chant Rubric Meta\n    gc_save_single_meta( $post_id, $post, 'feast_day_service_nonce', 'feast-day-service', 'sanitize_text_field' );\n    gc_save_single_meta( $post_id, $post, 'rubric_genre_nonce', 'rubric-genre', 'sanitize_text_field' );\n    gc_save_single_meta( $post_id, $post, 'rubric_tone_nonce', 'rubric-tone', 'sanitize_text_field' );\n    gc_save_single_meta( $post_id, $post, 'specific_rubric_nonce', 'specific-rubric', 'gc_sanitize_text_field_retain_line_breaks' );\n    gc_save_single_meta( $post_id, $post, 'rubric_notes_nonce', 'rubric-notes', 'gc_sanitize_text_field_retain_line_breaks' );\n\n    // Chant Text Meta\n    gc_save_single_meta( $post_id, $post, 'georgian_text_nonce', 'georgian-text', 'gc_sanitize_text_field_retain_line_breaks' );\n    gc_save_single_meta( $post_id, $post, 'text_author_nonce', 'text-author', 'sanitize_text_field' );\n    gc_save_single_meta( $post_id, $post, 'text_date_nonce', 'text-date', 'sanitize_text_field' );\n    gc_save_single_meta( $post_id, $post, 'latin_transliteration_nonce', 'latin-transliteration', 'gc_sanitize_text_field_retain_line_breaks' );\n    gc_save_single_meta( $post_id, $post, 'english_translation_nonce', 'english-translation', 'gc_sanitize_text_field_retain_line_breaks' );\n    gc_save_single_meta( $post_id, $post, 'english_translation_author_nonce', 'english-translation-author', 'sanitize_text_field');\n    gc_save_single_meta( $post_id, $post, 'english_translation_source_nonce', 'english-translation-source', 'sanitize_text_field');\n    gc_save_single_meta( $post_id, $post, 'text_notes_nonce', 'text-notes', 'gc_sanitize_text_field_retain_line_breaks' );\n\n    // History Meta\n    gc_save_single_meta( $post_id, $post, 'history_nonce', 'history', 'gc_sanitize_text_field_retain_line_breaks' );\n\n    // Liturgy and Culture Meta\n    gc_save_single_meta( $post_id, $post, 'liturgy_culture_nonce', 'liturgy-culture', 'gc_sanitize_text_field_retain_line_breaks' );\n\n}",
+			"file": "web/app/plugins/gc-custom-post-types/chant-post-type/meta.php",
+			"file_size": 12134,
+			"file_write_time": 1409826639000000,
+			"settings":
+			{
+				"buffer_size": 12135,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/django09/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 23,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/Users/django09/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+			"settings":
+			{
+				"buffer_size": 13676,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -56,12 +87,28 @@
 	},
 	"file_history":
 	[
+		"/Users/django09/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+		"/Users/django09/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/config/deploy/production.rb",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/config/deploy.rb",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/CONTRIBUTING.md",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/Gemfile",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/.env",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/wp-config.php",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/phpunit-tests/phpunit.xml",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/phpunit-tests/bin/install-wp-tests.sh",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/phpunit-tests/tests/bootstrap.php",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/.gitignore",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/README.md",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/.bash_aliases",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/chant-post-type/georgian-latin-transliterator.js",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/config/application.php",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/composer.json",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/phpunit-tests/tests/test-selenium-chant-post.php",
+		"/Users/django09/Dropbox/Programming/georgianChant.org/.env.example",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/gc-custom-post-types/gc-custom-post-types.php",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/web/app/plugins/.gitkeep",
 		"/Applications/MAMP/htdocs/test/index.html",
-		"/Users/django09/Dropbox/Programming/georgianChant.org/.env",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/georgianchant.org.sublime-project",
 		"/Users/django09/Dropbox/Programming/georgianChant.org/georgianchant.org.sublime-workspace",
 		"/Users/django09/.bash_aliases",
@@ -89,6 +136,10 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"array",
+			"ID",
+			"    add_meta_box(\n        'chant-liturgy-culture-meta-box',\n        esc_html__( 'Liturgical and Cultural Role', 'example' ),\n        'gc_chant_liturgy_culture_meta_box',\n        'gc_chant',\n        'normal',\n        'default'\n    );",
+			"indent"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -106,8 +157,91 @@
 	"groups":
 	[
 		{
+			"selected": 0,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "web/app/plugins/gc-custom-post-types/chant-post-type/meta.php",
+					"settings":
+					{
+						"buffer_size": 12135,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								9003,
+								9036
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1462.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "/Users/django09/Library/Application Support/Sublime Text 2/Packages/User/Preferences.sublime-settings",
+					"settings":
+					{
+						"buffer_size": 23,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "/Users/django09/Library/Application Support/Sublime Text 2/Packages/Default/Preferences.sublime-settings",
+					"settings":
+					{
+						"buffer_size": 13676,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								6461,
+								6461
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JSON.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2707.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],

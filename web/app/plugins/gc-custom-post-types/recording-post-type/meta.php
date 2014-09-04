@@ -9,13 +9,13 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
     wp_localize_script( 'synchronize-chant-variant-with-chant', 'recording_parent_id', array( $recording_parent_id ));
     ?>
 
-<!--    Chant dropdown -->
+    <!--    Chant dropdown -->
     <div>
         <label for="recording-grandparent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant in the recording. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
         <br>
         <select id="recording-grandparent" name="recording-grandparent">
             <option value=""></option>
-<!--            Fill with available chant posts. -->
+    <!--            Fill with available chant posts. -->
             <?php
             $all_chants = get_posts( array( 'post_type' => 'gc_chant' ));
 
@@ -29,7 +29,7 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
         <p>Edit currently selected chant: <a href="<?=get_edit_post_link( $chant->ID )?>"><?=$chant->post_title?></a></p>
     </div>
 
-<!--    Chant Variant dropdown -->
+    <!--    Chant Variant dropdown -->
     <?php wp_nonce_field( 'recording-parent-action', 'recording_parent_nonce' ); ?>
 
     <div>
@@ -38,7 +38,7 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
         <select id="recording-parent" name="recording-parent">
             <option value=""></option>
 
-<!--            Fill with chant variants that are children of the recording's grandparent chant. -->
+    <!--            Fill with chant variants that are children of the recording's grandparent chant. -->
             <?php
             $possible_chant_variants = get_posts( array(
                 'post_type' => 'gc_chant_variant',
@@ -57,58 +57,18 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
 
 <?php }
 
-function gc_recording_file_display_editable ( $recording ) {
-    gc_recording_file_display( $recording, true );
+function gc_recording_display_file_editable_meta_box ( $recording ) {
+    gc_recording_display_file( $recording, true );
 }
 
-function gc_recording_file_display( $recording, $editable ) { ?>
-
-    <?php
-    wp_nonce_field( 'recording-file-action', 'recording_file_nonce' );
-
-    $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
-    $recording_file_url = ( $recording_file !== "" ? $recording_file['url'] : "" );
-    $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
-    ?>
-
-    <div id="recording-file-display">
-         <?php if ( $recording_file !== "" ) { ?>
-
-        Currently uploaded recording: <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
-        <br>
-        <audio controls>
-            <source src="<?=$recording_file_url?>" type="audio/mpeg">
-        </audio>
-
-        <?php } else { ?>
-        <p>No recording has been uploaded.</p>
-        <?php } ?>
-    </div>
-        
-    <?php if ( $editable ) { ?>
-        <div id="recording-file-edit">
-            <?php if ( $recording_file !== "" ) { ?>
-                <input type="text" id="recording-file-url" name="recording-file-url" value="<?=$recording_file_url?>" hidden>
-                <p id="remove-recording">
-                    <a onclick="remove_recording()">Remove current recording</a>
-                </p>
-                <br>
-            <?php } ?>
-            <label for="recording-file">Choose a <?php if ( $recording_file !== "" ) { ?>different <?php } ?>recording:</label>
-            <input type="file" id="recording-file" name="recording-file" value="<?php if ( $recording_file ) { echo $recording_file_url; } ?>">
-        </div>
-    <?php } ?>
-<?php }
-
 function gc_recording_information_meta_box( $recording ) { ?>
+    <?php wp_nonce_field( 'artist-name-action', 'artist_name_nonce' ) ?>
 
-<?php wp_nonce_field( 'artist-name-action', 'artist_name_nonce' ) ?>
-
-<div>
-    <label for="artist-name"><b><?php _e( 'Artist', 'example' )?></b> - <?php _e( 'Enter the name of the artist who performs in this recording.', 'example' ); ?></label>
-    <br>
-    <input type="text" name="artist-name" id="artist-name" value="<?php echo esc_attr(get_post_meta( $recording->ID, 'artist-name', true ))?>">
-</div>
+    <div>
+        <label for="artist-name"><b><?php _e( 'Artist', 'example' )?></b> - <?php _e( 'Enter the name of the artist who performs in this recording.', 'example' ); ?></label>
+        <br>
+        <input type="text" name="artist-name" id="artist-name" value="<?php echo esc_attr(get_post_meta( $recording->ID, 'artist-name', true ))?>">
+    </div>
 <?php }
 
 function gc_recordings_add_meta_boxes() {
@@ -124,7 +84,7 @@ function gc_recordings_add_meta_boxes() {
     add_meta_box(
         'recording-file-meta-box',
         esc_html__( 'Recording File', 'example' ),
-        'gc_recording_file_display_editable',
+        'gc_recording_display_file_editable_meta_box',
         'gc_recording',
         'normal',
         'default'

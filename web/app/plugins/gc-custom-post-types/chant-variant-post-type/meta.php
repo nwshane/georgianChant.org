@@ -23,6 +23,7 @@ function gc_chant_variants_meta_box( $chant_variant ) { ?>
             <?php } ?>
 
         </select>
+        <p>Edit currently selected chant: <a href="<?= get_edit_post_link( $chant->ID ) ?>"><?= $chant->post_title ?></a></p>
     </div>
 
 <p>If the chant variant comes out of the oral tradition.........</p>

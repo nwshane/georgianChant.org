@@ -179,7 +179,9 @@ function gc_chant_display_variants_meta_box( $chant ) { ?>
         'post_parent' => $chant->ID
     )); 
     
-    foreach( $chant_variants as $chant_variant ) {
+    foreach( $chant_variants as $chant_variant ) { ?>
+        
+        <?php
         $recordings = get_posts( array( 
             'post_type' => 'gc_recording',
             'post_parent' => $chant_variant->ID
@@ -187,32 +189,19 @@ function gc_chant_display_variants_meta_box( $chant ) { ?>
         ?> 
 
         <div>
-            <h3><?=$chant_variant->post_title;?></h3>
+            <h3><a href="<?= get_edit_post_link( $chant_variant->ID ) ?>"><?=$chant_variant->post_title;?></a></h3>
             
             <h3>Recordings</h3>
             <div>
                 <?php 
                 foreach( $recordings as $recording ) { ?>
-                    <h4><?=$recording->post_title;?></h4>
+                    <h4><a href="<?=get_edit_post_link( $recording->ID )?>"><?=$recording->post_title;?></a></h4>
                     <?php
-                    $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
-                    $recording_file_url = ( $recording_file !== "" ? $recording_file['url'] : "" );
-                    $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
-
-                    if ( $recording_file !== "" ) { ?>
-                    <div id="recording-controls">
-                        <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
-                        <br>
-                        <audio controls>
-                            <source src="<?=$recording_file_url?>" type="audio/mpeg">
-                        </audio>
-                    </div>
-            </div>
-            <?php } ?>
+                    gc_recording_file_display( $recording, false );
+                } ?>
         </div>
     <?php }
     }
-}
 
 function gc_chant_add_meta_boxes() {
     add_meta_box(

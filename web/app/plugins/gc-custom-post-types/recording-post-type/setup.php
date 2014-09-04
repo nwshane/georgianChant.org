@@ -2,6 +2,7 @@
 
 require_once(dirname(__FILE__) . '/meta.php');
 require_once(dirname(__FILE__) . '/columns.php');
+require_once(dirname(__FILE__) . '/display.php');
 
 function gc_recording_setup() {
     $labels = array(

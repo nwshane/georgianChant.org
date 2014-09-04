@@ -180,26 +180,13 @@ function gc_chant_display_variants_meta_box( $chant ) { ?>
     )); 
     
     foreach( $chant_variants as $chant_variant ) { ?>
-        
-        <?php
-        $recordings = get_posts( array( 
-            'post_type' => 'gc_recording',
-            'post_parent' => $chant_variant->ID
-        ));
-        ?> 
-
         <div>
             <h3><a href="<?= get_edit_post_link( $chant_variant->ID ) ?>"><?=$chant_variant->post_title;?></a></h3>
             
             <h3>Recordings</h3>
-            <div>
-                <?php 
-                foreach( $recordings as $recording ) { ?>
-                    <h4><a href="<?=get_edit_post_link( $recording->ID )?>"><?=$recording->post_title;?></a></h4>
-                    <?php
-                    gc_recording_file_display( $recording, false );
-                } ?>
+            <?= gc_recordings_display_by_parent( $chant_variant ); ?>
         </div>
+
     <?php }
     }
 

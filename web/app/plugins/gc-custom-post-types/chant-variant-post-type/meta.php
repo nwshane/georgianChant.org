@@ -59,6 +59,15 @@ function gc_chant_variant_add_meta_boxes() {
         'normal',
         'default'
     );
+
+    add_meta_box(
+        'recordings-display-meta-box',
+        esc_html__( 'Recordings', 'example' ),
+        'gc_recordings_display_by_parent',
+        'gc_chant_variant',
+        'normal',
+        'default'
+    );
 }
 
 function save_chant_variant_meta( $post_id, $post ) {

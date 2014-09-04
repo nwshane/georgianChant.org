@@ -171,6 +171,49 @@ function gc_chant_liturgy_culture_meta_box( $chant ) { ?>
 
 <?php }
 
+function gc_chant_display_variants_meta_box( $chant ) { ?>
+
+    <?php 
+    $chant_variants = get_posts( array(
+        'post_type' => 'gc_chant_variant',
+        'post_parent' => $chant->ID
+    )); 
+    
+    foreach( $chant_variants as $chant_variant ) {
+        $recordings = get_posts( array( 
+            'post_type' => 'gc_recording',
+            'post_parent' => $chant_variant->ID
+        ));
+        ?> 
+
+        <div>
+            <h3><?=$chant_variant->post_title;?></h3>
+            
+            <h3>Recordings</h3>
+            <div>
+                <?php 
+                foreach( $recordings as $recording ) { ?>
+                    <h4><?=$recording->post_title;?></h4>
+                    <?php
+                    $recording_file = get_post_meta( $recording->ID, 'recording-file', true );
+                    $recording_file_url = ( $recording_file !== "" ? $recording_file['url'] : "" );
+                    $recording_file_name = substr( $recording_file_url, strrpos ( $recording_file_url, '/' ) + 1 );
+
+                    if ( $recording_file !== "" ) { ?>
+                    <div id="recording-controls">
+                        <a href="<?=$recording_file_url?>"><?=$recording_file_name?></a>
+                        <br>
+                        <audio controls>
+                            <source src="<?=$recording_file_url?>" type="audio/mpeg">
+                        </audio>
+                    </div>
+            </div>
+            <?php } ?>
+        </div>
+    <?php }
+    }
+}
+
 function gc_chant_add_meta_boxes() {
     add_meta_box(
         'chant-rubric-meta-box',
@@ -203,6 +246,15 @@ function gc_chant_add_meta_boxes() {
         'chant-liturgy-culture-meta-box',
         esc_html__( 'Liturgical and Cultural Role', 'example' ),
         'gc_chant_liturgy_culture_meta_box',
+        'gc_chant',
+        'normal',
+        'default'
+    );
+
+        add_meta_box(
+        'display-variants-meta-box',
+        esc_html__( 'Variants', 'example' ),
+        'gc_chant_display_variants_meta_box',
         'gc_chant',
         'normal',
         'default'

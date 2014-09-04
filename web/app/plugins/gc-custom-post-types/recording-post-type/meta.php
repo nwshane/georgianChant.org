@@ -116,8 +116,6 @@ function gc_recording_upload_new_file( $post_id ) {
 }
 
 function gc_recording_update_file( $post_id ) {
-
-
     // Security checks
     $recording_file_nonce = 'recording_file_nonce';
     $recording_file_action = 'recording-file';
@@ -162,3 +160,13 @@ function gc_recording_add_enctype_to_form_tag() {
 }
 
 add_action( 'post_edit_form_tag' , 'gc_recording_add_enctype_to_form_tag' );
+
+function gc_recording_unlink_file( $post_id ) {
+    if ( get_post( $post_id )->post_type === 'gc_recording' ) {
+        $meta_value = get_post_meta( $post_id, 'recording-file', true );
+        unlink( $meta_value['file'] );
+    }
+}
+
+add_action( 'before_delete_post', 'gc_recording_unlink_file' );
+

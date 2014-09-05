@@ -1,6 +1,7 @@
 <?php
 
 require_once(dirname(__FILE__) . '/meta.php');
+require_once(dirname(__FILE__) . '/dropdown.php');
 
 function gc_chant_setup() {
     $labels = array(

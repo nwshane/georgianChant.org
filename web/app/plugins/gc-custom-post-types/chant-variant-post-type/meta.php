@@ -1,30 +1,14 @@
 <?php
 
 function gc_chant_variants_meta_box( $chant_variant ) { ?>
-
     <!--    Chant dropdown -->
     <?php
     wp_nonce_field( 'chant-variant-parent-action', 'chant_variant_parent_nonce' );
 
-    $chant_variant_parent_id_int = 0 + $chant_variant->post_parent;
+    $chant_variant_parent_id = 0 + $chant_variant->post_parent;
+
+    gc_chant_dropdown( $chant_variant_parent_id, 'chant-variant-parent', 'Select the chant to which this variant belongs. If the chant is not available, it must be created as a "Chant" post.' );
     ?>
-
-    <div>
-        <label for="chant-variant-parent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant to which this variant belongs. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
-        <br>
-        <select id="chant-variant-parent" name="chant-variant-parent">
-            <option value=""></option>
-            <!--            Fill with available chant posts. -->
-            <?php
-            $all_chants = get_posts( array( 'post_type' => 'gc_chant' ));
-
-            foreach ($all_chants as $chant) { ?>
-                <option value="<?= $chant->ID ?>" <?php if ( $chant_variant_parent_id_int === $chant->ID ) { ?>selected<?php } ?>><?= $chant->post_title ?></option>
-            <?php } ?>
-
-        </select>
-        <p>Edit currently selected chant: <a href="<?= get_edit_post_link( $chant->ID ) ?>"><?= $chant->post_title ?></a></p>
-    </div>
 
     <p>If the chant variant comes out of the oral tradition.........</p>
 

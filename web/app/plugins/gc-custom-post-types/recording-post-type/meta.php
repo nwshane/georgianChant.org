@@ -3,36 +3,15 @@
 function gc_recording_identification_meta_box ( $recording ) { ?>
 
     <?php
-    $recording_parent_id = $recording->post_parent;
-    $recording_grandparent_id = ( $recording_parent_id !== 0 ) ? get_post( $recording_parent_id )->post_parent : 0;
+    $recording_parent_id = 0 + $recording->post_parent;
+    $recording_grandparent_id = 0 + get_post( $recording_parent_id )->post_parent;
 
     wp_localize_script( 'synchronize-chant-variant-with-chant', 'recording_parent_id', array( $recording_parent_id ));
-    ?>
 
-    <!--    Chant dropdown -->
-    <div>
-        <label for="recording-grandparent"><b><?php _e( 'Chant', 'example' )?></b> - <?php _e( 'Select the chant in the recording. If the chant is not available, it must be created as a "Chant" post.', 'example' ); ?></label>
-        <br>
-        <select id="recording-grandparent" name="recording-grandparent">
-            <option value=""></option>
-    <!--            Fill with available chant posts. -->
-            <?php
-            $all_chants = get_posts( array( 'post_type' => 'gc_chant' ));
+    gc_chant_dropdown( $recording_grandparent_id, 'recording-grandparent', 'Select the chant to which this recording belongs. If the chant is not available, it must be created as a "Chant" post.' );
 
-            foreach ($all_chants as $chant) { ?>
-                <option value="<?= $chant->ID ?>"
-                        <?php if ( $recording_grandparent_id === $chant->ID ) { ?>selected<?php } ?>
-                    ><?= $chant->post_title ?></option>
-            <?php } ?>
-
-        </select>
-        <?php if ( $recording_grandparent_id !== 0 ) { ?>
-        <p>Edit currently selected chant: <a href="<?=get_edit_post_link( $recording_grandparent_id )?>"><?= get_post( $recording_grandparent_id )->post_title ?></a></p>
-        <?php } ?>
-    </div>
-
-    <!--    Chant Variant dropdown -->
-    <?php wp_nonce_field( 'recording-parent-action', 'recording_parent_nonce' ); ?>
+//    Chant Variant Dropdown
+    wp_nonce_field( 'recording-parent-action', 'recording_parent_nonce' ); ?>
 
     <div>
         <label for="recording-parent"><b><?php _e( 'Chant Variant', 'example' )?></b> - <?php _e( 'Select the chant variant in the recording. If the chant variant is not available, it must be created as a "Chant Variant" post.', 'example' ); ?></label>

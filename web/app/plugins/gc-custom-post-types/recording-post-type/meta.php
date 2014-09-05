@@ -3,7 +3,7 @@
 function gc_recording_identification_meta_box ( $recording ) { ?>
 
     <?php
-    $recording_parent_id = isset ( $recording->post_parent ) ? $recording->post_parent : 0;
+    $recording_parent_id = $recording->post_parent;
     $recording_grandparent_id = ( $recording_parent_id !== 0 ) ? get_post( $recording_parent_id )->post_parent : 0;
 
     wp_localize_script( 'synchronize-chant-variant-with-chant', 'recording_parent_id', array( $recording_parent_id ));
@@ -26,7 +26,9 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
             <?php } ?>
 
         </select>
-        <p>Edit currently selected chant: <a href="<?=get_edit_post_link( $chant->ID )?>"><?=$chant->post_title?></a></p>
+        <?php if ( $recording_grandparent_id !== 0 ) { ?>
+        <p>Edit currently selected chant: <a href="<?=get_edit_post_link( $recording_grandparent_id )?>"><?= get_post( $recording_grandparent_id )->post_title ?></a></p>
+        <?php } ?>
     </div>
 
     <!--    Chant Variant dropdown -->
@@ -38,7 +40,7 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
         <select id="recording-parent" name="recording-parent">
             <option value=""></option>
 
-    <!--            Fill with chant variants that are children of the recording's grandparent chant. -->
+    <!--            Fill the dropdown with chant variants that are children of the recording's grandparent chant, and select the currently selected chant variant parent. -->
             <?php
             $possible_chant_variants = get_posts( array(
                 'post_type' => 'gc_chant_variant',
@@ -52,7 +54,10 @@ function gc_recording_identification_meta_box ( $recording ) { ?>
             <?php } ?>
             ?>
         </select>
-        <p>Edit currently selected chant variant: <a href="<?= get_edit_post_link( $chant_variant->ID )?>"><?= $chant_variant->post_title ?></a></p>
+
+        <?php if ( $recording_parent_id !== 0 ) { ?>
+        <p>Edit currently selected chant variant: <a href="<?= get_edit_post_link( $recording_parent_id )?>"><?= get_post( $recording_parent_id )->post_title ?></a></p>
+        <?php } ?>
     </div>
 
 <?php }

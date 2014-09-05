@@ -140,4 +140,9 @@ function gc_enqueue_scripts() {
     gc_recording_enqueue_scripts();
 }
 
+function gc_add_style() {
+    wp_enqueue_style( 'my-admin-theme', plugins_url( 'gc-style.css', __FILE__ ));
+}
+
 add_action( 'admin_init', 'gc_enqueue_scripts' );
+add_action( 'admin_enqueue_scripts', 'gc_add_style' );

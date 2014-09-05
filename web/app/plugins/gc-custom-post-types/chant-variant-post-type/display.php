@@ -5,14 +5,17 @@ function gc_chant_variant_display_by_parent( $chant ) {
         'post_type' => 'gc_chant_variant',
         'post_parent' => $chant->ID
     )); 
-    
-    foreach( $chant_variants as $chant_variant ) { ?>
-        <div>
-            <h3><a href="<?= get_edit_post_link( $chant_variant->ID ) ?>"><?=$chant_variant->post_title;?></a></h3>
-            
-            <h3>Recordings</h3>
-            <?= gc_recordings_display_by_parent( $chant_variant ); ?>
-        </div>
 
-    <?php }
-}
+    ?>
+    <ul>
+    <?php
+    foreach( $chant_variants as $chant_variant ) { ?>
+        <li class='single-chant-variant'>
+            <h4><a href="<?= get_edit_post_link( $chant_variant->ID ) ?>"><?=$chant_variant->post_title;?></a></h4>
+
+            <h4>Recordings</h4>
+            <?= gc_recordings_display_by_parent( $chant_variant ); ?>
+        </li>
+    <?php } ?>
+    </ul>
+<?php }

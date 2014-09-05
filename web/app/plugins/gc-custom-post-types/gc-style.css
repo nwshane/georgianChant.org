@@ -1,3 +1,7 @@
 li.single-chant-variant {
-    border-bottom: 1px solid!important;
+    border-bottom: 1px solid;
+}
+
+li.single-chant-variant div.content.closedTab {
+    display: none;
 }

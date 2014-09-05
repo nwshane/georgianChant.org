@@ -142,6 +142,7 @@ function gc_enqueue_scripts() {
 
 function gc_add_style() {
     wp_enqueue_style( 'my-admin-theme', plugins_url( 'gc-style.css', __FILE__ ));
+    wp_enqueue_script( 'gc-toggle-tab', plugins_url( '/gc-custom-post-types/gc-toggle-tab.js' ), array( 'jquery' ), false, true );
 }
 
 add_action( 'admin_init', 'gc_enqueue_scripts' );

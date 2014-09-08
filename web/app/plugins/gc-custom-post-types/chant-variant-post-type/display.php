@@ -12,7 +12,7 @@ function gc_chant_variant_display_by_parent( $chant ) {
     foreach( $chant_variants as $chant_variant ) { ?>
         <li class='single-chant-variant'>
             <h4>
-                <span class='toggle-button' onclick='toggle_visibility()'>&#x025BE;</span>
+                <span class='toggle-button' onclick='toggle_content()'>&#x025BE;</span>
                 <a href="<?= get_edit_post_link( $chant_variant->ID ) ?>"><?=$chant_variant->post_title;?></a>
             </h4>
             <div class='content'>

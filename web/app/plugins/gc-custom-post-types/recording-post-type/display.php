@@ -1,17 +1,11 @@
 <?php
 
 function gc_recordings_display_by_parent( $chant_variant ) {
-    $recordings = get_posts( array( 
-        'post_type' => 'gc_recording',
-        'post_parent' => $chant_variant->ID
-    ));
+    gc_display_post_by_parent('gc_recording', $chant_variant);
+}
 
-    foreach( $recordings as $recording ) { ?>
-    <div>
-        <h4><a href="<?=get_edit_post_link( $recording->ID )?>"><?=$recording->post_title;?></a></h4>
-        <?php gc_recording_display_file( $recording, false ); ?> 
-    </div>
-    <?php }
+function gc_recording_display_content( $recording ) {
+    gc_recording_display_file( $recording, false );
 }
 
 function gc_recording_display_file( $recording, $editable ) {

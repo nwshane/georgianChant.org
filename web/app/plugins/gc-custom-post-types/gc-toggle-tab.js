@@ -1,8 +1,6 @@
 // The following line allows Chrome Developer Tools to detect this file in its Sources section:
 //# sourceURL=gc-toggle-tab.js
 
-toggle_content( 'span.toggle-button' );
-
 function toggle_content( target ) {
     target = typeof target !== 'undefined' ? target : event.target;
 
@@ -16,3 +14,9 @@ function toggle_content( target ) {
         toggle_button.html( '&#x025BE;' ).text();
     }
 }
+
+function toggle_all_content() {
+    toggle_content( 'button.toggle-button' );
+}
+
+toggle_all_content();

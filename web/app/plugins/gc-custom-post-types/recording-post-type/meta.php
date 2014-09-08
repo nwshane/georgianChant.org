@@ -147,8 +147,11 @@ add_action( 'post_edit_form_tag' , 'gc_recording_add_enctype_to_form_tag' );
 
 function gc_recording_unlink_file( $post_id ) {
     if ( get_post( $post_id )->post_type === 'gc_recording' ) {
+
         $meta_value = get_post_meta( $post_id, 'recording-file', true );
-        unlink( $meta_value['file'] );
+        if ( $meta_value !== '' ) {
+            unlink( $meta_value['file'] );
+        }
     }
 }
 

@@ -6,7 +6,6 @@ function gc_display_post_by_parent( $post_type, $parent_post ) {
         'post_parent' => $parent_post->ID
     )); ?>
 
-    <button type='button' id='toggle-all-content' onclick='toggle_all_content()'>Toggle all <?=$post_type?></button>
     <ul>
         <?php foreach( $displayed_posts as $displayed_post ) { ?>
             <li>

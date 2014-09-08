@@ -2,9 +2,9 @@
 //# sourceURL=gc-toggle-tab.js
 
 function toggle_content( target ) {
-    target = typeof target !== 'undefined' ? target : event.target;
-
+    var target = typeof target !== 'undefined' ? target : event.target;
     var content_tab = jQuery( target ).parent().next( 'div.content' );
+
     content_tab.toggleClass( 'closedTab' );
 
     var toggle_button = jQuery( target );
@@ -15,8 +15,4 @@ function toggle_content( target ) {
     }
 }
 
-function toggle_all_content() {
-    toggle_content( 'button.toggle-button' );
-}
-
-toggle_all_content();
+toggle_content( 'button.toggle-button' );

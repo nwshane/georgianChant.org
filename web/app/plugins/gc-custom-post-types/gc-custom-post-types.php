@@ -55,11 +55,17 @@ function gc_save_post_parent( $post_id, $nonce, $key, $sanitize ) {
 
     $new_parent_id = ( isset( $_POST[$key] ) ? $sanitize($_POST[$key]) : '' );
 
+    if ($new_parent_id !== '') {
+        gc_change_post_parent( $post_id, $new_parent_id );
+    }
+}
+
+function gc_change_post_parent ( $post_id, $new_parent_id ) {
     remove_action('save_post', 'gc_save_all_meta');
 
     wp_update_post ( array(
         'ID'            =>  $post_id,
-        'post_parent'   =>  ($new_parent_id !== '' ) ? $new_parent_id : 0
+        'post_parent'   =>  $new_parent_id
     ));
 
     add_action('save_post', 'gc_save_all_meta');
@@ -148,3 +154,18 @@ function gc_add_style() {
 
 add_action( 'admin_init', 'gc_enqueue_scripts' );
 add_action( 'admin_enqueue_scripts', 'gc_add_style' );
+
+function gc_remove_parent_from_children( $post_id ) {
+    $children_posts = get_posts( array(
+        'post_parent' => $post_id,
+        'post_type' => 'any',
+        'post_status' => 'any'
+    ));
+
+    foreach( $children_posts as $children_post ) {
+        gc_change_post_parent( $children_post->ID, 0 );
+    }
+}
+
+add_action( 'before_delete_post', 'gc_remove_parent_from_children' );
+

@@ -7,7 +7,7 @@ function gc_display_post_by_parent( $post_type, $parent_post ) {
     ));
 
     if ( empty( $displayed_posts )) { ?>
-        <p>No content to display.</p>
+        <p>No <?=get_post_type_object( $post_type )->labels->name?> to display.</p>
     <?php } else { ?>
     <ul>
         <?php foreach( $displayed_posts as $displayed_post ) { ?>

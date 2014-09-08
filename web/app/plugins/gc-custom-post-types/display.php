@@ -4,8 +4,11 @@ function gc_display_post_by_parent( $post_type, $parent_post ) {
     $displayed_posts = get_posts( array(
         'post_type' => $post_type,
         'post_parent' => $parent_post->ID
-    )); ?>
+    ));
 
+    if ( empty( $displayed_posts )) { ?>
+        <p>No content to display.</p>
+    <?php } else { ?>
     <ul>
         <?php foreach( $displayed_posts as $displayed_post ) { ?>
             <li>
@@ -22,4 +25,5 @@ function gc_display_post_by_parent( $post_type, $parent_post ) {
             </li>
         <?php } ?>
     </ul>
-<?php }
+    <?php }
+}

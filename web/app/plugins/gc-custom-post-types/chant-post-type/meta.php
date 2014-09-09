@@ -4,14 +4,19 @@ function gc_chant_input_label( $inputId, $inputLabel, $inputDescription ) { ?>
     <label for="<?=$inputId?>"><b><?php _e( $inputLabel, 'example' )?></b> - <?php _e( $inputDescription, 'example' ); ?></label>
 <?php }
 
-function gc_chant_text_input( $chant, $inputId, $inputLabel, $inputDescription, $textarea ) {
+function gc_chant_text_input( $chant, $inputId, $inputLabel, $inputDescription, $isTextarea ) {
     wp_nonce_field( $inputId . '-action', str_replace( '-' , '_', $inputId ) . '_nonce' ); ?>
 
     <div>
         <?php gc_chant_input_label( $inputId, $inputLabel, $inputDescription ); ?>
         <br>
-<!--        If $textarea is true, displays the input as a text area. If false, displays as a normal text input -->
-        <<?php if ( $textarea ) { ?>textarea class='widefat'<?php } else { ?>input<?php } ?> type="text" name="<?=$inputId?>" id="<?=$inputId?>" value="<?php echo esc_attr(get_post_meta( $chant->ID, $inputId, true ))?>">
+
+<!--        If $isTextarea is true, displays the input as a text area. If false, displays as a normal text input -->
+        <?php if ( $isTextarea ) { ?>
+        <textarea class='widefat' type="text" name="<?=$inputId?>" id="<?=$inputId?>"><?php echo esc_attr(get_post_meta( $chant->ID, $inputId, true ))?></textarea>
+        <?php } else { ?>
+        <input type="text" name="<?=$inputId?>" id="<?=$inputId?>" value="<?php echo esc_attr(get_post_meta( $chant->ID, $inputId, true ))?>">
+        <?php } ?>
     </div>
 <?php }
 
@@ -92,103 +97,42 @@ function gc_chant_rubric_meta_box( $chant ) { ?>
         </select>
     </div>
 
-    <?php gc_chant_text_input( $chant, 'specific-rubric', 'Specific Rubric', 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', false ); ?>
+    <?php
+    gc_chant_text_input( $chant, 'specific-rubric', 'Specific Rubric', 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', false );
+    gc_chant_text_input( $chant, 'rubric-notes', 'Notes', 'Enter any further information about this chant\'s rubric.', true );
+    ?>
 
-    <?php wp_nonce_field( 'rubric-notes-action', 'rubric_notes_nonce' ) ?>
-
-    <div>
-        <label for="rubric-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant\'s rubric.', 'example' ); ?></label>
-        <br>
-        <textarea class="widefat" type="text" name="rubric-notes" id="rubric-notes"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>
-    </div>
 <?php }
 
 function gc_chant_text_meta_box( $chant ) { ?>
 
-    <?php wp_nonce_field( 'georgian-text-action', 'georgian_text_nonce' ) ?>
+    <?php
+    gc_chant_text_input( $chant, 'georgian-text', 'Georgian Text', 'Enter the text of the chant in Georgian.', true );
+    gc_chant_text_input( $chant, 'text-author', 'Author', 'Enter the author of the chant, if applicable.', false );
+    gc_chant_text_input( $chant, 'text-date', 'Date of Authorship', 'Enter the date the chant text was written, if applicable.', false );
 
-    <p>
-        <label for="georgian-text"><b><?php _e( 'Georgian Text', 'example' )?></b> - <?php _e( 'Enter the text of the chant in Georgian.', 'example' ); ?></label>
-        <br>
-        <textarea class="widefat" type="text" name="georgian-text" id="georgian-text" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'georgian-text', true))?></textarea>
-    </p>
-
-    <?php wp_nonce_field( 'text-author-action', 'text_author_nonce' ) ?>
-
-    <p>
-        <label for="text-author"><b><?php _e( 'Author', 'example' )?></b> - <?php _e( 'Enter the author of the chant, if applicable.', 'example' ); ?></label>
-        <br>
-        <input type="text" name="text-author" id="text-author" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'text-author', true))?>">
-    </p>
-
-    <?php wp_nonce_field( 'text-date-action', 'text_date_nonce' ) ?>
-
-    <p>
-        <label for="text-date"><b><?php _e( 'Date of Authorship', 'example' )?></b> - <?php _e( 'Enter the date the chant text was written, if applicable.', 'example' ); ?></label>
-        <br>
-        <input type="text" name="text-date" id="text-date" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'text-date', true))?>">
-    </p>
-
-    <?php wp_nonce_field( 'latin-transliteration-action', 'latin_transliteration_nonce' ) ?>
+    wp_nonce_field( 'latin-transliteration-action', 'latin_transliteration_nonce' ) ?>
 
     <p>
         <label for="latin-transliteration"><b><?php _e( 'Latin Transliteration', 'example' )?></b> - <a id="latin-transliterate-button" onclick="gc_transliterate_into_latin()"> <?php _e( 'Transliterate directly from "Georgian Text" above', 'example' ); ?></a>, <?php _e( 'or enter the chant text in Georgian with Latin letters yourself.', 'example' ); ?></label>
         <br>
         <textarea class="widefat" type="text" name="latin-transliteration" id="latin-transliteration" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'latin-transliteration', true))?></textarea>
     </p>
+    <?php
 
-    <?php wp_nonce_field( 'english-translation-action', 'english_translation_nonce' ) ?>
+    gc_chant_text_input( $chant, 'english-translation', 'English Translation', 'Enter the English Translation of the chant.', true );
+    gc_chant_text_input( $chant, 'english-translation-author', 'English Translation Author', 'Enter the author of the English translation.', false );
+    gc_chant_text_input( $chant, 'english-translation-source', 'English Translation Source', 'Enter the source of the English translation (i.e. a website URL, book name, etc.).', false );
+    gc_chant_text_input( $chant, 'text-notes', 'Notes', 'Enter any further information about this chant text.', true );
+}
 
-    <p>
-        <label for="english-translation"><b><?php _e( 'English Translation', 'example' )?></b> - <?php _e( 'Enter the English Translation of the chant.', 'example' ); ?></label>
-        <br>
-        <textarea class="widefat" type="text" name="english-translation" id="english-translation" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation', true))?></textarea>
-    </p>
+function gc_chant_history_meta_box( $chant ) {
+    gc_chant_text_input( $chant, 'history', 'Chant History', 'Tell the historical story of this chant.', true );
+}
 
-    <?php wp_nonce_field( 'english-translation-author-action', 'english_translation_author_nonce' ) ?>
-
-    <p>
-        <label for="english-translation-author"><b><?php _e( 'English Translation Author', 'example' )?></b> - <?php _e( 'Enter the author of the English translation.', 'example' ); ?></label>
-        <br>
-        <input type="text" name="english-translation-author" id="english-translation-author" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-author', true))?>">
-    </p>
-
-    <?php wp_nonce_field( 'english-translation-source-action', 'english_translation_source_nonce' ) ?>
-
-    <p>
-        <label for="english-translation-source"><b><?php _e( 'English Translation Source', 'example' )?></b> - <?php _e( 'Enter the source of the English translation (i.e. a website URL, book name, etc.).', 'example' ); ?></label>
-        <br>
-        <input type="text" name="english-translation-source" id="english-translation-source" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'english-translation-source', true))?>">
-    </p>
-
-    <?php wp_nonce_field( 'text-notes-action', 'text_notes_nonce' ) ?>
-
-    <p>
-        <label for="text-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant text.', 'example' ); ?></label>
-        <br>
-        <textarea class="widefat" type="text" name="text-notes" id="text-notes" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'text-notes', true))?></textarea>
-    </p>
-<?php }
-
-function gc_chant_history_meta_box( $chant ) { ?>
-
-    <?php wp_nonce_field( 'history-action', 'history_nonce' ) ?>
-
-    <label for="history"><b><?php _e( 'Chant History', 'example' )?></b> - <?php _e( 'Tell the historical story of this chant.', 'example' ); ?></label>
-    <br>
-    <textarea class="widefat" type="text" name="history" id="history" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'history', true))?></textarea>
-
-<?php }
-
-function gc_chant_liturgy_culture_meta_box( $chant ) { ?>
-
-    <?php wp_nonce_field( 'liturgy-culture-action', 'liturgy_culture_nonce' ) ?>
-
-    <label for="Current Role in Liturgy and Culture"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Describe this chant\'s contemporary role in liturgy and culture.', 'example' ); ?></label>
-    <br>
-    <textarea class="widefat" type="text" name="liturgy-culture" id="liturgy-culture" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'liturgy-culture', true))?></textarea>
-
-<?php }
+function gc_chant_liturgy_culture_meta_box( $chant ) {
+    gc_chant_text_input( $chant, 'liturgy-culture', 'Current Role in Liturgy and Culture', 'Describe this chant\'s contemporary role in liturgy and culture.', true );
+}
 
 function gc_chant_add_meta_boxes() {
     add_meta_box(

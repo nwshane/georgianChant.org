@@ -1,87 +1,90 @@
 <?php
 
+function gc_chant_title_meta_box( $chant ) {
+
+}
+
 function gc_chant_rubric_meta_box( $chant ) { ?>
+    <?php
+    wp_nonce_field( 'feast-day-service-action', 'feast_day_service_nonce' );
+    $feast_day_service = esc_attr(get_post_meta( $chant->ID, 'feast-day-service', true));
+    ?>
 
-<?php
-wp_nonce_field( 'feast-day-service-action', 'feast_day_service_nonce' );
-$feast_day_service = esc_attr(get_post_meta( $chant->ID, 'feast-day-service', true));
-?>
+    <div>
+        <label for="feast-day-service"><b><?php _e( 'Feast Day/Service', 'example' )?></b> - <?php _e( 'Enter the feast day or the type of service in which the chant is performed.', 'example' ); ?></label>
+        <br>
+        <select id="feast-day-service" name="feast-day-service">
+            <option value></option>
+            <optgroup label="Services">
+                <?php
+                $services = [ "Vespers", "Matins" ];
+                foreach ( $services as $service ) { ?>
+                    <option value="<?php echo $service; ?>" <?php if ( $feast_day_service === $service ) { ?>selected<?php } ?>><?php echo $service; ?></option>
+                <?php } ?>
+            </optgroup>
+            <optgroup label="Feast Days">
+                <?php
+                $feast_days = [ "September 1st", "October 8th" ];
+                foreach ( $feast_days as $feast_day ) { ?>
+                    <option value="<?= $feast_day ?>" <?php if ( $feast_day_service === $feast_day ) { ?>selected<?php } ?>><?php echo $feast_day; ?></option>
+                <?php } ?>
+            </optgroup>
+        </select>
+    </div>
 
-<div>
-    <label for="feast-day-service"><b><?php _e( 'Feast Day/Service', 'example' )?></b> - <?php _e( 'Enter the feast day or the type of service in which the chant is performed.', 'example' ); ?></label>
-    <br>
-    <select id="feast-day-service" name="feast-day-service">
-        <option value></option>
-        <optgroup label="Services">
+    <?php
+    wp_nonce_field( 'rubric-genre-action', 'rubric_genre_nonce' );
+    $rubric_genre = esc_attr(get_post_meta( $chant->ID, 'rubric-genre', true));
+    ?>
+
+    <div>
+        <label for="rubric-genre"><b><?php _e( 'Genre', 'example' )?></b> - <?php _e( 'Enter the genre of the chant.', 'example' ); ?></label>
+        <br>
+        <select id="rubric-genre" name="rubric-genre">
+            <option value></option>
+
             <?php
-            $services = [ "Vespers", "Matins" ];
-            foreach ( $services as $service ) { ?>
-                <option value="<?php echo $service; ?>" <?php if ( $feast_day_service === $service ) { ?>selected<?php } ?>><?php echo $service; ?></option>
+            $genres = [ "Troparion", "Squigglydoo", "Dooduh" ];
+            foreach ( $genres as $genre ) { ?>
+                <option value="<?php echo $genre; ?>" <?php if ( $rubric_genre === $genre ) { ?>selected<?php } ?>><?php echo $genre; ?></option>
             <?php } ?>
-        </optgroup>
-        <optgroup label="Feast Days">
-            <?php
-            $feast_days = [ "September 1st", "October 8th" ];
-            foreach ( $feast_days as $feast_day ) { ?>
-                <option value="<?= $feast_day ?>" <?php if ( $feast_day_service === $feast_day ) { ?>selected<?php } ?>><?php echo $feast_day; ?></option>
+
+        </select>
+    </div>
+
+    <?php
+    wp_nonce_field( 'rubric-tone-action', 'rubric_tone_nonce' );
+    $rubric_tone = esc_attr(get_post_meta( $chant->ID, 'rubric-tone', true));
+    $rubric_tone_int = 0 + $rubric_tone;
+    ?>
+
+    <div>
+        <label for="rubric-tone"><b><?php _e( 'Tone', 'example' )?></b> - <?php _e( 'Enter the tone of the chant, if applicable.', 'example' ); ?></label>
+        <br>
+        <select id="rubric-tone" name="rubric-tone">
+            <option value=""></option>
+            <option value="Unassigned" <?php if ( $rubric_tone === "Unassigned" ) { ?>selected<?php } ?>>Unassigned</option>
+            <?php for ($i = 1; $i <= 8; $i++) { ?>
+                <option value="<?php echo $i; ?>" <?php if ( $rubric_tone_int === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
             <?php } ?>
-        </optgroup>
-    </select>
-</div>
+        </select>
+    </div>
 
-<?php
-wp_nonce_field( 'rubric-genre-action', 'rubric_genre_nonce' );
-$rubric_genre = esc_attr(get_post_meta( $chant->ID, 'rubric-genre', true));
-?>
+    <?php wp_nonce_field( 'specific-rubric-action', 'specific_rubric_nonce' ) ?>
 
-<div>
-    <label for="rubric-genre"><b><?php _e( 'Genre', 'example' )?></b> - <?php _e( 'Enter the genre of the chant.', 'example' ); ?></label>
-    <br>
-    <select id="rubric-genre" name="rubric-genre">
-        <option value></option>
+    <div>
+        <label for="specific-rubric"><b><?php _e( 'Specific Rubric', 'example' )?></b> - <?php _e( 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', 'example' ); ?></label>
+        <br>
+        <input type="text" name="specific-rubric" id="specific-rubric" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'specific-rubric', true ))?>">
+    </div>
 
-        <?php
-        $genres = [ "Troparion", "Squigglydoo", "Dooduh" ];
-        foreach ( $genres as $genre ) { ?>
-            <option value="<?php echo $genre; ?>" <?php if ( $rubric_genre === $genre ) { ?>selected<?php } ?>><?php echo $genre; ?></option>
-        <?php } ?>
+    <?php wp_nonce_field( 'rubric-notes-action', 'rubric_notes_nonce' ) ?>
 
-    </select>
-</div>
-
-<?php
-wp_nonce_field( 'rubric-tone-action', 'rubric_tone_nonce' );
-$rubric_tone = esc_attr(get_post_meta( $chant->ID, 'rubric-tone', true));
-$rubric_tone_int = 0 + $rubric_tone;
-?>
-
-<div>
-    <label for="rubric-tone"><b><?php _e( 'Tone', 'example' )?></b> - <?php _e( 'Enter the tone of the chant, if applicable.', 'example' ); ?></label>
-    <br>
-    <select id="rubric-tone" name="rubric-tone">
-        <option value=""></option>
-        <option value="Unassigned" <?php if ( $rubric_tone === "Unassigned" ) { ?>selected<?php } ?>>Unassigned</option>
-        <?php for ($i = 1; $i <= 8; $i++) { ?>
-            <option value="<?php echo $i; ?>" <?php if ( $rubric_tone_int === $i ) { ?>selected<?php } ?>><?php echo $i; ?></option>
-        <?php } ?>
-    </select>
-</div>
-
-<?php wp_nonce_field( 'specific-rubric-action', 'specific_rubric_nonce' ) ?>
-
-<div>
-    <label for="specific-rubric"><b><?php _e( 'Specific Rubric', 'example' )?></b> - <?php _e( 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', 'example' ); ?></label>
-    <br>
-    <input type="text" name="specific-rubric" id="specific-rubric" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'specific-rubric', true ))?>">
-</div>
-
-<?php wp_nonce_field( 'rubric-notes-action', 'rubric_notes_nonce' ) ?>
-
-<div>
-    <label for="rubric-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant\'s rubric.', 'example' ); ?></label>
-    <br>
-    <textarea class="widefat" type="text" name="rubric-notes" id="rubric-notes" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>
-</div>
+    <div>
+        <label for="rubric-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant\'s rubric.', 'example' ); ?></label>
+        <br>
+        <textarea class="widefat" type="text" name="rubric-notes" id="rubric-notes" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>
+    </div>
 <?php }
 
 function gc_chant_text_meta_box( $chant ) { ?>
@@ -172,6 +175,15 @@ function gc_chant_liturgy_culture_meta_box( $chant ) { ?>
 <?php }
 
 function gc_chant_add_meta_boxes() {
+    add_meta_box(
+        'chant-title-meta-box',
+        esc_html__( 'Title', 'example' ),
+        'gc_chant_title_meta_box',
+        'gc_chant',
+        'normal',
+        'default'
+    );
+
     add_meta_box(
         'chant-rubric-meta-box',
         esc_html__( 'Rubric', 'example' ),

@@ -1,6 +1,28 @@
 <?php
 
+function gc_chant_input_label( $inputId, $inputLabel, $inputDescription ) { ?>
+    <label for="<?=$inputId?>"><b><?php _e( $inputLabel, 'example' )?></b> - <?php _e( $inputDescription, 'example' ); ?></label>
+<?php }
+
+function gc_chant_text_input( $chant, $inputId, $inputLabel, $inputDescription, $textarea ) {
+    wp_nonce_field( $inputId . '-action', str_replace( '-' , '_', $inputId ) . '_nonce' ); ?>
+
+    <div>
+        <?php gc_chant_input_label( $inputId, $inputLabel, $inputDescription ); ?>
+        <br>
+<!--        If $textarea is true, displays the input as a text area. If false, displays as a normal text input -->
+        <<?php if ( $textarea ) { ?>textarea class='widefat'<?php } else { ?>input<?php } ?> type="text" name="<?=$inputId?>" id="<?=$inputId?>" value="<?php echo esc_attr(get_post_meta( $chant->ID, $inputId, true ))?>">
+    </div>
+<?php }
+
 function gc_chant_title_meta_box( $chant ) {
+    // Title in Georgian
+
+
+    // Title in Georgian transliterated
+
+    // Translated title
+
 
 }
 
@@ -70,20 +92,14 @@ function gc_chant_rubric_meta_box( $chant ) { ?>
         </select>
     </div>
 
-    <?php wp_nonce_field( 'specific-rubric-action', 'specific_rubric_nonce' ) ?>
-
-    <div>
-        <label for="specific-rubric"><b><?php _e( 'Specific Rubric', 'example' )?></b> - <?php _e( 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', 'example' ); ?></label>
-        <br>
-        <input type="text" name="specific-rubric" id="specific-rubric" value="<?php echo esc_attr(get_post_meta( $chant->ID, 'specific-rubric', true ))?>">
-    </div>
+    <?php gc_chant_text_input( $chant, 'specific-rubric', 'Specific Rubric', 'Enter the specific rubric of this chant. (Examples: 3rd Heirmoi of the Nativity; Troparion for Palm Sunday; etc.)', false ); ?>
 
     <?php wp_nonce_field( 'rubric-notes-action', 'rubric_notes_nonce' ) ?>
 
     <div>
         <label for="rubric-notes"><b><?php _e( 'Notes', 'example' )?></b> - <?php _e( 'Enter any further information about this chant\'s rubric.', 'example' ); ?></label>
         <br>
-        <textarea class="widefat" type="text" name="rubric-notes" id="rubric-notes" size="30"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>
+        <textarea class="widefat" type="text" name="rubric-notes" id="rubric-notes"><?php echo esc_attr(get_post_meta( $chant->ID, 'rubric-notes', true))?></textarea>
     </div>
 <?php }
 

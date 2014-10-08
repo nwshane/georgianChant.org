@@ -8,3 +8,4 @@ sites/*/private
 # Added by Nathan Shane
 georgianChant.org.iml
 .idea
+.bash_aliases
